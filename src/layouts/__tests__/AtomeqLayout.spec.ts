@@ -1,23 +1,23 @@
-import Layout from '@/layouts/Layout.vue';
-import { describe, it, expect} from "vitest";
-import {mount} from "@vue/test-utils";
+import AtomeqLayout from '@/layouts/AtomeqLayout.vue'
+import { describe, it, expect } from 'vitest'
+import { mount } from '@vue/test-utils'
 
-describe('Layout', () => {
+describe('AtomeqLayout', () => {
   it('will render out navigation, content and footer sections', () => {
     const nav = '<nav>Nav</nav>'
     const content = '<div>Content</div>'
     const footer = '<footer>Footer</footer>'
 
-    const wrapper = mount(Layout, {
+    const wrapper = mount(AtomeqLayout, {
       slots: {
         nav,
         content,
-        footer
-      }
-    });
+        footer,
+      },
+    })
 
     expect(wrapper.html()).toContain(nav)
     expect(wrapper.html()).toContain(content)
     expect(wrapper.html()).toContain(footer)
-  });
+  })
 })

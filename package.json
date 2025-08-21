@@ -10,8 +10,8 @@
     "test:unit": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
-    "lint:oxlint": "oxlint atomeq-web --fix -D correctness --ignore-path .gitignore",
-    "lint:eslint": "eslint atomeq-web --fix",
+    "lint:oxlint": "oxlint --fix -D correctness --ignore-path .gitignore",
+    "lint:eslint": "eslint --fix",
     "lint": "run-s lint:*",
     "format": "prettier --write src"
   },

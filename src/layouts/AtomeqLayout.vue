@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <slot name="nav"></slot>
@@ -8,6 +6,4 @@
   <slot name="footer"></slot>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
