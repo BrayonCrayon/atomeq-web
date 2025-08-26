@@ -4,8 +4,6 @@ import AtomeqLayout from '@/layouts/AtomeqLayout.vue'
 import AtomeqNav from '@/components/AtomeqNav.vue'
 </script>
 
-<!--TODO: USE THIS https://lucide.dev/guide/packages/lucide-vue-next-->
-
 <template>
   <AtomeqLayout>
     <template #nav>
