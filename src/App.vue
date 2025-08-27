@@ -7,7 +7,7 @@ import AtomeqNav from '@/components/AtomeqNav.vue'
 <template>
   <AtomeqLayout>
     <template #nav>
-      <AtomeqNav />
+      <AtomeqNav :isAuthed="false" />
     </template>
     <template #content>
       <RouterView />

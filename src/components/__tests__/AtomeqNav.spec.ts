@@ -5,8 +5,12 @@ import { nextTick } from 'vue'
 
 
 describe("AtomeqNav", () => {
-  it('will open and close navigation', async () => {
-    const wrapper = mount(AtomeqNav)
+  it('will open and close navigation when logged out', async () => {
+    const wrapper = mount(AtomeqNav, {
+      props: {
+        isAuthed: false,
+      }
+    });
 
     const atomMenu = wrapper.find('[data-testid="atom-menu"]')
     await atomMenu.trigger('click')
@@ -22,4 +26,23 @@ describe("AtomeqNav", () => {
 
     expect(wrapper.find('[data-testid="mobile-dropdown"').exists()).toBeFalsy()
   })
+
+  it('will render appropriate options if the user is logged in', async () => {
+    const wrapper = mount(AtomeqNav, {
+      props: {
+        isAuthed: true,
+      }
+    })
+
+    const atomMenu = wrapper.find('[data-testid="atom-menu"]')
+    await atomMenu.trigger('click')
+    await nextTick()
+
+    expect(wrapper.text()).not.toContain("Login")
+    expect(wrapper.text()).not.toContain("Register")
+    expect(wrapper.text()).toContain("User Profile")
+    expect(wrapper.text()).toContain("Table")
+    expect(wrapper.text()).toContain("Formulator 9000")
+    expect(wrapper.text()).toContain("Logout")
+  });
 })
