@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import AtomeqLayout from '@/layouts/AtomeqLayout.vue'
+import AtomeqNav from '@/components/AtomeqNav.vue'
 </script>
 
 <template>
   <AtomeqLayout>
     <template #nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
+      <AtomeqNav :isAuthed="true" />
     </template>
     <template #content>
       <RouterView />
