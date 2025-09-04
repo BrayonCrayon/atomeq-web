@@ -16,7 +16,7 @@ const showMenu = () => {
 <template>
   <div>
     <div class="w-full flex px-4 py-2 justify-between shadow-md">
-      <p class="text-4xl font-bold  sm:w-1/8">Atomeq</p>
+      <RouterLink :to="{ name: 'home' }" class="text-4xl font-bold sm:w-1/8">Atomeq</RouterLink>
       <button @click="showMenu" data-testid="atom-menu" class="sm:hidden">
         <Atom :size="42" />
       </button>
@@ -24,13 +24,21 @@ const showMenu = () => {
         <p v-if="!isAuthed" class="font-semibold cursor-pointer">Login</p>
         <p v-if="!isAuthed" class="font-semibold cursor-pointer">Register</p>
         <div v-if="isAuthed" class="flex gap-x-4 flex-grow justify-center">
-          <p class="font-semibold cursor-pointer">Table</p>
+          <RouterLink :to="{ name: 'table' }" class="font-semibold cursor-pointer">Table</RouterLink>
           <p class="font-semibold cursor-pointer">Formulator 9000</p>
         </div>
-        <AtomeqDropdown v-if="isAuthed" button-title="Username" :options="['User Profile', 'Logout']"/>
+        <AtomeqDropdown
+          v-if="isAuthed"
+          button-title="Username"
+          :options="['User Profile', 'Logout']"
+        />
       </div>
     </div>
-    <div class="w-full border-t border-gray-200 bg-white p-4 shadow-md sm:hidden" v-if="show" data-testid="mobile-dropdown">
+    <div
+      class="w-full border-t border-gray-200 bg-white p-4 shadow-md sm:hidden"
+      v-if="show"
+      data-testid="mobile-dropdown"
+    >
       <p v-if="!isAuthed" class="font-semibold mb-2">Login</p>
       <p v-if="!isAuthed" class="font-semibold">Register</p>
       <p v-if="isAuthed" class="font-semibold mb-2">User Profile</p>
