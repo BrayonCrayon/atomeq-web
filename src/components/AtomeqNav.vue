@@ -21,17 +21,29 @@ const showMenu = () => {
         <Atom :size="42" />
       </button>
       <div class="hidden sm:flex sm:items-center sm:gap-x-4 sm:flex-grow sm:justify-end">
-        <p v-if="!isAuthed" class="font-semibold cursor-pointer">Login</p>
-        <p v-if="!isAuthed" class="font-semibold cursor-pointer">Register</p>
+        <p v-if="!isAuthed" class="font-semibold cursor-pointer">
+          <RouterLink :to="{ name: 'login' }">Login</RouterLink>
+        </p>
+        <p v-if="!isAuthed" class="font-semibold cursor-pointer">
+          <RouterLink :to="{ name: 'register' }">Register</RouterLink>
+        </p>
         <div v-if="isAuthed" class="flex gap-x-4 flex-grow justify-center">
-          <RouterLink :to="{ name: 'table' }" class="font-semibold cursor-pointer">Table</RouterLink>
-          <p class="font-semibold cursor-pointer">Formulator 9000</p>
+          <RouterLink :to="{ name: 'table' }" class="font-semibold cursor-pointer"
+            >Table</RouterLink
+          >
+          <RouterLink :to="{ name: 'formulator' }" class="font-semibold cursor-pointer"
+            >Formulator 9000</RouterLink
+          >
         </div>
-        <AtomeqDropdown
-          v-if="isAuthed"
-          button-title="Username"
-          :options="['User Profile', 'Logout']"
-        />
+        <AtomeqDropdown v-if="isAuthed" button-title="Username">
+          <RouterLink
+            class="font-semibold cursor-pointer p-2 bg-inherit text-nowrap hover:brightness-75"
+            :to="{ name: 'user-profile' }"
+          >
+            User Profile
+          </RouterLink>
+          <li class="font-semibold cursor-pointer p-2 bg-inherit text-nowrap hover:brightness-75">Logout</li>
+        </AtomeqDropdown>
       </div>
     </div>
     <div
@@ -39,11 +51,21 @@ const showMenu = () => {
       v-if="show"
       data-testid="mobile-dropdown"
     >
-      <p v-if="!isAuthed" class="font-semibold mb-2">Login</p>
-      <p v-if="!isAuthed" class="font-semibold">Register</p>
-      <p v-if="isAuthed" class="font-semibold mb-2">User Profile</p>
-      <p v-if="isAuthed" class="font-semibold mb-2">Table</p>
-      <p v-if="isAuthed" class="font-semibold mb-2">Formulator 9000</p>
+      <p v-if="!isAuthed" class="font-semibold mb-2">
+        <RouterLink :to="{ name: 'login' }">Login</RouterLink>
+      </p>
+      <p v-if="!isAuthed" class="font-semibold">
+        <RouterLink :to="{ name: 'register' }">Register</RouterLink>
+      </p>
+      <p v-if="isAuthed" class="font-semibold mb-2">
+        <RouterLink :to="{ name: 'user-profile' }">User Profile</RouterLink>
+      </p>
+      <p v-if="isAuthed" class="font-semibold mb-2">
+        <RouterLink :to="{ name: 'table' }">Table</RouterLink>
+      </p>
+      <p v-if="isAuthed" class="font-semibold mb-2">
+        <RouterLink :to="{ name: 'formulator' }">Formulator 9000</RouterLink>
+      </p>
       <p v-if="isAuthed" class="font-semibold">Logout</p>
     </div>
   </div>
