@@ -28,12 +28,8 @@ const showMenu = () => {
           <RouterLink :to="{ name: 'register' }">Register</RouterLink>
         </p>
         <div v-if="isAuthed" class="flex gap-x-4 flex-grow justify-center">
-          <RouterLink :to="{ name: 'table' }" class="font-semibold cursor-pointer"
-            >Table</RouterLink
-          >
-          <RouterLink :to="{ name: 'formulator' }" class="font-semibold cursor-pointer"
-            >Formulator 9000</RouterLink
-          >
+          <RouterLink :to="{ name: 'table' }" class="font-semibold cursor-pointer">Table</RouterLink>
+          <RouterLink :to="{ name: 'formulator' }" class="font-semibold cursor-pointer">Formulator 9000</RouterLink>
         </div>
         <AtomeqDropdown v-if="isAuthed" button-title="Username">
           <RouterLink
