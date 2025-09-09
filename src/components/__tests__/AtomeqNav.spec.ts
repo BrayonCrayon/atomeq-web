@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import AtomeqNav from '../AtomeqNav.vue'
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
-import router from '../../router'
+import router from '@/router'
 
 describe("AtomeqNav", () => {
   it('will open and close navigation when logged out', async () => {
