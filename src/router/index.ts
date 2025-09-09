@@ -1,5 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
+import AtomeqTable from '@/views/AtomeqTable.vue'
+import AtomeqFormulator from '@/views/AtomeqFormulator.vue'
+import AtomeqHome from '@/views/AtomeqHome.vue'
+import AtomeqAbout from '@/views/AtomeqAbout.vue'
+import AtomeqRegister from '@/views/AtomeqRegister.vue'
+import UserProfile from '@/views/UserProfile.vue'
+import AtomeqLogin from '@/views/AtomeqLogin.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,15 +13,37 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: AtomeqHome,
     },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      component: AtomeqAbout,
+    },
+    {
+      path: '/table',
+      name: 'table',
+      component: AtomeqTable
+    },
+    {
+      path: '/formulator',
+      name: 'formulator',
+      component: AtomeqFormulator
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: AtomeqRegister
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: AtomeqLogin
+    },
+    {
+      path: '/user-profile',
+      name: 'user-profile',
+      component: UserProfile
     },
   ],
 })

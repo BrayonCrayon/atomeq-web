@@ -2,12 +2,16 @@ import { describe, expect, it } from 'vitest'
 import AtomeqNav from '../AtomeqNav.vue'
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import router from '@/router'
 
 describe("AtomeqNav", () => {
   it('will open and close navigation when logged out', async () => {
     const wrapper = mount(AtomeqNav, {
       props: {
         isAuthed: false,
+      },
+      global: {
+        plugins: [router]
       }
     });
 
@@ -30,6 +34,9 @@ describe("AtomeqNav", () => {
     const wrapper = mount(AtomeqNav, {
       props: {
         isAuthed: true,
+      },
+      global: {
+        plugins: [router]
       }
     })
 
