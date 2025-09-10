@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 
-const url = "http://localhost/elements";
+const url = "http://localhost/api/elements";
 
 axios.get(url)
   .then(function (response) {
