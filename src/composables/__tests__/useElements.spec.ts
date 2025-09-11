@@ -1,59 +1,35 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, Mocked, vi } from 'vitest'
 import useElements from '@/composables/useElements'
 import api from '@/router/api'
-import { flushPromises } from '@vue/test-utils'
+import { elementFactory } from '@/testUtils/elementFactory'
 
-vi.mock('@/router/api.ts')
+vi.mock('@/router/api')
+const apiService = api as Mocked<typeof api>
 
 describe("useElements", () => {
   it('will get all elements coming from the backend endpoint', async () => {
-    // Arrange
     // TODO: create a factory for this and use falso library for it
-    const elementsData = [
-      {
-        atomicMass: 1.007,
-        atomicNumber: 1,
-        atomicRadius: 0.79,
-        boilingPoint: 20.28,
-        density: "8.99E-05",
-        electronegativity: 2.2,
-        electrons: 1,
-        elementStateId: 1,
-        firstIonization: 13.5984,
-        group: 1,
-        id: 1,
-        isotopes: 3,
-        meltingPoint: 14.175,
-        metal: false,
-        metalloid: false,
-        name: "Hydrogen",
-        natural: true,
-        neutrons: 0,
-        period: 1,
-        protons: 1,
-        radioactive: false,
-        shells: 1,
-        specificHeat: 14,
-        symbol: "H",
-        typeId: 1,
-        valence: 1,
-      }
-    ]
-    api.fetchElements.mockResolvedValue(() => ({ data: elementsData }))
-    // mockImplementation
+    // TODO: fix this - should return an [{}]
+    const elementsData = elementFactory()
+    apiService.fetchElements.mockResolvedValue({ data: elementsData })
 
-    // mock out the request that reaches to the backend
-
-    // Act
     const {getElements, elements} = useElements();
 
-    getElements()
-    await flushPromises()
+    await getElements()
 
-    // Assert
-    // apiCall was called
-    // it brought back the data that we expected
     expect(api.fetchElements).toHaveBeenCalled()
     expect(elements.value).toEqual(elementsData)
+  })
+
+  it('will handle errors gracefully', async () => {
+    apiService.fetchElements.mockRejectedValue({ message: 'bad data' })
+    using spy = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    const {getElements, elements} = useElements();
+
+    await getElements()
+
+    expect(spy).toHaveBeenCalled()
+    expect(elements.value).toEqual([])
   })
 })

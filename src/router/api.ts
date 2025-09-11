@@ -6,7 +6,6 @@ export const fetchElements = () => {
   return axios.get('http://localhost/api/elements')
 }
 
-
 export default {
   fetchElements
 }
