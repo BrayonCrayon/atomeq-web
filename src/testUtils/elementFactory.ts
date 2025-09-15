@@ -6,8 +6,9 @@ import {
   randFloat,
   randNumber,
 } from '@ngneat/falso'
+import type {IElement} from "@/types/element.ts";
 
-export const elementFactory = () => {
+export const elementFactory = (overrides: Partial<IElement> = {}) => {
   return {
       atomicMass: randFloat({fraction: 4}),
       atomicNumber: randNumber({min: 1, max: 118}),
@@ -35,5 +36,6 @@ export const elementFactory = () => {
       symbol: randAlpha(),
       typeId: randNumber({min: 1, max: 3}),
       valence: randNumber({min: 1, max: 20}),
+    ...overrides,
   }
 }
