@@ -1,24 +1,23 @@
-import { describe, expect, it, Mocked, vi } from 'vitest'
+import { describe, expect, it, type Mocked, vi } from 'vitest'
 import useElements from '@/composables/useElements'
 import api from '@/router/api'
 import { elementFactory } from '@/testUtils/elementFactory'
+import type {AxiosResponse} from "axios";
 
 vi.mock('@/router/api')
 const apiService = api as Mocked<typeof api>
 
 describe("useElements", () => {
   it('will get all elements coming from the backend endpoint', async () => {
-    // TODO: create a factory for this and use falso library for it
-    // TODO: fix this - should return an [{}]
     const elementsData = elementFactory()
-    apiService.fetchElements.mockResolvedValue({ data: elementsData })
+    apiService.fetchElements.mockResolvedValue({ data: [elementsData] } as AxiosResponse<object[]>);
 
     const {getElements, elements} = useElements();
 
     await getElements()
 
     expect(api.fetchElements).toHaveBeenCalled()
-    expect(elements.value).toEqual(elementsData)
+    expect(elements.value).toEqual([elementsData])
   })
 
   it('will handle errors gracefully', async () => {
