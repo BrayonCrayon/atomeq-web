@@ -1,4 +1,5 @@
-import { type Mocked } from 'vitest'
+import { type Mocked, vi } from 'vitest'
 import api from '@/router/api'
 
-export const apiService = api as Mocked<typeof api>
+vi.mock('@/router/api');
+export const apiService = api as Mocked<typeof api>;

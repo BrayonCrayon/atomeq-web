@@ -1,26 +1,16 @@
 <script setup lang="ts">
-import axios from 'axios';
+import useElements from '@/composables/useElements.ts'
+import { onMounted } from 'vue'
 
-const url = "http://localhost/api/elements";
+const { getElements, elements } = useElements();
 
-axios.get(url)
-  .then(function (response) {
-    // handle success
-    console.log(response);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .finally(function () {
-    // always executed
-  });
-
-console.log(data.value);
+onMounted(async () => {
+  await getElements();
+});
 </script>
 
 <template>
-<div>Periodic Table</div>
+  <div>Periodic Table</div>
 </template>
 
 <style scoped>

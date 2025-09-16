@@ -1,11 +1,9 @@
-import { describe, expect, it, type Mocked, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import useElements from '@/composables/useElements'
 import api from '@/router/api'
 import { elementFactory } from '@/testUtils/elementFactory'
 import type {AxiosResponse} from "axios";
 import {apiService} from "@/vitest.setup.ts";
-
-vi.mock('@/router/api')
 
 describe("useElements", () => {
   it('will get all elements coming from the backend endpoint', async () => {
