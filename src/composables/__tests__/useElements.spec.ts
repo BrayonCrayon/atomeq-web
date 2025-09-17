@@ -4,11 +4,12 @@ import api from '@/router/api'
 import { elementFactory } from '@/testUtils/elementFactory'
 import type {AxiosResponse} from "axios";
 import {apiService} from "@/vitest.setup.ts";
+import { IElement } from '@/types/element'
 
 describe("useElements", () => {
   it('will get all elements coming from the backend endpoint', async () => {
     const elementsData = elementFactory()
-    apiService.fetchElements.mockResolvedValue({ data: [elementsData] } as AxiosResponse<object[]>);
+    apiService.fetchElements.mockResolvedValue({ data: [elementsData] } as AxiosResponse<IElement[]>);
 
     const {getElements, elements} = useElements();
 
