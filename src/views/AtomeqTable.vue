@@ -10,7 +10,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>Periodic Table</div>
+  <h1 class="text-2xl">Periodic Table:</h1>
+  <div class="grid grid-cols-18 bg-red-500">
+    <div :key="element.id" v-for="element in elements.data" class="border-2 h-20">{{element.symbol}}</div>
+  </div>
 </template>
 
 <style scoped>
