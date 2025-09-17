@@ -1,8 +1,7 @@
 import axios from 'axios'
 
 export const fetchElements = () => {
-  // todo: create env variables for host
-  return axios.get('http://localhost/api/elements')
+  return axios.get(`${import.meta.env.VITE_BASE_PATH}/api/elements`)
 }
 
 export default {
