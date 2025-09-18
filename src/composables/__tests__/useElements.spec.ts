@@ -1,34 +1,36 @@
-import { describe, expect, it, vi } from 'vitest'
-import useElements from '@/composables/useElements'
-import api from '@/router/api'
-import { elementFactory } from '@/testUtils/elementFactory'
-import type {AxiosResponse} from "axios";
-import {apiService} from "@/vitest.setup.ts";
-import { IElement } from '@/types/element'
+import { describe, expect, it, vi } from 'vitest';
+import useElements from '@/composables/useElements';
+import api from '@/router/api';
+import { elementFactory } from '@/testUtils/elementFactory';
+import type { AxiosResponse } from 'axios';
+import { apiService } from '@/vitest.setup.ts';
+import { IAtomeqElement } from '@/types/element';
 
-describe("useElements", () => {
+describe('useElements', () => {
   it('will get all elements coming from the backend endpoint', async () => {
-    const elementsData = elementFactory()
-    apiService.fetchElements.mockResolvedValue({ data: [elementsData] } as AxiosResponse<IElement[]>);
+    const elementsData = elementFactory();
+    apiService.fetchElements.mockResolvedValue({ data: [elementsData] } as AxiosResponse<
+      IAtomeqElement[]
+    >);
 
-    const {getElements, elements} = useElements();
+    const { getElements, elements } = useElements();
 
-    await getElements()
+    await getElements();
 
-    expect(api.fetchElements).toHaveBeenCalled()
-    expect(elements.value).toEqual([elementsData])
-  })
+    expect(api.fetchElements).toHaveBeenCalled();
+    expect(elements.value).toEqual([elementsData]);
+  });
 
   it('will handle errors gracefully', async () => {
-    apiService.fetchElements.mockRejectedValue({ message: 'bad data' })
-    using spy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    apiService.fetchElements.mockRejectedValue({ message: 'bad data' });
+    using spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    const {getElements, elements} = useElements();
+    const { getElements, elements } = useElements();
 
-    await getElements()
+    await getElements();
 
-    expect(spy).toHaveBeenCalled()
-    expect(elements.value).toEqual([])
-    spy.mockRestore()
-  })
-})
+    expect(spy).toHaveBeenCalled();
+    expect(elements.value).toEqual([]);
+    spy.mockRestore();
+  });
+});

@@ -1,9 +1,10 @@
-import axios from 'axios'
+import axios from 'axios';
 
+const axiosClient = axios.create({ data: false });
 export const fetchElements = () => {
-  return axios.get(`${import.meta.env.VITE_BASE_PATH}/api/elements`)
-}
+  return axiosClient.get(`${import.meta.env.VITE_BASE_PATH}/api/elements`);
+};
 
 export default {
-  fetchElements
-}
+  fetchElements,
+};
