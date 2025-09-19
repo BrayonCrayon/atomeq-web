@@ -8,13 +8,13 @@ import {
 } from '@ngneat/falso';
 import type { IAtomeqElement } from '@/types/element.ts';
 
-export const elementFactory = (overrides: Partial<IAtomeqElement> = {}) => {
+export const elementFactory = (overrides: Partial<IAtomeqElement> = {}): IAtomeqElement => {
   return {
     atomicMass: randFloat({ fraction: 4 }),
     atomicNumber: randNumber({ min: 1, max: 118 }),
     atomicRadius: randFloat({ fraction: 4 }),
     boilingPoint: randFloat({ fraction: 4 }),
-    density: randAlphaNumeric(),
+    density: randAlphaNumeric().toString(),
     electronegativity: randFloat({ fraction: 1 }),
     electrons: randNumber({ min: 1, max: 20 }),
     elementStateId: randNumber({ min: 1, max: 5 }),
