@@ -3,10 +3,12 @@ import { describe, it, expect } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import AtomeqTable from '@/views/AtomeqTable.vue';
 import { apiService } from '@/vitest.setup';
+import type { AxiosResponse } from 'axios';
 
 describe('AtomeqTable', () => {
   it('will call endpoint to retrieve elements and load them in', async () => {
-    apiService.fetchElements.mockResolvedValue({ data: { data: [] } });
+    const response = { data: { data: [] } };
+    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
     mount(AtomeqTable);
     await flushPromises();
 
@@ -15,7 +17,8 @@ describe('AtomeqTable', () => {
 
   it('will render all the elements on the screen', async () => {
     const elements = mockElements.data;
-    apiService.fetchElements.mockResolvedValue({ data: mockElements });
+    const response = { data: mockElements };
+    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();

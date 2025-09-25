@@ -9,9 +9,9 @@ import { type IAtomeqElement } from '@/types/element';
 describe('useElements', () => {
   it('will get all elements coming from the backend endpoint', async () => {
     const elementsData = elementFactory();
-    apiService.fetchElements.mockResolvedValue({ data: [elementsData] } as AxiosResponse<
-      IAtomeqElement[]
-    >);
+    apiService.fetchElements.mockResolvedValue({ data: { data: [elementsData] } } as AxiosResponse<{
+      data: IAtomeqElement[];
+    }>);
 
     const { getElements, elements } = useElements();
 

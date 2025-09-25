@@ -18,7 +18,7 @@ export const getElementTable = (
 export const getRadioactiveElementTable = (elements: AtomeqElement[] = []): AtomeqElement[][] => {
   const bottomRow = groupBy(elements, 'period');
 
-  return Object.entries(bottomRow).map(([_, value]) => value);
+  return Object.entries(bottomRow).map(([_, value]: [string, AtomeqElement[]]) => value);
 };
 
 export default { getElementTable, getRadioactiveElementTable };
