@@ -17,6 +17,8 @@ const radioactiveGroupTable = computed(() => {
 });
 
 // TODO: this stopped working
+// seems like tailwind prunes the classes if it cannot detect them on render
+// Lucas said there is a way to stop tailwind from doing that in the config or docs
 const determinePosition = (idx: number) => {
   return `col-start-${idx + 4}`;
 };
