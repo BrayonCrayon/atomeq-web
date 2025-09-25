@@ -1,0 +1,30 @@
+import mockElements from '@/views/__tests__/mockElements.ts';
+import { describe, it, expect } from 'vitest';
+import { flushPromises, mount } from '@vue/test-utils';
+import AtomeqTable from '@/views/AtomeqTable.vue';
+import { apiService } from '@/vitest.setup';
+import type { AxiosResponse } from 'axios';
+
+describe('AtomeqTable', () => {
+  it('will call endpoint to retrieve elements and load them in', async () => {
+    const response = { data: { data: [] } };
+    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+    mount(AtomeqTable);
+    await flushPromises();
+
+    expect(apiService.fetchElements).toHaveBeenCalled();
+  });
+
+  it('will render all the elements on the screen', async () => {
+    const elements = mockElements.data;
+    const response = { data: mockElements };
+    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    elements.forEach((element) => {
+      expect(wrapper.text()).toContain(element.symbol);
+    });
+  });
+});

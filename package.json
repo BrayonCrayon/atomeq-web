@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
+    "axios": "^1.11.0",
+    "lodash": "^4.17.21",
     "lucide-vue-next": "^0.542.0",
     "pinia": "^3.0.3",
     "tailwindcss": "^4.1.11",
@@ -24,8 +26,10 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@ngneat/falso": "^8.0.2",
     "@tsconfig/node22": "^22.0.2",
     "@types/jsdom": "^21.1.7",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^22.15.32",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vitest/eslint-plugin": "^1.2.7",
