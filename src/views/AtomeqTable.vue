@@ -16,6 +16,7 @@ const radioactiveGroupTable = computed(() => {
   return getRadioactiveElementTable(radioactiveGroup.value);
 });
 
+// TODO: this stopped working
 const determinePosition = (idx: number) => {
   return `col-start-${idx + 4}`;
 };
@@ -39,13 +40,8 @@ onMounted(async () => {
     </div>
     <div class="mt-4">
       <div :key="idx" v-for="(row, idx) in radioactiveGroupTable" class="grid grid-cols-18 gap-1">
-        <div
-          :key="idx2"
-          v-for="(element, idx2) in row"
-          class="border-2 rounded h-20 shadow-md mb-1"
-          :class="determinePosition(idx2)"
-        >
-          <AtomeqElement class="p-1 shadow-md rounded" :element="element" />
+        <div :key="idx2" v-for="(element, idx2) in row" :class="determinePosition(idx2)">
+          <AtomeqElement class="border-2 rounded h-20 shadow-md mb-1 p-1" :element="element" />
         </div>
       </div>
     </div>

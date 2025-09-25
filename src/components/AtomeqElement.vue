@@ -7,8 +7,10 @@ defineProps<{
 </script>
 
 <template>
-  <div class="h-20">
-    {{ element?.symbol }}
+  <div class="h-20 content-center bg-blue-200">
+    <div class="justify-self-center text-lg font-bold">
+      {{ element?.symbol }}
+    </div>
   </div>
 </template>
 
