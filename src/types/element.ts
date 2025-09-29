@@ -1,3 +1,6 @@
+import { AtomeqElementType, type IAtomeqElementType } from '@/types/elementType.ts';
+import { AtomeqElementState, type IAtomeqElementState } from '@/types/elementState.ts';
+
 export interface IAtomeqElement {
   id: number;
   atomicMass: number;
@@ -8,6 +11,7 @@ export interface IAtomeqElement {
   electronegativity: number;
   electrons: number;
   elementStateId: number;
+  elementState: IAtomeqElementState | undefined;
   firstIonization: number;
   group: number;
   isotopes: number;
@@ -24,6 +28,7 @@ export interface IAtomeqElement {
   specificHeat: number;
   symbol: string;
   typeId: number;
+  type: IAtomeqElementType | undefined;
   valence: number;
 }
 
@@ -36,6 +41,7 @@ export class AtomeqElement implements IAtomeqElement {
   electronegativity: number;
   electrons: number;
   elementStateId: number;
+  elementState: IAtomeqElementState | undefined;
   firstIonization: number;
   group: number;
   id: number;
@@ -53,6 +59,7 @@ export class AtomeqElement implements IAtomeqElement {
   specificHeat: number;
   symbol: string;
   typeId: number;
+  type: IAtomeqElementType | undefined;
   valence: number;
 
   constructor(overrides: Partial<IAtomeqElement> = {}) {
@@ -64,6 +71,7 @@ export class AtomeqElement implements IAtomeqElement {
     this.electronegativity = overrides.electronegativity ?? 0;
     this.electrons = overrides.electrons ?? 0;
     this.elementStateId = overrides.elementStateId ?? 0;
+    this.elementState = new AtomeqElementState() ?? undefined;
     this.firstIonization = overrides.firstIonization ?? 0;
     this.group = overrides.group ?? 0;
     this.id = overrides.id ?? 0;
@@ -81,6 +89,7 @@ export class AtomeqElement implements IAtomeqElement {
     this.specificHeat = overrides.specificHeat ?? 0;
     this.symbol = overrides.symbol ?? '';
     this.typeId = overrides.typeId ?? 0;
+    this.type = new AtomeqElementType() ?? undefined;
     this.valence = overrides.valence ?? 0;
   }
 }
