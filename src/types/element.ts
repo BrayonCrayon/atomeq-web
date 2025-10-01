@@ -92,4 +92,16 @@ export class AtomeqElement implements IAtomeqElement {
     this.type = new AtomeqElementType(overrides.type) ?? undefined;
     this.valence = overrides.valence ?? 0;
   }
+
+  calculateColour = (): string => {
+    // TODO: is this what we want?
+    // TODO: expand on the colours
+    // Nick said should compare on ids instead of names
+    switch (this.type.name) {
+      case 'Metal':
+        return 'red';
+      default:
+        return 'black';
+    }
+  };
 }

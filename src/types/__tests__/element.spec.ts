@@ -1,3 +1,4 @@
+import { elementTypeFactory } from '@/testUtils/elementTypeFactory.ts';
 import { describe, it, expect, vi } from 'vitest';
 import { elementFactory } from '@/testUtils/elementFactory.ts';
 import { AtomeqElement } from '@/types/element.ts';
@@ -23,5 +24,16 @@ describe('element', () => {
     expect(result.elementState!.name).toEqual(element.elementState!.name);
     expect(result.type!.id).toEqual(element.type!.id);
     expect(result.type!.name).toEqual(element.type!.name);
+  });
+
+  it("will calculate the element's colour based off of it's type", () => {
+    const typeFact = elementTypeFactory({ name: 'Metal' });
+    const colour = 'red';
+
+    const elementFact = elementFactory({ type: typeFact });
+    const element = new AtomeqElement(elementFact);
+    const elementColour = element.calculateColour();
+
+    expect(elementColour).toEqual(colour);
   });
 });
