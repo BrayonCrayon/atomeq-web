@@ -71,7 +71,7 @@ export class AtomeqElement implements IAtomeqElement {
     this.electronegativity = overrides.electronegativity ?? 0;
     this.electrons = overrides.electrons ?? 0;
     this.elementStateId = overrides.elementStateId ?? 0;
-    this.elementState = new AtomeqElementState() ?? undefined;
+    this.elementState = new AtomeqElementState(overrides.elementState) ?? undefined;
     this.firstIonization = overrides.firstIonization ?? 0;
     this.group = overrides.group ?? 0;
     this.id = overrides.id ?? 0;
@@ -89,7 +89,7 @@ export class AtomeqElement implements IAtomeqElement {
     this.specificHeat = overrides.specificHeat ?? 0;
     this.symbol = overrides.symbol ?? '';
     this.typeId = overrides.typeId ?? 0;
-    this.type = new AtomeqElementType() ?? undefined;
+    this.type = new AtomeqElementType(overrides.type) ?? undefined;
     this.valence = overrides.valence ?? 0;
   }
 }
