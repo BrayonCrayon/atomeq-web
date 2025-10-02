@@ -98,8 +98,28 @@ export class AtomeqElement implements IAtomeqElement {
     // TODO: expand on the colours
     // Nick said should compare on ids instead of names
     switch (this.type.name) {
+      case 'Nonmetal':
+        return 'bg-emerald-300';
+      case 'Noble Gas':
+        return 'bg-indigo-300';
+      case 'Alkali Metal':
+        return 'bg-rose-300';
+      case 'Alkaline Earth Metal':
+        return 'bg-orange-300';
+      case 'Metalloid':
+        return 'bg-cyan-300';
+      case 'Halogen':
+        return 'bg-sky-300';
       case 'Metal':
-        return 'red';
+        return 'bg-zinc-300';
+      case 'Transition Metal':
+        return 'bg-blue-300';
+      case 'Lanthanide':
+        return 'bg-violet-300';
+      case 'Actinide':
+        return 'bg-fuchsia-300';
+      case 'Transactinide':
+        return 'bg-amber-300';
       default:
         return 'black';
     }

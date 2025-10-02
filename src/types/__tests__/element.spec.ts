@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { elementFactory } from '@/testUtils/elementFactory.ts';
 import { AtomeqElement } from '@/types/element.ts';
 import { AtomeqElementState } from '@/types/elementState.ts';
-import { AtomeqElementType } from '@/types/elementType.ts';
+import { AtomeqElementColor, AtomeqElementType } from '@/types/elementType.ts';
 
 describe('element', () => {
   it('will setup element states and types properly', () => {
@@ -26,14 +26,16 @@ describe('element', () => {
     expect(result.type!.name).toEqual(element.type!.name);
   });
 
-  it("will calculate the element's colour based off of it's type", () => {
-    const typeFact = elementTypeFactory({ name: 'Metal' });
-    const colour = 'red';
+  it.each([['Metal', AtomeqElementColor.METAL]])(
+    "will calculate the element's colour based off of it's type",
+    (elementType, color) => {
+      const typeFact = elementTypeFactory({ name: elementType });
 
-    const elementFact = elementFactory({ type: typeFact });
-    const element = new AtomeqElement(elementFact);
-    const elementColour = element.calculateColour();
+      const elementFact = elementFactory({ type: typeFact });
+      const element = new AtomeqElement(elementFact);
+      const elementColour = element.calculateColour();
 
-    expect(elementColour).toEqual(colour);
-  });
+      expect(elementColour).toEqual(color);
+    },
+  );
 });
