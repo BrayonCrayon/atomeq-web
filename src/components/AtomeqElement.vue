@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="h-20 content-center" :class="element.calculateColour()">
+  <div class="h-20 content-center">
     <div class="flex justify-between text-xs font-bold mb-2">
       <div>
         {{ element?.atomicNumber }}

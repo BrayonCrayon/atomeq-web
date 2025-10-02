@@ -1,9 +1,10 @@
+import { elementStateFactory } from '@/testUtils/elementStateFactory.ts';
 import { elementTypeFactory } from '@/testUtils/elementTypeFactory.ts';
 import { describe, it, expect, vi } from 'vitest';
 import { elementFactory } from '@/testUtils/elementFactory.ts';
 import { AtomeqElement } from '@/types/element.ts';
-import { AtomeqElementState } from '@/types/elementState.ts';
-import { AtomeqElementColour, AtomeqElementType } from '@/types/elementType.ts';
+import { AtomeqElementState, AtomeqElementStateColour } from '@/types/elementState.ts';
+import { AtomeqElementTypeColour, AtomeqElementType } from '@/types/elementType.ts';
 
 describe('element', () => {
   it('will setup element states and types properly', () => {
@@ -26,16 +27,30 @@ describe('element', () => {
     expect(result.type!.name).toEqual(element.type!.name);
   });
 
-  it.each([['Metal', AtomeqElementColour.METAL]])(
+  it.each([['Metal', AtomeqElementTypeColour.METAL]])(
     "will calculate the element's colour based off of it's type",
     (elementType, colour) => {
       const typeFact = elementTypeFactory({ name: elementType });
 
       const elementFact = elementFactory({ type: typeFact });
       const element = new AtomeqElement(elementFact);
-      const elementColour = element.calculateColour();
+      const elementColour = element.typeColour;
 
       expect(elementColour).toEqual(colour);
     },
   );
+
+  it.each([
+    ['Gas', AtomeqElementStateColour.GAS],
+    ['Solid', AtomeqElementStateColour.SOLID],
+    ['Liquid', AtomeqElementStateColour.LIQUID],
+  ])("will calculate the element's colour based off of it's state", (elementState, colour) => {
+    const stateFact = elementStateFactory({ name: elementState });
+
+    const elementFact = elementFactory({ elementState: stateFact });
+    const element = new AtomeqElement(elementFact);
+    const elementColour = element.stateColour;
+
+    expect(elementColour).toEqual(colour);
+  });
 });

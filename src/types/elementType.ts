@@ -12,7 +12,7 @@ export class AtomeqElementType implements IAtomeqElementType {
   }
 }
 
-export enum AtomeqElementColour {
+export enum AtomeqElementTypeColour {
   NONMETAL = 'bg-emerald-300',
   NOBLE_GAS = 'bg-indigo-300',
   ALKALI_METAL = 'bg-rose-300',

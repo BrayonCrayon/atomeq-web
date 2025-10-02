@@ -4,6 +4,8 @@ import { flushPromises, mount } from '@vue/test-utils';
 import AtomeqTable from '@/views/AtomeqTable.vue';
 import { apiService } from '@/vitest.setup';
 import type { AxiosResponse } from 'axios';
+import { AtomeqElement } from '@/types/element.ts';
+import renderedElement from '@/components/AtomeqElement.vue';
 
 describe('AtomeqTable', () => {
   it('will call endpoint to retrieve elements and load them in', async () => {
@@ -26,5 +28,34 @@ describe('AtomeqTable', () => {
     elements.forEach((element) => {
       expect(wrapper.text()).toContain(element.symbol);
     });
+  });
+
+  it('will display elements colour by type as default', async () => {
+    const element = mockElements.data[0];
+    const target = new AtomeqElement(element);
+    const response = { data: { data: [element] } };
+    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+    const elementComponent = wrapper.findComponent(renderedElement);
+
+    expect(elementComponent.classes()).toContain(target.typeColour);
+  });
+
+  it('will display elements colour by state when selected', async () => {
+    const element = mockElements.data[0];
+    const target = new AtomeqElement(element);
+    const response = { data: { data: [element] } };
+    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    await wrapper.find('button').trigger('click');
+
+    const elementComponent = wrapper.findComponent(renderedElement);
+
+    expect(elementComponent.classes()).toContain(target.stateColour);
   });
 });

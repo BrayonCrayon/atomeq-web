@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import AtomeqElement from '@/components/AtomeqElement.vue';
+import AtomeqElementComponent from '@/components/AtomeqElement.vue';
+import { AtomeqElement } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtils.ts';
+
+enum Display {
+  TYPE = 'type',
+  STATE = 'state',
+}
+
+const elementDisplay = ref<Display>(Display.TYPE);
 
 const { getElements, elements } = useElements();
 
@@ -38,6 +46,13 @@ const columnPosition = (idx: number) => {
   return elementPosition[idx];
 };
 
+const displayColour = (element: AtomeqElement) => {
+  return {
+    [`${element.typeColour}`]: elementDisplay.value === Display.TYPE,
+    [`${element.stateColour}`]: elementDisplay.value === Display.STATE,
+  };
+};
+
 onMounted(async () => {
   await getElements();
 });
@@ -46,11 +61,21 @@ onMounted(async () => {
 <template>
   <div class="p-4">
     <h1 class="text-2xl">Periodic Table:</h1>
+    <div>
+      <button
+        class="py-2 px-4 rounded shadow-lg cursor-pointer hover:bg-blue-400 bg-blue-500 text-white"
+        @click="elementDisplay = Display.STATE"
+      >
+        State
+      </button>
+      <!--      <button class="py-2 px-4 bg-blue-200 text-white" @click="">Element Type</button>-->
+    </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
       <div :key="`${element?.name}-${idx2}`" v-for="(element, idx2) in row" class="mb-1">
-        <AtomeqElement
+        <AtomeqElementComponent
           v-if="element"
           class="border-2 rounded h-20 shadow-md p-1"
+          :class="displayColour(element)"
           :element="element"
         />
       </div>
@@ -58,7 +83,11 @@ onMounted(async () => {
     <div class="mt-4">
       <div :key="idx" v-for="(row, idx) in radioactiveGroupTable" class="grid grid-cols-18 gap-1">
         <div v-for="(element, idx2) in row" :key="element.id" :class="columnPosition(idx2)">
-          <AtomeqElement class="border-2 rounded h-20 shadow-md mb-1 p-1" :element="element" />
+          <AtomeqElementComponent
+            class="border-2 rounded h-20 shadow-md mb-1 p-1"
+            :class="displayColour(element)"
+            :element="element"
+          />
         </div>
       </div>
     </div>

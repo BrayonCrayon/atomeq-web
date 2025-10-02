@@ -4,12 +4,13 @@ import api from '@/router/api';
 import { elementFactory } from '@/testUtils/elementFactory';
 import type { AxiosResponse } from 'axios';
 import { apiService } from '@/vitest.setup.ts';
-import { type IAtomeqElement } from '@/types/element';
+import { AtomeqElement, type IAtomeqElement } from '@/types/element';
 
 describe('useElements', () => {
   it('will get all elements coming from the backend endpoint', async () => {
-    const elementsData = elementFactory();
-    apiService.fetchElements.mockResolvedValue({ data: { data: [elementsData] } } as AxiosResponse<{
+    const elementData = elementFactory();
+    const compareElement = new AtomeqElement(elementData);
+    apiService.fetchElements.mockResolvedValue({ data: { data: [elementData] } } as AxiosResponse<{
       data: IAtomeqElement[];
     }>);
 
@@ -18,7 +19,11 @@ describe('useElements', () => {
     await getElements();
 
     expect(api.fetchElements).toHaveBeenCalled();
-    expect(elements.value).toEqual([elementsData]);
+    const target: AtomeqElement = elements.value[0];
+
+    Object.entries(target).forEach(([key, value]) => {
+      expect(value).toEqual(compareElement[key as keyof AtomeqElement]);
+    });
   });
 
   it('will handle errors gracefully', async () => {

@@ -1,5 +1,13 @@
-import { AtomeqElementType, type IAtomeqElementType } from '@/types/elementType.ts';
-import { AtomeqElementState, type IAtomeqElementState } from '@/types/elementState.ts';
+import {
+  AtomeqElementType,
+  AtomeqElementTypeColour,
+  type IAtomeqElementType,
+} from '@/types/elementType.ts';
+import {
+  AtomeqElementState,
+  AtomeqElementStateColour,
+  type IAtomeqElementState,
+} from '@/types/elementState.ts';
 
 export interface IAtomeqElement {
   id: number;
@@ -93,35 +101,45 @@ export class AtomeqElement implements IAtomeqElement {
     this.valence = overrides.valence ?? 0;
   }
 
-  calculateColour = (): string => {
-    // TODO: is this what we want?
-    // TODO: expand on the colours
-    // Nick said should compare on ids instead of names
-    switch (this.type.name) {
-      case 'Nonmetal':
-        return 'bg-emerald-300';
-      case 'Noble Gas':
-        return 'bg-indigo-300';
-      case 'Alkali Metal':
-        return 'bg-rose-300';
-      case 'Alkaline Earth Metal':
-        return 'bg-orange-300';
-      case 'Metalloid':
-        return 'bg-cyan-300';
-      case 'Halogen':
-        return 'bg-sky-300';
-      case 'Metal':
-        return 'bg-zinc-300';
-      case 'Transition Metal':
-        return 'bg-blue-300';
-      case 'Lanthanide':
-        return 'bg-violet-300';
-      case 'Actinide':
-        return 'bg-fuchsia-300';
-      case 'Transactinide':
-        return 'bg-amber-300';
+  get typeColour(): string {
+    switch (this.type?.name) {
+      case 'nonmetal':
+        return AtomeqElementTypeColour.NONMETAL;
+      case 'noble-gas':
+        return AtomeqElementTypeColour.NOBLE_GAS;
+      case 'alkali-metal':
+        return AtomeqElementTypeColour.ALKALI_METAL;
+      case 'alkaline-earth-metal':
+        return AtomeqElementTypeColour.ALKALINE_EARTH_METAL;
+      case 'metalloid':
+        return AtomeqElementTypeColour.METALLOID;
+      case 'halogen':
+        return AtomeqElementTypeColour.HALOGEN;
+      case 'metal':
+        return AtomeqElementTypeColour.METAL;
+      case 'transition-metal':
+        return AtomeqElementTypeColour.TRANSITION_METAL;
+      case 'lanthanide':
+        return AtomeqElementTypeColour.LANTHANIDE;
+      case 'actinide':
+        return AtomeqElementTypeColour.ACTINIDE;
+      case 'transactinide':
+        return AtomeqElementTypeColour.TRANSACTINIDE;
       default:
-        return 'black';
+        return 'bg-red-300';
     }
-  };
+  }
+
+  get stateColour(): string {
+    switch (this.elementState?.name) {
+      case 'gas':
+        return AtomeqElementStateColour.GAS;
+      case 'solid':
+        return AtomeqElementStateColour.SOLID;
+      case 'liquid':
+        return AtomeqElementStateColour.LIQUID;
+      default:
+        return 'bg-red-300';
+    }
+  }
 }
