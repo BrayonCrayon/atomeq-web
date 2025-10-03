@@ -62,21 +62,30 @@ onMounted(async () => {
   <div class="p-4">
     <h1 class="text-2xl">Periodic Table:</h1>
     <div>
-      <button
-        aria-label="state-display"
-        class="py-2 px-4 rounded shadow-lg cursor-pointer hover:bg-blue-400 bg-blue-500 text-white"
-        @click="elementDisplay = Display.STATE"
-      >
-        State
-      </button>
-      <button
-        aria-label="type-display"
-        class="py-2 px-4 rounded shadow-lg cursor-pointer hover:bg-blue-400 bg-blue-500 text-white"
-        @click="elementDisplay = Display.TYPE"
-      >
-        Type
-      </button>
-      <button class="py-2 px-4 bg-blue-200 text-white" @click="() => {}">Element Type</button>
+      <div>
+        <label>
+          State
+          <input
+            v-model="elementDisplay"
+            :value="Display.STATE"
+            type="radio"
+            name="display"
+            aria-label="state-display"
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Type
+          <input
+            v-model="elementDisplay"
+            :value="Display.TYPE"
+            type="radio"
+            name="display"
+            aria-label="type-display"
+          />
+        </label>
+      </div>
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
       <div :key="`${element?.name}-${idx2}`" v-for="(element, idx2) in row" class="mb-1">

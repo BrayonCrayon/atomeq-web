@@ -43,7 +43,7 @@ describe('AtomeqTable', () => {
     expect(elementComponent.classes()).toContain(target.typeColour);
   });
 
-  it('will display elements colour by state when state button is clicked', async () => {
+  it('will display elements colour by state when state radio option is clicked', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElement(element);
     const response = { data: { data: [element] } };
@@ -52,14 +52,15 @@ describe('AtomeqTable', () => {
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
-    await wrapper.find("button[aria-label='state-display']").trigger('click');
+    // TODO: Need to update the modelValue here to pass the test
+    await wrapper.find('input[aria-label="state-display"]').trigger('click');
 
     const elementComponent = wrapper.findComponent(renderedElement);
 
     expect(elementComponent.classes()).toContain(target.stateColour);
   });
 
-  it('will display elements colour by type when type button is clicked', async () => {
+  it('will display elements colour by type when type radio is clicked', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElement(element);
     const response = { data: { data: [element] } };
@@ -68,7 +69,7 @@ describe('AtomeqTable', () => {
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
-    await wrapper.find("button[aria-label='type-display']").trigger('click');
+    await wrapper.find("input[aria-label='type-display']").trigger('click');
 
     const elementComponent = wrapper.findComponent(renderedElement);
 
