@@ -43,7 +43,7 @@ describe('AtomeqTable', () => {
     expect(elementComponent.classes()).toContain(target.typeColour);
   });
 
-  it('will display elements colour by state when selected', async () => {
+  it('will display elements colour by state when state button is clicked', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElement(element);
     const response = { data: { data: [element] } };
@@ -52,10 +52,26 @@ describe('AtomeqTable', () => {
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
-    await wrapper.find('button').trigger('click');
+    await wrapper.find("button[aria-label='state-display']").trigger('click');
 
     const elementComponent = wrapper.findComponent(renderedElement);
 
     expect(elementComponent.classes()).toContain(target.stateColour);
+  });
+
+  it('will display elements colour by type when type button is clicked', async () => {
+    const element = mockElements.data[0];
+    const target = new AtomeqElement(element);
+    const response = { data: { data: [element] } };
+    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    await wrapper.find("button[aria-label='type-display']").trigger('click');
+
+    const elementComponent = wrapper.findComponent(renderedElement);
+
+    expect(elementComponent.classes()).toContain(target.typeColour);
   });
 });

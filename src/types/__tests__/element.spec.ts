@@ -27,7 +27,7 @@ describe('element', () => {
     expect(result.type!.name).toEqual(element.type!.name);
   });
 
-  it.each([['Metal', AtomeqElementTypeColour.METAL]])(
+  it.each([['metal', AtomeqElementTypeColour.METAL]])(
     "will calculate the element's colour based off of it's type",
     (elementType, colour) => {
       const typeFact = elementTypeFactory({ name: elementType });
@@ -41,9 +41,9 @@ describe('element', () => {
   );
 
   it.each([
-    ['Gas', AtomeqElementStateColour.GAS],
-    ['Solid', AtomeqElementStateColour.SOLID],
-    ['Liquid', AtomeqElementStateColour.LIQUID],
+    ['gas', AtomeqElementStateColour.GAS],
+    ['solid', AtomeqElementStateColour.SOLID],
+    ['liquid', AtomeqElementStateColour.LIQUID],
   ])("will calculate the element's colour based off of it's state", (elementState, colour) => {
     const stateFact = elementStateFactory({ name: elementState });
 
