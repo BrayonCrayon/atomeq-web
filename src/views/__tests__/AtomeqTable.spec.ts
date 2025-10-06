@@ -52,8 +52,8 @@ describe('AtomeqTable', () => {
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
-    // TODO: Need to update the modelValue here to pass the test
-    await wrapper.find('input[aria-label="state-display"]').trigger('click');
+    const input = wrapper.find('input[aria-label="state-display"]');
+    await input.setValue('state');
 
     const elementComponent = wrapper.findComponent(renderedElement);
 
