@@ -4,11 +4,8 @@ import { AtomeqElement } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
 import { computed, onMounted, ref } from 'vue';
 import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtils.ts';
-
-enum Display {
-  TYPE = 'type',
-  STATE = 'state',
-}
+import { Display } from '@/types/atomeq-table.ts';
+import SwitchDisplay from '@/components/SwitchDisplay.vue';
 
 const elementDisplay = ref<Display>(Display.TYPE);
 
@@ -61,31 +58,8 @@ onMounted(async () => {
 <template>
   <div class="p-4">
     <h1 class="text-2xl">Periodic Table:</h1>
-    <div>
-      <div>
-        <label>
-          State
-          <input
-            v-model="elementDisplay"
-            :value="Display.STATE"
-            type="radio"
-            name="display"
-            aria-label="state-display"
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Type
-          <input
-            v-model="elementDisplay"
-            :value="Display.TYPE"
-            type="radio"
-            name="display"
-            aria-label="type-display"
-          />
-        </label>
-      </div>
+    <div class="flex gap-2">
+      <SwitchDisplay v-model="elementDisplay" />
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
       <div :key="`${element?.name}-${idx2}`" v-for="(element, idx2) in row" class="mb-1">
