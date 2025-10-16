@@ -1,6 +1,4 @@
 <script setup lang="ts" generic="T">
-import { ref } from 'vue';
-
 const props = defineProps<{
   initialValue: T;
   label: string;
@@ -9,31 +7,25 @@ const props = defineProps<{
   checked?: boolean;
 }>();
 
-const internalValue = ref<T>(props.initialValue);
-
 const emit = defineEmits<{
   'update:modelValue': [value: T];
 }>();
 
-const update = (event: Event) => {
-  const value = (event.target as HTMLInputElement).value as T;
-
-  emit('update:modelValue', value);
+const update = () => {
+  emit('update:modelValue', props.initialValue);
 };
 </script>
 
 <template>
   <input
-    v-model="internalValue"
-    class="cursor-pointer"
+    class="cursor-pointer fixed -top-[1.5em] -left-[1.5em]"
     type="radio"
     :value="initialValue"
     :name="props.name"
     :aria-label="ariaLabel"
     :checked="checked"
-    @input="update"
   />
-  <label class="cursor-pointer"><span></span>{{ label }}</label>
+  <label class="cursor-pointer" @click="update"><span></span>{{ label }}</label>
 </template>
 
 <style lang="sass" scoped>
@@ -43,10 +35,10 @@ $timing1: cubic-bezier(0.45,0.05,0.55,0.95)
 $timing2: cubic-bezier(0.5,0,0.5,2)
 $radios: 2
 
-input
-  position: fixed
-  top: -1.5em
-  left: -1.5em
+//input
+//  position: fixed
+//  top: -1.5em
+//  left: -1.5em
 
 label
   $shadowColor: rgba(0,0,0,0.2)

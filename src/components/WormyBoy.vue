@@ -1,40 +1,13 @@
-<script setup lang="ts">
-import { withDefaults } from 'vue';
-import { Display } from '@/types/atomeq-table.ts';
-import AtomeqRadioInput from '@/components/common/AtomeqRadioInput.vue';
-
-withDefaults(
-  defineProps<{
-    value?: Display;
-  }>(),
-  {
-    value: Display.TYPE,
-  },
-);
-
-const emit = defineEmits<{
-  'update:modelValue': [display: Display];
-}>();
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div class="relative m-auto max-w-[10em] flex">
-    <AtomeqRadioInput
-      :initialValue="Display.TYPE"
-      ariaLabel="type-display"
-      name="display"
-      label="Type"
-      :checked="value === Display.TYPE"
-      @update:modelValue="emit('update:modelValue', $event)"
-    />
-    <AtomeqRadioInput
-      :initialValue="Display.STATE"
-      ariaLabel="state-display"
-      name="display"
-      label="State"
-      :checked="value === Display.STATE"
-      @update:modelValue="emit('update:modelValue', $event)"
-    />
+  <form>
+    <input id="a" type="radio" name="hopping" value="a" checked />
+    <label for="a"><span></span>A</label>
+    <input id="b" type="radio" name="hopping" value="b" />
+    <label for="b"><span></span>B</label>
+    <input id="c" type="radio" name="hopping" value="c" />
+    <label for="c"><span></span>C</label>
     <div class="worm">
       <div class="worm__segment"></div>
       <div class="worm__segment"></div>
@@ -67,7 +40,7 @@ const emit = defineEmits<{
       <div class="worm__segment"></div>
       <div class="worm__segment"></div>
     </div>
-  </div>
+  </form>
 </template>
 
 <style lang="sass" scoped>
@@ -75,51 +48,69 @@ $wormDur: 0.4s
 $radioDur: 0.2s
 $timing1: cubic-bezier(0.45,0.05,0.55,0.95)
 $timing2: cubic-bezier(0.5,0,0.5,2)
-$radios: 2
+$radios: 3
 
-//input
-//  position: fixed
-//  top: -1.5em
-//  left: -1.5em
-//
-//label
-//  $shadowColor: rgba(0,0,0,0.2)
-//  cursor: pointer
-//  display: block
-//  font-weight: bold
-//  text-shadow: 0 0.1em 0.1em $shadowColor
-//  transition: color $radioDur $timing1
-//  &:not(:last-of-type)
-//    margin-bottom: 1.5em
-//  span
-//    box-shadow: 0 0 0 0.2em currentColor inset, 0 0.2em 0.2em $shadowColor, 0 0.3em 0.2em $shadowColor inset
-//    display: inline-block
-//    margin-right: 0.5em
-//    vertical-align: bottom
-//    width: 1.5em
-//    height: 1.5em
-//    transition: transform $radioDur $timing2, box-shadow $radioDur $timing1, color $radioDur $timing1
+//*
+//  border: 0
+//  box-sizing: border-box
+//  margin: 0
+//  padding: 0
 
-//.worm-input
-//  display: block
-//  margin: auto
-//  max-width: 10em
-//  position: relative
+//\:root
+//  font-size: calc(32px + (40 - 32)*(100vw - 320px)/ (1024 - 320))
 
-//label span,
+//body
+//  background: #e3e4e8
+//  color: #17181c
+//  display: flex
+//  font: 1em Hind, sans-serif
+//  height: 100vh
+//  line-height: 1.5
+//  padding: 1.5em 0
+
+form
+  display: block
+  margin: auto
+  max-width: 10em
+  position: relative
+
+input
+  position: fixed
+  top: -1.5em
+  left: -1.5em
+
+label
+  $shadowColor: rgba(0,0,0,0.2)
+  cursor: pointer
+  display: block
+  font-weight: bold
+  text-shadow: 0 0.1em 0.1em $shadowColor
+  transition: color $radioDur $timing1
+  &:not(:last-of-type)
+    margin-bottom: 1.5em
+  span
+    box-shadow: 0 0 0 0.2em currentColor inset, 0 0.2em 0.2em $shadowColor, 0 0.3em 0.2em $shadowColor inset
+    display: inline-block
+    margin-right: 0.5em
+    vertical-align: bottom
+    width: 1.5em
+    height: 1.5em
+    transition: transform $radioDur $timing2, box-shadow $radioDur $timing1, color $radioDur $timing1
+
+label span,
 .worm__segment:before
   border-radius: 50%
 
-//input:checked + label,
-//input:checked + label span,
+input:checked + label,
+input:checked + label span,
 .worm__segment:before
   color: #255ff4
 
-//input:checked + label
-//  &, span
-//    transition-delay: $wormDur
-//  span
-//    transform: scale(1.2)
+input:checked + label
+  &, span
+    transition-delay: $wormDur
+  span
+    transform: scale(1.2)
 
 .worm
   top: 0.375em
@@ -155,24 +146,24 @@ $radios: 2
 @for $s from 1 through $radios
   input:nth-of-type(#{$s}):checked ~ .worm .worm__segment
     @if $s > 1
-      transform: translateX(3em * ($s - 1))
+      transform: translateY(3em * ($s - 1))
     &:before
       animation-name: hop#{$s}
 
   @keyframes hop#{$s}
     from, to
-      transform: translateY(0)
+      transform: translateX(0)
     50%
-      transform: translateY(-1.5em)
+      transform: translateX(-1.5em)
 
 /* Dark mode */
-//@media screen and (prefers-color-scheme: dark)
-//  body
-//    background: #17181c
-//    color: #e3e4e8
-//
-//  input:checked + label,
-//  input:checked + label span,
-//  .worm__segment:before
-//    color: #5583f6
+@media screen and (prefers-color-scheme: dark)
+  body
+    background: #17181c
+    color: #e3e4e8
+
+  input:checked + label,
+  input:checked + label span,
+  .worm__segment:before
+    color: #5583f6
 </style>
