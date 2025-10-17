@@ -9,6 +9,20 @@ import {
   type IAtomeqElementState,
 } from '@/types/elementState.ts';
 
+export enum ElementBlock {
+  S = 's',
+  P = 'p',
+  D = 'd',
+  F = 'f',
+}
+
+export const ElementBlockColour = {
+  [ElementBlock.S]: 'bg-blue-300',
+  [ElementBlock.P]: 'bg-violet-300',
+  [ElementBlock.D]: 'bg-fuchsia-300',
+  [ElementBlock.F]: 'bg-zinc-300',
+};
+
 export interface IAtomeqElement {
   id: number;
   atomicMass: number;
@@ -141,5 +155,25 @@ export class AtomeqElement implements IAtomeqElement {
       default:
         return 'bg-red-300';
     }
+  }
+
+  get blockColour(): string {
+    if ([1, 2].includes(this.group) || [1, 2].includes(this.atomicNumber)) {
+      return ElementBlockColour[ElementBlock.S];
+    }
+
+    if ([13, 14, 15, 16, 17, 18].includes(this.group)) {
+      return ElementBlockColour[ElementBlock.P];
+    }
+
+    if (
+      [3, 4, 5, 6, 7, 8, 9, 10, 11, 12].includes(this.group) &&
+      (this.atomicNumber < 57 || this.atomicNumber > 71) &&
+      (this.atomicNumber < 89 || this.atomicNumber > 103)
+    ) {
+      return ElementBlockColour[ElementBlock.D];
+    }
+
+    return ElementBlockColour[ElementBlock.F];
   }
 }

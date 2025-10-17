@@ -47,26 +47,9 @@ const displayColour = (element: AtomeqElement) => {
   return {
     [`${element.typeColour}`]: elementDisplay.value === Display.TYPE,
     [`${element.stateColour}`]: elementDisplay.value === Display.STATE,
+    [`${element.blockColour}`]: elementDisplay.value === Display.BLOCK,
   };
 };
-
-/**
- * 🧠 Step 3: Rules to determine the block programmatically
- *
- * If you don’t have the block info pre-labeled, you can use the element’s atomic number (Z) or its group number (position in the periodic table).
- *
- * Here’s a super-simplified logic set:
- *
- * If atomic number is between 1–2 (Hydrogen & Helium) or element is in Groups 1–2 → s-block
- *
- * If element is in Groups 3–12 → d-block
- *
- * If element is in Groups 13–18 → p-block
- *
- * If element is one of the two “detached rows” (atomic numbers 57–71 or 89–103) → f-block
- *
- * That’s enough to categorize every element.
- */
 
 onMounted(async () => {
   await getElements();

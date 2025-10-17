@@ -35,6 +35,14 @@ const emit = defineEmits<{
       :checked="value === Display.STATE"
       @update:modelValue="emit('update:modelValue', $event)"
     />
+    <AtomeqRadioInput
+      :initialValue="Display.BLOCK"
+      ariaLabel="block-display"
+      name="display"
+      label="Block"
+      :checked="value === Display.BLOCK"
+      @update:modelValue="emit('update:modelValue', $event)"
+    />
     <div class="worm">
       <div class="worm__segment"></div>
       <div class="worm__segment"></div>

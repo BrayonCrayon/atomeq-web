@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import AtomeqLayout from '@/layouts/AtomeqLayout.vue'
-import AtomeqNav from '@/components/AtomeqNav.vue'
+import { RouterView } from 'vue-router';
+import AtomeqLayout from '@/layouts/AtomeqLayout.vue';
+import AtomeqNav from '@/components/AtomeqNav.vue';
 </script>
 
 <template>

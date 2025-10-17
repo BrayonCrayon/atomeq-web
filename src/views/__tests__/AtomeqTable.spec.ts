@@ -1,4 +1,4 @@
-import mockElements from '@/views/__tests__/mockElements.ts';
+import mockElements from '@/testUtils/mocks/mockElements.ts';
 import { describe, it, expect } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import AtomeqTable from '@/views/AtomeqTable.vue';

@@ -1,11 +1,7 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-<div>FORMULATOR 9000</div>
+  <div>FORMULATOR 9000</div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
