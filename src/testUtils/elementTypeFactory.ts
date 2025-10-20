@@ -1,5 +1,5 @@
 import type { IAtomeqElementType } from '@/types/elementType.ts';
-import { randCow, randMotorcycleManufacturer, randNumber } from '@ngneat/falso';
+import { randCow, randNumber } from '@ngneat/falso';
 
 export const elementTypeFactory = (
   overrides: Partial<IAtomeqElementType> = {},

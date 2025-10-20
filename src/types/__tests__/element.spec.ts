@@ -75,12 +75,10 @@ describe('element', () => {
     const elements = mockElements.data
       .filter((item) => groups.includes(item.atomicNumber))
       .filter((item) => {
-        return (
-          item.atomicNumber < 57 &&
-          item.atomicNumber > 71 &&
-          item.atomicNumber < 89 &&
-          item.atomicNumber > 103
-        );
+        return item.atomicNumber < 57 && item.atomicNumber > 71;
+      })
+      .filter((item) => {
+        return item.atomicNumber < 89 && item.atomicNumber > 103;
       })
       .map((item) => new AtomeqElement(item));
 

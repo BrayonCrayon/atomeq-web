@@ -22,10 +22,12 @@ const update = () => {
     type="radio"
     :value="initialValue"
     :name="props.name"
-    :aria-label="ariaLabel"
     :checked="checked"
   />
-  <label class="cursor-pointer" @click="update"><span></span>{{ label }}</label>
+  <label :aria-label="ariaLabel" class="cursor-pointer" @click="update">
+    <span></span>
+    {{ label }}
+  </label>
 </template>
 
 <style lang="sass" scoped>

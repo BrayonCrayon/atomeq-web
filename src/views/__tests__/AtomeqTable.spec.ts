@@ -52,8 +52,8 @@ describe('AtomeqTable', () => {
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
-    const input = wrapper.find('input[aria-label="state-display"]');
-    await input.setValue('state');
+    const input = wrapper.find('label[aria-label="state-display"]');
+    await input.trigger('click');
 
     const elementComponent = wrapper.findComponent(renderedElement);
 
@@ -69,7 +69,7 @@ describe('AtomeqTable', () => {
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
-    await wrapper.find("input[aria-label='type-display']").trigger('click');
+    await wrapper.find("label[aria-label='type-display']").trigger('click');
 
     const elementComponent = wrapper.findComponent(renderedElement);
 
