@@ -67,13 +67,14 @@ describe('element', () => {
     },
   );
 
+  // TODO: something ain't quite right here
   it.each([
     [ElementBlock.S, [1, 2], ElementBlockColour[ElementBlock.S]],
     [ElementBlock.P, [13, 14, 15, 16, 17, 18], ElementBlockColour[ElementBlock.P]],
     [ElementBlock.D, [3, 4, 5, 6, 7, 8, 9, 10, 11, 12], ElementBlockColour[ElementBlock.D]],
   ])('will determine an element(s) block colour by group for block %s', (_, groups, colour) => {
     const elements = mockElements.data
-      .filter((item) => groups.includes(item.atomicNumber))
+      .filter((item) => groups.includes(item.group))
       .filter((item) => {
         return item.atomicNumber < 57 && item.atomicNumber > 71;
       })
