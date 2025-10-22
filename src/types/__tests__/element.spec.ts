@@ -69,24 +69,36 @@ describe('element', () => {
 
   // TODO: something ain't quite right here
   it.each([
-    [ElementBlock.S, [1, 2], ElementBlockColour[ElementBlock.S]],
-    [ElementBlock.P, [13, 14, 15, 16, 17, 18], ElementBlockColour[ElementBlock.P]],
-    [ElementBlock.D, [3, 4, 5, 6, 7, 8, 9, 10, 11, 12], ElementBlockColour[ElementBlock.D]],
-  ])('will determine an element(s) block colour by group for block %s', (_, groups, colour) => {
-    const elements = mockElements.data
-      .filter((item) => groups.includes(item.group))
-      .filter((item) => {
-        return item.atomicNumber < 57 && item.atomicNumber > 71;
-      })
-      .filter((item) => {
-        return item.atomicNumber < 89 && item.atomicNumber > 103;
-      })
-      .map((item) => new AtomeqElement(item));
+    [ElementBlock.S, [1, 2], ElementBlockColour[ElementBlock.S], 14],
+    [ElementBlock.P, [13, 14, 15, 16, 17, 18], ElementBlockColour[ElementBlock.P], 36],
+    [ElementBlock.D, [3, 4, 5, 6, 7, 8, 9, 10, 11, 12], ElementBlockColour[ElementBlock.D], 38],
+  ])(
+    'will determine an element(s) block colour by group for block %s',
+    (elementBlock, groups, colour, elementCount) => {
+      let elements = mockElements.data
+        .filter(
+          (item) =>
+            groups.includes(item.group) ||
+            (elementBlock === ElementBlock.S && item.atomicNumber === 2),
+        )
+        .filter((item) => {
+          return !(item.atomicNumber >= 57 && item.atomicNumber <= 71);
+        })
+        .filter((item) => {
+          return !(item.atomicNumber >= 89 && item.atomicNumber <= 103);
+        })
+        .map((item) => new AtomeqElement(item));
 
-    elements.forEach((element) => {
-      expect(element.blockColour).toEqual(colour);
-    });
-  });
+      if (elementBlock === ElementBlock.P) {
+        elements = elements.filter((item) => item.atomicNumber !== 2);
+      }
+
+      expect(elements).toHaveLength(elementCount);
+      elements.forEach((element) => {
+        expect(element.blockColour).toEqual(colour);
+      });
+    },
+  );
 
   it('will identify hydrogen and helium elements as block S for its colour', () => {
     const hydrogen = new AtomeqElement(mockElements.data[0]);
