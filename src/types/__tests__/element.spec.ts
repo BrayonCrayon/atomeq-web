@@ -67,7 +67,6 @@ describe('element', () => {
     },
   );
 
-  // TODO: something ain't quite right here
   it.each([
     [ElementBlock.S, [1, 2], ElementBlockColour[ElementBlock.S], 14],
     [ElementBlock.P, [13, 14, 15, 16, 17, 18], ElementBlockColour[ElementBlock.P], 36],
