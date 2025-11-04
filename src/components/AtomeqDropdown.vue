@@ -1,26 +1,32 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 defineProps<{
-  buttonTitle: string,
-  options?: string[]
+  buttonTitle: string;
+  options?: string[];
 }>();
 
-const show = ref<boolean>(false)
+const show = ref<boolean>(false);
 
 const toggleShow = () => {
-  show.value = !show.value
-}
+  show.value = !show.value;
+};
 </script>
 
 <template>
   <div>
-    <button class="font-semibold cursor-pointer" @click="toggleShow">{{buttonTitle}}</button>
+    <button class="font-semibold cursor-pointer" @click="toggleShow">{{ buttonTitle }}</button>
     <div class="flex relative">
       <Transition name="slide-fade">
         <ul class="absolute py-4 rounded-lg bg-gray-300 shadow-lg right-0" v-if="show">
           <slot>
-            <li class="font-semibold cursor-pointer p-2 bg-inherit text-nowrap hover:brightness-75" v-for="option in options" :key="option">{{option}}</li>
+            <li
+              class="font-semibold cursor-pointer p-2 bg-inherit text-nowrap hover:brightness-75"
+              v-for="option in options"
+              :key="option"
+            >
+              {{ option }}
+            </li>
           </slot>
         </ul>
       </Transition>

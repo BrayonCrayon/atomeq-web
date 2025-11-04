@@ -7,6 +7,8 @@ import {
   randNumber,
 } from '@ngneat/falso';
 import type { IAtomeqElement } from '@/types/element.ts';
+import { elementStateFactory } from '@/testUtils/elementStateFactory.ts';
+import { elementTypeFactory } from '@/testUtils/elementTypeFactory.ts';
 
 export const elementFactory = (overrides: Partial<IAtomeqElement> = {}): IAtomeqElement => {
   return {
@@ -18,6 +20,7 @@ export const elementFactory = (overrides: Partial<IAtomeqElement> = {}): IAtomeq
     electronegativity: randFloat({ fraction: 1 }),
     electrons: randNumber({ min: 1, max: 20 }),
     elementStateId: randNumber({ min: 1, max: 5 }),
+    elementState: elementStateFactory(),
     firstIonization: randFloat({ fraction: 4 }),
     group: randNumber({ min: 1, max: 20 }),
     id: randNumber({ min: 1, max: 20000 }),
@@ -35,6 +38,7 @@ export const elementFactory = (overrides: Partial<IAtomeqElement> = {}): IAtomeq
     specificHeat: randNumber({ min: 1, max: 100 }),
     symbol: randAlpha(),
     typeId: randNumber({ min: 1, max: 3 }),
+    type: elementTypeFactory(),
     valence: randNumber({ min: 1, max: 20 }),
     ...overrides,
   };

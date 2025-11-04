@@ -1,11 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import AtomeqTable from '@/views/AtomeqTable.vue'
-import AtomeqFormulator from '@/views/AtomeqFormulator.vue'
-import AtomeqHome from '@/views/AtomeqHome.vue'
-import AtomeqAbout from '@/views/AtomeqAbout.vue'
-import AtomeqRegister from '@/views/AtomeqRegister.vue'
-import UserProfile from '@/views/UserProfile.vue'
-import AtomeqLogin from '@/views/AtomeqLogin.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import AtomeqTable from '@/views/AtomeqTable.vue';
+import AtomeqFormulator from '@/views/AtomeqFormulator.vue';
+import AtomeqHome from '@/views/AtomeqHome.vue';
+import AtomeqAbout from '@/views/AtomeqAbout.vue';
+import AtomeqRegister from '@/views/AtomeqRegister.vue';
+import UserProfile from '@/views/UserProfile.vue';
+import AtomeqLogin from '@/views/AtomeqLogin.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,29 +23,29 @@ const router = createRouter({
     {
       path: '/table',
       name: 'table',
-      component: AtomeqTable
+      component: AtomeqTable,
     },
     {
       path: '/formulator',
       name: 'formulator',
-      component: AtomeqFormulator
+      component: AtomeqFormulator,
     },
     {
       path: '/register',
       name: 'register',
-      component: AtomeqRegister
+      component: AtomeqRegister,
     },
     {
       path: '/login',
       name: 'login',
-      component: AtomeqLogin
+      component: AtomeqLogin,
     },
     {
       path: '/user-profile',
       name: 'user-profile',
-      component: UserProfile
+      component: UserProfile,
     },
   ],
-})
+});
 
-export default router
+export default router;

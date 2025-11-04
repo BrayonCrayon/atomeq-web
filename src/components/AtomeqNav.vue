@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { Atom } from 'lucide-vue-next'
-import { ref } from 'vue'
-import AtomeqDropdown from '@/components/AtomeqDropdown.vue'
+import { Atom } from 'lucide-vue-next';
+import { ref } from 'vue';
+import AtomeqDropdown from '@/components/AtomeqDropdown.vue';
 
 defineProps<{
-  isAuthed: boolean
-}>()
+  isAuthed: boolean;
+}>();
 
-const show = ref<boolean>(false)
+const show = ref<boolean>(false);
 const showMenu = () => {
-  show.value = !show.value
-}
+  show.value = !show.value;
+};
 </script>
 
 <template>
@@ -28,8 +28,12 @@ const showMenu = () => {
           <RouterLink :to="{ name: 'register' }">Register</RouterLink>
         </p>
         <div v-if="isAuthed" class="flex gap-x-4 flex-grow justify-center">
-          <RouterLink :to="{ name: 'table' }" class="font-semibold cursor-pointer">Table</RouterLink>
-          <RouterLink :to="{ name: 'formulator' }" class="font-semibold cursor-pointer">Formulator 9000</RouterLink>
+          <RouterLink :to="{ name: 'table' }" class="font-semibold cursor-pointer"
+            >Table</RouterLink
+          >
+          <RouterLink :to="{ name: 'formulator' }" class="font-semibold cursor-pointer"
+            >Formulator 9000</RouterLink
+          >
         </div>
         <AtomeqDropdown v-if="isAuthed" button-title="Username">
           <RouterLink
@@ -38,7 +42,9 @@ const showMenu = () => {
           >
             User Profile
           </RouterLink>
-          <li class="font-semibold cursor-pointer p-2 bg-inherit text-nowrap hover:brightness-75">Logout</li>
+          <li class="font-semibold cursor-pointer p-2 bg-inherit text-nowrap hover:brightness-75">
+            Logout
+          </li>
         </AtomeqDropdown>
       </div>
     </div>

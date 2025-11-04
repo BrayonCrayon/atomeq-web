@@ -1,3 +1,28 @@
+import {
+  AtomeqElementType,
+  AtomeqElementTypeColour,
+  type IAtomeqElementType,
+} from '@/types/elementType.ts';
+import {
+  AtomeqElementState,
+  AtomeqElementStateColour,
+  type IAtomeqElementState,
+} from '@/types/elementState.ts';
+
+export enum ElementBlock {
+  S = 's',
+  P = 'p',
+  D = 'd',
+  F = 'f',
+}
+
+export const ElementBlockColour = {
+  [ElementBlock.S]: 'bg-blue-300',
+  [ElementBlock.P]: 'bg-violet-300',
+  [ElementBlock.D]: 'bg-fuchsia-300',
+  [ElementBlock.F]: 'bg-zinc-300',
+};
+
 export interface IAtomeqElement {
   id: number;
   atomicMass: number;
@@ -8,6 +33,7 @@ export interface IAtomeqElement {
   electronegativity: number;
   electrons: number;
   elementStateId: number;
+  elementState: IAtomeqElementState | undefined;
   firstIonization: number;
   group: number;
   isotopes: number;
@@ -24,6 +50,7 @@ export interface IAtomeqElement {
   specificHeat: number;
   symbol: string;
   typeId: number;
+  type: IAtomeqElementType | undefined;
   valence: number;
 }
 
@@ -36,6 +63,7 @@ export class AtomeqElement implements IAtomeqElement {
   electronegativity: number;
   electrons: number;
   elementStateId: number;
+  elementState: IAtomeqElementState | undefined;
   firstIonization: number;
   group: number;
   id: number;
@@ -53,6 +81,7 @@ export class AtomeqElement implements IAtomeqElement {
   specificHeat: number;
   symbol: string;
   typeId: number;
+  type: IAtomeqElementType | undefined;
   valence: number;
 
   constructor(overrides: Partial<IAtomeqElement> = {}) {
@@ -64,6 +93,9 @@ export class AtomeqElement implements IAtomeqElement {
     this.electronegativity = overrides.electronegativity ?? 0;
     this.electrons = overrides.electrons ?? 0;
     this.elementStateId = overrides.elementStateId ?? 0;
+    this.elementState = overrides.elementState
+      ? new AtomeqElementState(overrides.elementState)
+      : undefined;
     this.firstIonization = overrides.firstIonization ?? 0;
     this.group = overrides.group ?? 0;
     this.id = overrides.id ?? 0;
@@ -81,6 +113,69 @@ export class AtomeqElement implements IAtomeqElement {
     this.specificHeat = overrides.specificHeat ?? 0;
     this.symbol = overrides.symbol ?? '';
     this.typeId = overrides.typeId ?? 0;
+    this.type = overrides.type ? new AtomeqElementType(overrides.type) : undefined;
     this.valence = overrides.valence ?? 0;
+  }
+
+  get typeColour(): string {
+    switch (this.type?.name) {
+      case 'nonmetal':
+        return AtomeqElementTypeColour.NONMETAL;
+      case 'noble-gas':
+        return AtomeqElementTypeColour.NOBLE_GAS;
+      case 'alkali-metal':
+        return AtomeqElementTypeColour.ALKALI_METAL;
+      case 'alkaline-earth-metal':
+        return AtomeqElementTypeColour.ALKALINE_EARTH_METAL;
+      case 'metalloid':
+        return AtomeqElementTypeColour.METALLOID;
+      case 'halogen':
+        return AtomeqElementTypeColour.HALOGEN;
+      case 'metal':
+        return AtomeqElementTypeColour.METAL;
+      case 'transition-metal':
+        return AtomeqElementTypeColour.TRANSITION_METAL;
+      case 'lanthanide':
+        return AtomeqElementTypeColour.LANTHANIDE;
+      case 'actinide':
+        return AtomeqElementTypeColour.ACTINIDE;
+      case 'transactinide':
+        return AtomeqElementTypeColour.TRANSACTINIDE;
+      default:
+        return 'bg-red-300';
+    }
+  }
+
+  get stateColour(): string {
+    switch (this.elementState?.name) {
+      case 'gas':
+        return AtomeqElementStateColour.GAS;
+      case 'solid':
+        return AtomeqElementStateColour.SOLID;
+      case 'liquid':
+        return AtomeqElementStateColour.LIQUID;
+      default:
+        return 'bg-red-300';
+    }
+  }
+
+  get blockColour(): string {
+    if ([1, 2].includes(this.group) || [1, 2].includes(this.atomicNumber)) {
+      return ElementBlockColour[ElementBlock.S];
+    }
+
+    if ([13, 14, 15, 16, 17, 18].includes(this.group)) {
+      return ElementBlockColour[ElementBlock.P];
+    }
+
+    if (
+      [3, 4, 5, 6, 7, 8, 9, 10, 11, 12].includes(this.group) &&
+      (this.atomicNumber < 57 || this.atomicNumber > 71) &&
+      (this.atomicNumber < 89 || this.atomicNumber > 103)
+    ) {
+      return ElementBlockColour[ElementBlock.D];
+    }
+
+    return ElementBlockColour[ElementBlock.F];
   }
 }
