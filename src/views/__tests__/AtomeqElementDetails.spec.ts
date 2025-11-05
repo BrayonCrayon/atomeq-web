@@ -11,7 +11,13 @@ describe('AtomeqElementDetails', () => {
       props: { element: new AtomeqElement(element) },
     });
 
-    // TODO: loop over all the properties of an element and assert that they are displayed
+    Object.entries(element)
+      .filter(([_, value]) => typeof value !== 'object')
+      .filter(([key]) => !['elementStateId', 'id', 'typeId'].includes(key))
+      .forEach((property) => {
+        expect(wrapper.html()).toContain(property[1]);
+      });
+
     expect(wrapper.exists()).toBeTruthy();
     expect(wrapper.html()).toContain(element.name);
   });

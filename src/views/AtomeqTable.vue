@@ -61,7 +61,7 @@ onMounted(async () => {
 <template>
   <div class="p-4">
     <AtomeqElementModal :show="false" />
-    <AtomeqElementDetails :element="elements[0]" />
+    <AtomeqElementDetails v-if="elements.length" :element="elements[0]" />
     <h1 class="text-2xl">Periodic Table:</h1>
     <div class="flex gap-2">
       <SwitchDisplay v-model="elementDisplay" />
