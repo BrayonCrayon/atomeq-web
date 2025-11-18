@@ -3,6 +3,9 @@ import { elementFactory } from '@/testUtils/elementFactory.ts';
 import { mount } from '@vue/test-utils';
 import AtomeqElementDetails from '@/components/AtomeqElementDetails.vue';
 import { AtomeqElement } from '@/types/element.ts';
+import mockElements from '@/testUtils/mocks/mockElements.ts';
+import AtomeqBadge from '@/components/common/AtomeqBadge.vue';
+import { Variant } from '@/types/common.ts';
 
 describe('AtomeqElementDetails', () => {
   it('will display all the information about the element', () => {
@@ -12,7 +15,7 @@ describe('AtomeqElementDetails', () => {
     });
 
     Object.entries(element)
-      .filter(([_, value]) => typeof value !== 'object')
+      .filter(([_, value]) => typeof value !== 'object' && typeof value !== 'boolean')
       .filter(([key]) => !['elementStateId', 'id', 'typeId'].includes(key))
       .forEach((property) => {
         expect(wrapper.html()).toContain(property[1]);
@@ -20,5 +23,24 @@ describe('AtomeqElementDetails', () => {
 
     expect(wrapper.exists()).toBeTruthy();
     expect(wrapper.html()).toContain(element.name);
+  });
+
+  it.each([
+    ['Metalloid', 'metalloid'],
+    ['Metal', 'metal'],
+    ['Natural', 'natural'],
+    ['Radioactive', 'radioactive'],
+  ])('will display element information for booleans %s', async (text, parameter) => {
+    const element = new AtomeqElement(mockElements.data[0]);
+    const wrapper = mount(AtomeqElementDetails, {
+      props: { element: element },
+    });
+
+    const badge = wrapper
+      .findAllComponents(AtomeqBadge)
+      .find((item) => item.props('text').includes(text));
+
+    expect(badge).toBeDefined();
+    expect(badge!.props('variant')).toEqual(element[parameter] ? Variant.SUCCESS : Variant.DANGER);
   });
 });

@@ -47,22 +47,76 @@ defineProps<{
       </div>
     </div>
 
-    <div class="grid grid-cols-2">
-      <div>atomicRadius: {{ element.atomicRadius }}</div>
-      <div>group: {{ element.group }}</div>
-      <div>period: {{ element.period }}</div>
-      <div>electrons: {{ element.electrons }}</div>
-      <div>isotopes: {{ element.isotopes }}</div>
-      <div>neutrons: {{ element.neutrons }}</div>
-      <div>protons: {{ element.protons }}</div>
-      <div>boilingPoint: {{ element.boilingPoint }}</div>
-      <div>meltingPoint: {{ element.meltingPoint }}</div>
-      <div>density: {{ element.density }}</div>
-      <div>electronegativity: {{ element.electronegativity }}</div>
-      <div>firstIonization: {{ element.firstIonization }}</div>
-      <div>shells: {{ element.shells }}</div>
-      <div>specificHeat: {{ element.specificHeat }}</div>
-      <div>valence: {{ element.valence }}</div>
+    <div class="grid grid-cols-2 content-evenly gap-x-2 divide-y-1 divide-gray-400 text-gray-900">
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">atomicRadius:</p>
+        {{ element.atomicRadius }}
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">group:</p>
+        {{ element.group }}
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">period:</p>
+        {{ element.period }}
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">electrons:</p>
+        {{ element.electrons }}
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">isotopes:</p>
+        {{ element.isotopes }}
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">neutrons:</p>
+        {{ element.neutrons }}
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">protons:</p>
+        {{ element.protons }}
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">boilingPoint:</p>
+        <p>
+          {{ element.boilingPoint }}
+          <span class="pl-0.5">K</span>
+        </p>
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">meltingPoint:</p>
+        <p>
+          {{ element.meltingPoint }}
+          <span class="pl-0.5">K</span>
+        </p>
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">density:</p>
+        {{ element.density }}
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">electronegativity:</p>
+        {{ element.electronegativity }}
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">firstIonization:</p>
+        {{ element.firstIonization }}
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">shells:</p>
+        {{ element.shells }}
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">specificHeat:</p>
+        <p>
+          {{ element.specificHeat }}
+          <span class="pl-0.5">K</span>
+        </p>
+      </div>
+      <div class="flex gap-1 justify-between">
+        <p class="text-gray-500 font-semibold">valence:</p>
+        {{ element.valence }}
+      </div>
     </div>
   </div>
 </template>
