@@ -60,7 +60,11 @@ onMounted(async () => {
 
 <template>
   <div class="p-4">
-    <AtomeqElementModal v-if="elements.length" :show="true" :element="elements[0]" />
+    <AtomeqElementModal
+      v-if="selectedElement"
+      :show="!!selectedElement"
+      :element="selectedElement"
+    />
     <h1 class="text-2xl">Periodic Table:</h1>
     <div class="flex gap-2">
       <SwitchDisplay v-model="elementDisplay" />
@@ -72,6 +76,7 @@ onMounted(async () => {
           class="border-2 rounded h-20 shadow-md p-1"
           :class="displayColour(element)"
           :element="element"
+          @click="selectedElement = element"
         />
       </div>
     </div>
@@ -82,6 +87,7 @@ onMounted(async () => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1"
             :class="displayColour(element)"
             :element="element"
+            @click="selectedElement = element"
           />
         </div>
       </div>
