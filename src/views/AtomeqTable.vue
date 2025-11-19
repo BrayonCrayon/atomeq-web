@@ -7,9 +7,9 @@ import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtil
 import { Display } from '@/types/atomeq-table.ts';
 import SwitchDisplay from '@/components/SwitchDisplay.vue';
 import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
-import AtomeqElementDetails from '@/components/AtomeqElementDetails.vue';
 
 const elementDisplay = ref<Display>(Display.TYPE);
+const selectedElement = ref<AtomeqElement | undefined>(undefined);
 
 const { getElements, elements } = useElements();
 
@@ -60,8 +60,7 @@ onMounted(async () => {
 
 <template>
   <div class="p-4">
-    <AtomeqElementModal :show="false" />
-    <AtomeqElementDetails v-if="elements.length" :element="elements[0]" />
+    <AtomeqElementModal v-if="elements.length" :show="true" :element="elements[0]" />
     <h1 class="text-2xl">Periodic Table:</h1>
     <div class="flex gap-2">
       <SwitchDisplay v-model="elementDisplay" />
