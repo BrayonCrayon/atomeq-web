@@ -9,7 +9,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="bg-gray-200 rounded-lg p-2 capitalize w-[620px] flex justify-between">
+  <div class="bg-gray-200 p-2 capitalize w-[620px] flex justify-between">
     <div class="">
       <div class="border-2 p-2 rounded-lg h-38 w-38 mb-2" :class="element.typeColour">
         <p class="font-semibold">{{ element.atomicNumber }}</p>

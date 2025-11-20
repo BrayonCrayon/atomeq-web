@@ -23,13 +23,16 @@ const emit = defineEmits<{
   <Teleport to="body">
     <div
       v-if="show"
-      class="bg-white fixed z-100 left-[50%] top-[20%] w-[700px] -ml-[350px] border-2 border-gray-900"
+      class="z-100 backdrop-blur-sm top-0 h-full w-full fixed flex items-center justify-center cursor-pointer"
       :class="modalClass"
+      @click="emit('close')"
     >
-      <AtomeqElementDetails :element="element" />
-      <button @click="emit('close')">Close</button>
+      <div
+        class="z-101 shrink inline-block m-auto h-fit w-fit rounded-lg p-2 bg-gray-200 border-2 border-gray-500 cursor-default"
+        @click.stop
+      >
+        <AtomeqElementDetails :element="element" />
+      </div>
     </div>
   </Teleport>
 </template>
-
-<style scoped></style>
