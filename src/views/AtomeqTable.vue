@@ -74,7 +74,7 @@ onMounted(async () => {
       <div :key="`${element?.name}-${idx2}`" v-for="(element, idx2) in row" class="mb-1">
         <AtomeqElementComponent
           v-if="element"
-          class="border-2 rounded h-20 shadow-md p-1 cursor-pointer hover:opacity-75"
+          class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
           @click="selectedElement = element"
@@ -85,7 +85,7 @@ onMounted(async () => {
       <div :key="idx" v-for="(row, idx) in radioactiveGroupTable" class="grid grid-cols-18 gap-1">
         <div v-for="(element, idx2) in row" :key="element.id" :class="columnPosition(idx2)">
           <AtomeqElementComponent
-            class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer hover:opacity-75"
+            class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
             @click="selectedElement = element"
