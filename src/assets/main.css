@@ -1,1 +1,15 @@
 @import 'tailwindcss';
+
+@theme {
+  --color-error-badge-50: oklch(0.967 0.016 8.28);
+  --color-error-badge-100: oklch(0.934 0.032 10.68);
+  --color-error-badge-200: oklch(0.863 0.072 11.16);
+  --color-error-badge-300: oklch(0.799 0.114 11.1);
+  --color-error-badge-400: oklch(0.735 0.159 11.74);
+  --color-error-badge-500: oklch(0.666 0.219 12.89);
+  --color-error-badge-600: oklch(0.599 0.233 13.96);
+  --color-error-badge-700: oklch(0.526 0.205 13.7);
+  --color-error-badge-800: oklch(0.446 0.174 13.9);
+  --color-error-badge-900: oklch(0.3 0.116 14.24);
+  --color-error-badge-950: oklch(0.218 0.085 13.67);
+}
