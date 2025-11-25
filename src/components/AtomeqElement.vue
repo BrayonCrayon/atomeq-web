@@ -2,7 +2,7 @@
 import type { AtomeqElement } from '@/types/element.ts';
 import { onMounted, onUnmounted, ref } from 'vue';
 
-const props = defineProps<{
+defineProps<{
   element: AtomeqElement;
 }>();
 
@@ -17,7 +17,7 @@ const maxRotateY = 20; // degrees (tilt left/right)
 const applyTransform = (rotX: number, rotY: number) => {
   if (!card.value) return;
   // larger perspective looks nicer; adjust translateZ to taste
-  card.value.style.transform = `perspective(800px) translateZ(35px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.33)`;
+  card.value.style.transform = `perspective(400px) translateZ(35px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.50)`;
 };
 
 const cardMove = (e: MouseEvent) => {
@@ -63,7 +63,6 @@ const resetCard = (): void => {
 };
 
 onMounted(() => {
-  // if (props.element.id !== 1) return;
   card.value?.addEventListener('mousemove', cardMove);
   card.value?.addEventListener('mouseleave', resetCard);
 });

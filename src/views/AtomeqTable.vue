@@ -61,7 +61,6 @@ onMounted(async () => {
 <template>
   <div class="p-4">
     <AtomeqElementModal
-      v-if="selectedElement"
       :show="!!selectedElement"
       :element="selectedElement"
       @close="selectedElement = undefined"
