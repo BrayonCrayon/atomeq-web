@@ -54,6 +54,8 @@ export interface IAtomeqElement {
   valence: number;
 }
 
+export type IAtomeqElementKey = keyof AtomeqElement;
+
 export class AtomeqElement implements IAtomeqElement {
   atomicMass: number;
   atomicNumber: number;

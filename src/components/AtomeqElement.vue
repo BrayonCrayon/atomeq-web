@@ -16,7 +16,6 @@ const maxRotateY = 20; // degrees (tilt left/right)
 
 const applyTransform = (rotX: number, rotY: number) => {
   if (!card.value) return;
-  // larger perspective looks nicer; adjust translateZ to taste
   card.value.style.transform = `perspective(400px) translateZ(35px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.50)`;
 };
 
@@ -29,7 +28,7 @@ const cardMove = (e: MouseEvent) => {
   const offsetX = e.clientX - rect.left;
   const offsetY = e.clientY - rect.top;
 
-  // normalize to -1 .. +1
+  // normalize to -1 ... +1
   // when mouse at left edge => px = -1, right edge => +1
   const px = clamp((offsetX / rect.width) * 2 - 1);
   // when mouse at top => py = -1, bottom => +1
@@ -56,9 +55,6 @@ const resetCard = (): void => {
   }
   if (card.value) {
     card.value.style.transform = '';
-    // optionally smooth reset
-    // card.value.style.transition = 'transform 180ms ease';
-    // setTimeout(() => (card.value!.style.transition = ''), 200);
   }
 };
 
