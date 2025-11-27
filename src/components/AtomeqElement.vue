@@ -7,12 +7,12 @@ defineProps<{
 }>();
 
 const card = ref<HTMLElement | null>(null);
-let rafId = 0;
+let requestAnimationFrameId = 0;
 
-const clamp = (v: number, a = -1, b = 1) => Math.max(a, Math.min(b, v));
+const maxFromRange = (v: number, a = -1, b = 1) => Math.max(a, Math.min(b, v));
 
-const maxRotateX = 20; // degrees (tilt up/down)
-const maxRotateY = 20; // degrees (tilt left/right)
+const maxTiltX = 20;
+const maxTiltY = 20;
 
 const applyTransform = (rotX: number, rotY: number) => {
   if (!card.value) return;
@@ -22,36 +22,28 @@ const applyTransform = (rotX: number, rotY: number) => {
 const cardMove = (e: MouseEvent) => {
   if (!card.value) return;
 
-  const rect = card.value.getBoundingClientRect();
+  const boundingBox = card.value.getBoundingClientRect();
 
-  // mouse position relative to top-left of element
-  const offsetX = e.clientX - rect.left;
-  const offsetY = e.clientY - rect.top;
+  const mousePositionX = e.clientX - boundingBox.left;
+  const mousePositionY = e.clientY - boundingBox.top;
 
-  // normalize to -1 ... +1
-  // when mouse at left edge => px = -1, right edge => +1
-  const px = clamp((offsetX / rect.width) * 2 - 1);
-  // when mouse at top => py = -1, bottom => +1
-  const py = clamp((offsetY / rect.height) * 2 - 1);
+  const permittedX = maxFromRange((mousePositionX / boundingBox.width) * 2 - 1);
+  const permittedY = maxFromRange((mousePositionY / boundingBox.height) * 2 - 1);
 
-  // map normalized coords to angles
-  // rotateX should respond to vertical movement (py) and typically invert (move up => tilt toward viewer)
-  const rotateX = -py * maxRotateX;
-  // rotateY should respond to horizontal movement (px)
-  const rotateY = px * maxRotateY;
+  const rotateX = -permittedX * maxTiltX;
+  const rotateY = permittedY * maxTiltY;
 
-  // throttle via rAF
-  if (rafId) cancelAnimationFrame(rafId);
-  rafId = requestAnimationFrame(() => {
+  if (requestAnimationFrameId) cancelAnimationFrame(requestAnimationFrameId);
+  requestAnimationFrameId = requestAnimationFrame(() => {
     applyTransform(rotateX, rotateY);
-    rafId = 0;
+    requestAnimationFrameId = 0;
   });
 };
 
 const resetCard = (): void => {
-  if (rafId) {
-    cancelAnimationFrame(rafId);
-    rafId = 0;
+  if (requestAnimationFrameId) {
+    cancelAnimationFrame(requestAnimationFrameId);
+    requestAnimationFrameId = 0;
   }
   if (card.value) {
     card.value.style.transform = '';
@@ -66,7 +58,7 @@ onMounted(() => {
 onUnmounted(() => {
   card.value?.removeEventListener('mousemove', cardMove);
   card.value?.removeEventListener('mouseleave', resetCard);
-  if (rafId) cancelAnimationFrame(rafId);
+  if (requestAnimationFrameId) cancelAnimationFrame(requestAnimationFrameId);
 });
 </script>
 
