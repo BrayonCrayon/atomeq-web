@@ -1,5 +1,5 @@
 import { elementFactory } from '@/testUtils/elementFactory.ts';
-import { AtomeqElement } from '@/types/element.ts';
+import { Element } from '@/types/element.ts';
 import { transformElement } from '@/types/utils.ts';
 import { describe, expect, it } from 'vitest';
 
@@ -9,6 +9,6 @@ describe('Utils', () => {
 
     const elementClass = transformElement(element);
 
-    expect(elementClass).toBeInstanceOf(AtomeqElement);
+    expect(elementClass).toBeInstanceOf(Element);
   });
 });

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AtomeqElementComponent from '@/components/AtomeqElement.vue';
-import { AtomeqElement } from '@/types/element';
+import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
 import { computed, onMounted, ref } from 'vue';
 import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtils.ts';
@@ -9,7 +9,7 @@ import SwitchDisplay from '@/components/SwitchDisplay.vue';
 import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 
 const elementDisplay = ref<Display>(Display.TYPE);
-const selectedElement = ref<AtomeqElement | undefined>(undefined);
+const selectedElement = ref<Element | undefined>(undefined);
 
 const { getElements, elements } = useElements();
 
@@ -45,7 +45,7 @@ const columnPosition = (idx: number) => {
   return elementPosition[idx];
 };
 
-const displayColour = (element: AtomeqElement) => {
+const displayColour = (element: Element) => {
   return {
     [`${element.typeColour}`]: elementDisplay.value === Display.TYPE,
     [`${element.stateColour}`]: elementDisplay.value === Display.STATE,

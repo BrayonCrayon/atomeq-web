@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { AtomeqElement } from '@/types/element.ts';
+import type { Element } from '@/types/element.ts';
 import AtomeqElementDetails from '@/components/AtomeqElementDetails.vue';
 
 withDefaults(
   defineProps<{
     show?: boolean;
     modalClass?: string;
-    element?: AtomeqElement;
+    element?: Element;
   }>(),
   {
     show: false,

@@ -1,9 +1,7 @@
-import type { IAtomeqElementType } from '@/types/elementType.ts';
+import type { IElementType } from '@/types/elementType.ts';
 import { randCow, randNumber } from '@ngneat/falso';
 
-export const elementTypeFactory = (
-  overrides: Partial<IAtomeqElementType> = {},
-): IAtomeqElementType => {
+export const elementTypeFactory = (overrides: Partial<IElementType> = {}): IElementType => {
   return {
     id: randNumber(),
     name: randCow(),

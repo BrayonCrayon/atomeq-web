@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { elementFactory } from '@/testUtils/elementFactory.ts';
 import { mount } from '@vue/test-utils';
 import AtomeqElementDetails from '@/components/AtomeqElementDetails.vue';
-import { AtomeqElement, type IAtomeqElementKey } from '@/types/element.ts';
+import { Element, type IElementKey } from '@/types/element.ts';
 import mockElements from '@/testUtils/mocks/mockElements.ts';
 import AtomeqBadge from '@/components/common/AtomeqBadge.vue';
 import { Variant } from '@/types/common.ts';
@@ -11,7 +11,7 @@ describe('AtomeqElementDetails', () => {
   it('will display all the information about the element', () => {
     const element = elementFactory();
     const wrapper = mount(AtomeqElementDetails, {
-      props: { element: new AtomeqElement(element) },
+      props: { element: new Element(element) },
     });
 
     Object.entries(element)
@@ -31,7 +31,7 @@ describe('AtomeqElementDetails', () => {
     ['Natural', 'natural'],
     ['Radioactive', 'radioactive'],
   ])('will display element information for booleans %s', async (text, parameter) => {
-    const element = new AtomeqElement(mockElements.data[0]);
+    const element = new Element(mockElements.data[0]);
     const wrapper = mount(AtomeqElementDetails, {
       props: { element: element },
     });
@@ -42,7 +42,7 @@ describe('AtomeqElementDetails', () => {
 
     expect(badge).toBeDefined();
     expect(badge!.props('variant')).toEqual(
-      element[parameter as IAtomeqElementKey] ? Variant.SUCCESS : Variant.DANGER,
+      element[parameter as IElementKey] ? Variant.SUCCESS : Variant.DANGER,
     );
   });
 });

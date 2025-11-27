@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { AtomeqElement } from '@/types/element.ts';
+import type { Element } from '@/types/element.ts';
 import AtomeqBadge from '@/components/common/AtomeqBadge.vue';
 import { Variant } from '@/types/common.ts';
 
 defineProps<{
-  element: AtomeqElement;
+  element: Element;
 }>();
 </script>
 

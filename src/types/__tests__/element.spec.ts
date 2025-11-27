@@ -2,25 +2,25 @@ import { elementStateFactory } from '@/testUtils/elementStateFactory.ts';
 import { elementTypeFactory } from '@/testUtils/elementTypeFactory.ts';
 import { describe, expect, it } from 'vitest';
 import { elementFactory } from '@/testUtils/elementFactory.ts';
-import { AtomeqElement, ElementBlock, ElementBlockColour } from '@/types/element.ts';
-import { AtomeqElementState, AtomeqElementStateColour } from '@/types/elementState.ts';
-import { AtomeqElementType, AtomeqElementTypeColour } from '@/types/elementType.ts';
+import { Element, ElementBlock, ElementBlockColour } from '@/types/element.ts';
+import { ElementState, ElementStateColour } from '@/types/elementState.ts';
+import { AtomeqElementType, ElementTypeColour } from '@/types/elementType.ts';
 import mockElements from '@/testUtils/mocks/mockElements.ts';
 
 describe('element', () => {
   it('will setup element states and types properly', () => {
     const element = elementFactory();
 
-    const result = new AtomeqElement(element);
+    const result = new Element(element);
 
-    expect(result.elementState).toBeInstanceOf(AtomeqElementState);
+    expect(result.elementState).toBeInstanceOf(ElementState);
     expect(result.type).toBeInstanceOf(AtomeqElementType);
   });
 
   it('will initialize element state and type with values when provided', () => {
     const element = elementFactory();
 
-    const result = new AtomeqElement(element);
+    const result = new Element(element);
 
     expect(result.elementState!.id).toEqual(element.elementState!.id);
     expect(result.elementState!.name).toEqual(element.elementState!.name);
@@ -29,38 +29,38 @@ describe('element', () => {
   });
 
   it.each([
-    ['metal', AtomeqElementTypeColour.METAL],
-    ['nonmetal', AtomeqElementTypeColour.NONMETAL],
-    ['noble-gas', AtomeqElementTypeColour.NOBLE_GAS],
-    ['alkali-metal', AtomeqElementTypeColour.ALKALI_METAL],
-    ['alkaline-earth-metal', AtomeqElementTypeColour.ALKALINE_EARTH_METAL],
-    ['metalloid', AtomeqElementTypeColour.METALLOID],
-    ['halogen', AtomeqElementTypeColour.HALOGEN],
-    ['transition-metal', AtomeqElementTypeColour.TRANSITION_METAL],
-    ['lanthanide', AtomeqElementTypeColour.LANTHANIDE],
-    ['actinide', AtomeqElementTypeColour.ACTINIDE],
-    ['transactinide', AtomeqElementTypeColour.TRANSACTINIDE],
+    ['metal', ElementTypeColour.METAL],
+    ['nonmetal', ElementTypeColour.NONMETAL],
+    ['noble-gas', ElementTypeColour.NOBLE_GAS],
+    ['alkali-metal', ElementTypeColour.ALKALI_METAL],
+    ['alkaline-earth-metal', ElementTypeColour.ALKALINE_EARTH_METAL],
+    ['metalloid', ElementTypeColour.METALLOID],
+    ['halogen', ElementTypeColour.HALOGEN],
+    ['transition-metal', ElementTypeColour.TRANSITION_METAL],
+    ['lanthanide', ElementTypeColour.LANTHANIDE],
+    ['actinide', ElementTypeColour.ACTINIDE],
+    ['transactinide', ElementTypeColour.TRANSACTINIDE],
   ])("will calculate the element's colour based off of it's type of %s", (elementType, colour) => {
     const typeFact = elementTypeFactory({ name: elementType });
 
     const elementFact = elementFactory({ type: typeFact });
-    const element = new AtomeqElement(elementFact);
+    const element = new Element(elementFact);
     const elementColour = element.typeColour;
 
     expect(elementColour).toEqual(colour);
   });
 
   it.each([
-    ['gas', AtomeqElementStateColour.GAS],
-    ['solid', AtomeqElementStateColour.SOLID],
-    ['liquid', AtomeqElementStateColour.LIQUID],
+    ['gas', ElementStateColour.GAS],
+    ['solid', ElementStateColour.SOLID],
+    ['liquid', ElementStateColour.LIQUID],
   ])(
     "will calculate the element's colour based off of it's state of %s",
     (elementState, colour) => {
       const stateFact = elementStateFactory({ name: elementState });
 
       const elementFact = elementFactory({ elementState: stateFact });
-      const element = new AtomeqElement(elementFact);
+      const element = new Element(elementFact);
       const elementColour = element.stateColour;
 
       expect(elementColour).toEqual(colour);
@@ -86,7 +86,7 @@ describe('element', () => {
         .filter((item) => {
           return !(item.atomicNumber >= 89 && item.atomicNumber <= 103);
         })
-        .map((item) => new AtomeqElement(item));
+        .map((item) => new Element(item));
 
       if (elementBlock === ElementBlock.P) {
         elements = elements.filter((item) => item.atomicNumber !== 2);
@@ -100,8 +100,8 @@ describe('element', () => {
   );
 
   it('will identify hydrogen and helium elements as block S for its colour', () => {
-    const hydrogen = new AtomeqElement(mockElements.data[0]);
-    const helium = new AtomeqElement(mockElements.data[1]);
+    const hydrogen = new Element(mockElements.data[0]);
+    const helium = new Element(mockElements.data[1]);
 
     expect(hydrogen.blockColour).toEqual(ElementBlockColour[ElementBlock.S]);
     expect(helium.blockColour).toEqual(ElementBlockColour[ElementBlock.S]);
@@ -115,7 +115,7 @@ describe('element', () => {
           (item.atomicNumber >= 89 && item.atomicNumber <= 103)
         );
       })
-      .map((item) => new AtomeqElement(item));
+      .map((item) => new Element(item));
 
     detachedRows.forEach((element) => {
       expect(element.blockColour).toEqual(ElementBlockColour[ElementBlock.F]);

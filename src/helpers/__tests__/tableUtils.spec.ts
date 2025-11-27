@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { getElementTable } from '@/helpers/tableUtils.ts';
 import { elementFactory } from '@/testUtils/elementFactory.ts';
-import { AtomeqElement } from '@/types/element.ts';
+import { Element } from '@/types/element.ts';
 import mockElements from '@/testUtils/mocks/mockElements.ts';
 
-const constructExpectedArray = (): (AtomeqElement | undefined)[][] => {
+const constructExpectedArray = (): (Element | undefined)[][] => {
   return Array.from({ length: 7 }).map(() => Array.from({ length: 18 }).map(() => undefined));
 };
 
@@ -15,7 +15,7 @@ describe('tableUtils', () => {
   });
 
   it('will slot given element correctly in its spot', () => {
-    const element = new AtomeqElement(elementFactory({ group: 1, period: 1 }));
+    const element = new Element(elementFactory({ group: 1, period: 1 }));
     const expectedBaseArray = constructExpectedArray();
     expectedBaseArray[0][0] = element;
 
@@ -23,7 +23,7 @@ describe('tableUtils', () => {
   });
 
   it('will correctly construct the periodic table from the element data', () => {
-    const elements = mockElements.data.map((item) => new AtomeqElement(item));
+    const elements = mockElements.data.map((item) => new Element(item));
     const expectedBaseArray = constructExpectedArray();
 
     for (const element of elements) {

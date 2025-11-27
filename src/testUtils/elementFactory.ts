@@ -6,11 +6,11 @@ import {
   randFloat,
   randNumber,
 } from '@ngneat/falso';
-import type { IAtomeqElement } from '@/types/element.ts';
+import type { IElement } from '@/types/element.ts';
 import { elementStateFactory } from '@/testUtils/elementStateFactory.ts';
 import { elementTypeFactory } from '@/testUtils/elementTypeFactory.ts';
 
-export const elementFactory = (overrides: Partial<IAtomeqElement> = {}): IAtomeqElement => {
+export const elementFactory = (overrides: Partial<IElement> = {}): IElement => {
   return {
     atomicMass: randFloat({ fraction: 4 }),
     atomicNumber: randNumber({ min: 1, max: 118 }),
