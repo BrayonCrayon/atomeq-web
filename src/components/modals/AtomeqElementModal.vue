@@ -6,7 +6,7 @@ withDefaults(
   defineProps<{
     show?: boolean;
     modalClass?: string;
-    element: AtomeqElement;
+    element?: AtomeqElement;
   }>(),
   {
     show: false,
@@ -21,18 +21,32 @@ const emit = defineEmits<{
 
 <template>
   <Teleport to="body">
-    <div
-      v-if="show"
-      class="z-100 backdrop-blur-sm top-0 h-full w-full fixed flex items-center justify-center cursor-pointer"
-      :class="modalClass"
-      @click="emit('close')"
-    >
+    <Transition name="fade">
       <div
-        class="z-101 shrink inline-block m-auto h-fit w-fit rounded-lg p-2 bg-gray-200 border-2 border-gray-500 cursor-default"
-        @click.stop
+        v-if="show && element"
+        class="z-100 backdrop-blur-sm top-0 h-full w-full fixed flex items-center justify-center cursor-pointer"
+        :class="modalClass"
+        @click="emit('close')"
       >
-        <AtomeqElementDetails :element="element" />
+        <div
+          class="z-101 shrink inline-block m-auto h-fit w-fit rounded-lg p-2 bg-gray-200 border-2 border-gray-500 cursor-default"
+          @click.stop
+        >
+          <AtomeqElementDetails :element="element" />
+        </div>
       </div>
-    </div>
+    </Transition>
   </Teleport>
 </template>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

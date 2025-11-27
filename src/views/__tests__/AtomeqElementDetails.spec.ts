@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { elementFactory } from '@/testUtils/elementFactory.ts';
 import { mount } from '@vue/test-utils';
 import AtomeqElementDetails from '@/components/AtomeqElementDetails.vue';
-import { AtomeqElement } from '@/types/element.ts';
+import { AtomeqElement, type IAtomeqElementKey } from '@/types/element.ts';
 import mockElements from '@/testUtils/mocks/mockElements.ts';
 import AtomeqBadge from '@/components/common/AtomeqBadge.vue';
 import { Variant } from '@/types/common.ts';
@@ -41,6 +41,8 @@ describe('AtomeqElementDetails', () => {
       .find((item) => item.props('text').includes(text));
 
     expect(badge).toBeDefined();
-    expect(badge!.props('variant')).toEqual(element[parameter] ? Variant.SUCCESS : Variant.DANGER);
+    expect(badge!.props('variant')).toEqual(
+      element[parameter as IAtomeqElementKey] ? Variant.SUCCESS : Variant.DANGER,
+    );
   });
 });
