@@ -4,7 +4,7 @@ import { flushPromises, mount } from '@vue/test-utils';
 import AtomeqTable from '@/views/AtomeqTable.vue';
 import { apiService } from '@/vitest.setup';
 import type { AxiosResponse } from 'axios';
-import { AtomeqElement as AtomeqElementType } from '@/types/element.ts';
+import { Element as AtomeqElementType } from '@/types/element.ts';
 
 import AtomeqElement from '@/components/AtomeqElement.vue';
 import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';

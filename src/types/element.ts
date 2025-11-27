@@ -1,13 +1,5 @@
-import {
-  AtomeqElementType,
-  AtomeqElementTypeColour,
-  type IAtomeqElementType,
-} from '@/types/elementType.ts';
-import {
-  AtomeqElementState,
-  AtomeqElementStateColour,
-  type IAtomeqElementState,
-} from '@/types/elementState.ts';
+import { AtomeqElementType, ElementTypeColour, type IElementType } from '@/types/elementType.ts';
+import { ElementState, ElementStateColour, type IElementState } from '@/types/elementState.ts';
 
 export enum ElementBlock {
   S = 's',
@@ -23,7 +15,7 @@ export const ElementBlockColour = {
   [ElementBlock.F]: 'bg-zinc-300',
 };
 
-export interface IAtomeqElement {
+export interface IElement {
   id: number;
   atomicMass: number;
   atomicNumber: number;
@@ -33,7 +25,7 @@ export interface IAtomeqElement {
   electronegativity: number;
   electrons: number;
   elementStateId: number;
-  elementState: IAtomeqElementState | undefined;
+  elementState: IElementState | undefined;
   firstIonization: number;
   group: number;
   isotopes: number;
@@ -50,13 +42,13 @@ export interface IAtomeqElement {
   specificHeat: number;
   symbol: string;
   typeId: number;
-  type: IAtomeqElementType | undefined;
+  type: IElementType | undefined;
   valence: number;
 }
 
-export type IAtomeqElementKey = keyof AtomeqElement;
+export type IElementKey = keyof Element;
 
-export class AtomeqElement implements IAtomeqElement {
+export class Element implements IElement {
   atomicMass: number;
   atomicNumber: number;
   atomicRadius: number;
@@ -65,7 +57,7 @@ export class AtomeqElement implements IAtomeqElement {
   electronegativity: number;
   electrons: number;
   elementStateId: number;
-  elementState: IAtomeqElementState | undefined;
+  elementState: IElementState | undefined;
   firstIonization: number;
   group: number;
   id: number;
@@ -83,10 +75,10 @@ export class AtomeqElement implements IAtomeqElement {
   specificHeat: number;
   symbol: string;
   typeId: number;
-  type: IAtomeqElementType | undefined;
+  type: IElementType | undefined;
   valence: number;
 
-  constructor(overrides: Partial<IAtomeqElement> = {}) {
+  constructor(overrides: Partial<IElement> = {}) {
     this.atomicMass = overrides.atomicMass ?? 0;
     this.atomicNumber = overrides.atomicNumber ?? 0;
     this.atomicRadius = overrides.atomicRadius ?? 0;
@@ -96,7 +88,7 @@ export class AtomeqElement implements IAtomeqElement {
     this.electrons = overrides.electrons ?? 0;
     this.elementStateId = overrides.elementStateId ?? 0;
     this.elementState = overrides.elementState
-      ? new AtomeqElementState(overrides.elementState)
+      ? new ElementState(overrides.elementState)
       : undefined;
     this.firstIonization = overrides.firstIonization ?? 0;
     this.group = overrides.group ?? 0;
@@ -122,27 +114,27 @@ export class AtomeqElement implements IAtomeqElement {
   get typeColour(): string {
     switch (this.type?.name) {
       case 'nonmetal':
-        return AtomeqElementTypeColour.NONMETAL;
+        return ElementTypeColour.NONMETAL;
       case 'noble-gas':
-        return AtomeqElementTypeColour.NOBLE_GAS;
+        return ElementTypeColour.NOBLE_GAS;
       case 'alkali-metal':
-        return AtomeqElementTypeColour.ALKALI_METAL;
+        return ElementTypeColour.ALKALI_METAL;
       case 'alkaline-earth-metal':
-        return AtomeqElementTypeColour.ALKALINE_EARTH_METAL;
+        return ElementTypeColour.ALKALINE_EARTH_METAL;
       case 'metalloid':
-        return AtomeqElementTypeColour.METALLOID;
+        return ElementTypeColour.METALLOID;
       case 'halogen':
-        return AtomeqElementTypeColour.HALOGEN;
+        return ElementTypeColour.HALOGEN;
       case 'metal':
-        return AtomeqElementTypeColour.METAL;
+        return ElementTypeColour.METAL;
       case 'transition-metal':
-        return AtomeqElementTypeColour.TRANSITION_METAL;
+        return ElementTypeColour.TRANSITION_METAL;
       case 'lanthanide':
-        return AtomeqElementTypeColour.LANTHANIDE;
+        return ElementTypeColour.LANTHANIDE;
       case 'actinide':
-        return AtomeqElementTypeColour.ACTINIDE;
+        return ElementTypeColour.ACTINIDE;
       case 'transactinide':
-        return AtomeqElementTypeColour.TRANSACTINIDE;
+        return ElementTypeColour.TRANSACTINIDE;
       default:
         return 'bg-red-300';
     }
@@ -151,11 +143,11 @@ export class AtomeqElement implements IAtomeqElement {
   get stateColour(): string {
     switch (this.elementState?.name) {
       case 'gas':
-        return AtomeqElementStateColour.GAS;
+        return ElementStateColour.GAS;
       case 'solid':
-        return AtomeqElementStateColour.SOLID;
+        return ElementStateColour.SOLID;
       case 'liquid':
-        return AtomeqElementStateColour.LIQUID;
+        return ElementStateColour.LIQUID;
       default:
         return 'bg-red-300';
     }

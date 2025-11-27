@@ -1,18 +1,18 @@
-export interface IAtomeqElementState {
+export interface IElementState {
   id: number;
   name: string;
 }
 
-export class AtomeqElementState implements IAtomeqElementState {
+export class ElementState implements IElementState {
   id: number = 0;
   name: string = '';
 
-  constructor(overrides: Partial<IAtomeqElementState> = {}) {
+  constructor(overrides: Partial<IElementState> = {}) {
     Object.assign(this, overrides);
   }
 }
 
-export enum AtomeqElementStateColour {
+export enum ElementStateColour {
   SOLID = 'bg-lime-300',
   LIQUID = 'bg-purple-300',
   GAS = 'bg-teal-300',

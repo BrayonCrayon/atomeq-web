@@ -1,10 +1,8 @@
-import type { AtomeqElement } from '@/types/element.ts';
+import type { Element } from '@/types/element.ts';
 import { groupBy } from 'lodash';
 
-export const getElementTable = (
-  elements: AtomeqElement[] = [],
-): (AtomeqElement | undefined)[][] => {
-  const base: (AtomeqElement | undefined)[][] = Array.from({ length: 7 }).map(() =>
+export const getElementTable = (elements: Element[] = []): (Element | undefined)[][] => {
+  const base: (Element | undefined)[][] = Array.from({ length: 7 }).map(() =>
     Array.from({ length: 18 }).map(() => undefined),
   );
 
@@ -15,10 +13,10 @@ export const getElementTable = (
   return base;
 };
 
-export const getRadioactiveElementTable = (elements: AtomeqElement[] = []): AtomeqElement[][] => {
+export const getRadioactiveElementTable = (elements: Element[] = []): Element[][] => {
   const bottomRow = groupBy(elements, 'period');
 
-  return Object.entries(bottomRow).map(([_, value]: [string, AtomeqElement[]]) => value);
+  return Object.entries(bottomRow).map(([_, value]: [string, Element[]]) => value);
 };
 
 export default { getElementTable, getRadioactiveElementTable };

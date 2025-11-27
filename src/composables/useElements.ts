@@ -1,10 +1,10 @@
 import api from '@/router/api';
-import { AtomeqElement } from '@/types/element.ts';
+import { Element } from '@/types/element.ts';
 import { transformMultipleElements } from '@/types/utils.ts';
 import { ref } from 'vue';
 
 const useElements = () => {
-  const elements = ref<AtomeqElement[]>([]);
+  const elements = ref<Element[]>([]);
 
   const getElements = async () => {
     try {

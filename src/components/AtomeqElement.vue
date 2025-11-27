@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { AtomeqElement } from '@/types/element.ts';
+import type { Element } from '@/types/element.ts';
 import { onMounted, onUnmounted, ref } from 'vue';
 
 defineProps<{
-  element: AtomeqElement;
+  element: Element;
 }>();
 
 const card = ref<HTMLElement | null>(null);

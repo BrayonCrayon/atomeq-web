@@ -1,18 +1,18 @@
-export interface IAtomeqElementType {
+export interface IElementType {
   id: number;
   name: string;
 }
 
-export class AtomeqElementType implements IAtomeqElementType {
+export class AtomeqElementType implements IElementType {
   id: number = 0;
   name: string = '';
 
-  constructor(overrides: Partial<IAtomeqElementType> = {}) {
+  constructor(overrides: Partial<IElementType> = {}) {
     Object.assign(this, overrides);
   }
 }
 
-export enum AtomeqElementTypeColour {
+export enum ElementTypeColour {
   NONMETAL = 'bg-emerald-300',
   NOBLE_GAS = 'bg-indigo-300',
   ALKALI_METAL = 'bg-rose-300',
