@@ -1,22 +1,28 @@
 <script setup lang="ts">
 import type { Element } from '@/types/element.ts';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 
-defineProps<{
+const props = defineProps<{
   element: Element;
 }>();
 
 const card = ref<HTMLElement | null>(null);
 let requestAnimationFrameId = 0;
 
-const maxFromRange = (v: number, a = -1, b = 1) => Math.max(a, Math.min(b, v));
-
 const maxTiltX = 20;
 const maxTiltY = 20;
 
+const animationOffset = computed(() => {
+  const sign = props.element.group === 1 ? '' : '-';
+  return [1, 18].includes(props.element.group) ? `translateX(${sign}12px)` : '';
+});
+
+const maxFromRange = (v: number, a = -1, b = 1) => Math.max(a, Math.min(b, v));
+
 const applyTransform = (rotX: number, rotY: number) => {
   if (!card.value) return;
-  card.value.style.transform = `perspective(400px) translateZ(35px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.50)`;
+
+  card.value.style.transform = `perspective(400px) translateZ(35px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.50) ${animationOffset.value}`;
 };
 
 const cardMove = (e: MouseEvent) => {
