@@ -1,23 +1,23 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="w-3/4 flex flex-col mx-auto h-full">
+  <div class="w-5/6 flex flex-col mx-auto h-full pt-4 lg:pt-0 lg:w-3/4">
     <div class="flex grow justify-between">
-      <div class="w-full h-3/4 flex shadow-2xl rounded border-2">
-        <div class="w-1/2 py-2">
-          <h2 class="text-xl p-2">Enter your equation</h2>
+      <div class="w-full h-3/4 flex flex-col shadow-2xl rounded border-2 lg:flex-row">
+        <div class="py-2 px-4 lg:w-1/2">
+          <h2 class="text-xl py-2">Enter your equation</h2>
           <input
             type="text"
-            class="border border-gray-400 focus:border-blue-400 rounded w-5/6 ml-2 px-2"
+            class="border border-gray-400 focus:border-blue-400 rounded w-full px-2 text-2xl lg:w-5/6"
           />
         </div>
-        <div class="w-1/2 flex flex-col py-2">
-          <h2 class="text-xl p-2">Output</h2>
+        <div class="flex flex-col py-2 px-4 lg:w-1/2">
+          <h2 class="text-xl py-2">Output</h2>
           <input
             type="text"
             placeholder="Result"
             disabled
-            class="border border-gray-400 focus:border-blue-400 rounded w-5/6 ml-2 text-center"
+            class="border border-gray-400 focus:border-blue-400 rounded w-full text-center text-2xl lg:w-5/6"
           />
         </div>
       </div>
