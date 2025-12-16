@@ -14,7 +14,7 @@ const showMenu = () => {
 </script>
 
 <template>
-  <div class="w-full flex px-4 py-2 justify-between shadow-md">
+  <div class="w-full flex px-4 py-2 justify-between shadow-lg border-b-2 border-gray-200">
     <RouterLink :to="{ name: 'home' }" class="text-4xl font-bold sm:w-1/8">Atomeq</RouterLink>
     <button @click="showMenu" data-testid="atom-menu" class="sm:hidden">
       <Atom :size="42" />
@@ -28,9 +28,9 @@ const showMenu = () => {
       </p>
       <div v-if="isAuthed" class="flex gap-x-4 flex-grow justify-center">
         <RouterLink :to="{ name: 'table' }" class="font-semibold cursor-pointer">Table</RouterLink>
-        <RouterLink :to="{ name: 'formulator' }" class="font-semibold cursor-pointer"
-          >Formulator 9000</RouterLink
-        >
+        <RouterLink :to="{ name: 'formulator' }" class="font-semibold cursor-pointer">
+          Formulator 9000
+        </RouterLink>
       </div>
       <AtomeqDropdown v-if="isAuthed" button-title="Username">
         <RouterLink
