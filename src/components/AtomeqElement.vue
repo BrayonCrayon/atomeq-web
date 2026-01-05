@@ -69,7 +69,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="card" class="h-20 content-center">
+  <div ref="card" class="h-20 content-center bg-linear-to-b from-slate-100 to-transparent">
     <div class="flex justify-between text-xs font-bold mb-2">
       <div>
         {{ element?.atomicNumber }}

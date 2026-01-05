@@ -7,12 +7,12 @@ import AtomeqNav from '@/components/AtomeqNav.vue';
 <template>
   <AtomeqLayout>
     <template #nav>
-      <div class="h-1/12">
+      <div>
         <AtomeqNav :isAuthed="true" />
       </div>
     </template>
     <template #content>
-      <div class="h-11/12">
+      <div class="grow bg-slate-50">
         <RouterView />
       </div>
     </template>
