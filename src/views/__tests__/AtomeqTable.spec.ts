@@ -21,8 +21,7 @@ describe('AtomeqTable', () => {
 
   it('will render all the elements on the screen', async () => {
     const elements = mockElements.data;
-    const response = { data: mockElements };
-    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
@@ -35,7 +34,7 @@ describe('AtomeqTable', () => {
   it('will display elements colour by type as default', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElementType(element);
-    const response = { data: { data: [element] } };
+    const response = { data: [element] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
 
     const wrapper = mount(AtomeqTable);
@@ -48,7 +47,7 @@ describe('AtomeqTable', () => {
   it('will display elements colour by state when state radio option is clicked', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElementType(element);
-    const response = { data: { data: [element] } };
+    const response = { data: [element] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
 
     const wrapper = mount(AtomeqTable);
@@ -65,7 +64,7 @@ describe('AtomeqTable', () => {
   it('will display elements colour by type when type radio is clicked', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElementType(element);
-    const response = { data: { data: [element] } };
+    const response = { data: [element] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
 
     const wrapper = mount(AtomeqTable);
@@ -80,7 +79,7 @@ describe('AtomeqTable', () => {
 
   it('will display an element details modal when an element is clicked', async () => {
     const element = mockElements.data[0];
-    const response = { data: { data: [element] } };
+    const response = { data: [element] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
 
     // mount the table

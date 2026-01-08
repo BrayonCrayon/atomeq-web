@@ -9,7 +9,7 @@ const useElements = () => {
   const getElements = async () => {
     try {
       const response = await api.fetchElements();
-      elements.value = transformMultipleElements(response.data.data);
+      elements.value = transformMultipleElements(response.data);
     } catch (error) {
       console.error(error);
     }

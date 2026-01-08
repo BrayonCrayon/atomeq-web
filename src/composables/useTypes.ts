@@ -9,7 +9,7 @@ export const useTypes = () => {
   const getTypes = async () => {
     try {
       const response = await api.fetchTypes();
-      types.value = transformElementTypes(response.data.data);
+      types.value = transformElementTypes(response.data);
     } catch (error) {
       console.error(error);
     }

@@ -10,7 +10,7 @@ describe('useElements', () => {
   it('will get all elements coming from the backend endpoint', async () => {
     const elementData = elementFactory();
     const compareElement = new Element(elementData);
-    apiService.fetchElements.mockResolvedValue({ data: { data: [elementData] } } as AxiosResponse<{
+    apiService.fetchElements.mockResolvedValue({ data: [elementData] } as AxiosResponse<{
       data: IElement[];
     }>);
 

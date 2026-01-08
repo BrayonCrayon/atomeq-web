@@ -8,7 +8,7 @@ import { describe, it, vi, expect } from 'vitest';
 describe('useTypes', () => {
   it('will fetch the type data', async () => {
     const data = Array.from({ length: 5 }).map(() => elementTypeFactory());
-    apiService.fetchTypes.mockResolvedValue({ data: { data } } as AxiosResponse);
+    apiService.fetchTypes.mockResolvedValue({ data } as AxiosResponse);
     const { getTypes, types } = useTypes();
 
     await getTypes();
