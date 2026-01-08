@@ -1,11 +1,13 @@
 export interface IElementType {
   id: number;
   name: string;
+  parentId: number;
 }
 
 export class AtomeqElementType implements IElementType {
   id: number = 0;
   name: string = '';
+  parentId: number = 0;
 
   constructor(overrides: Partial<IElementType> = {}) {
     Object.assign(this, overrides);

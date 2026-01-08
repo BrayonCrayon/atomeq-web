@@ -5,6 +5,7 @@ export const elementTypeFactory = (overrides: Partial<IElementType> = {}): IElem
   return {
     id: randNumber(),
     name: randCow(),
+    parentId: randNumber(),
     ...overrides,
   };
 };

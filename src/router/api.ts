@@ -1,3 +1,4 @@
+import type { IElementType } from '@/types/elementType.ts';
 import axios from 'axios';
 import type { IElement } from '@/types/element.ts';
 
@@ -10,6 +11,11 @@ export const fetchElements = () => {
   });
 };
 
+export const fetchTypes = () => {
+  return axiosClient.get<{ data: IElementType[] }>(`${import.meta.env.VITE_BASE_PATH}/api/types`);
+};
+
 export default {
   fetchElements,
+  fetchTypes,
 };
