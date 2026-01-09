@@ -2,12 +2,13 @@ import { useTypes } from '@/composables/useTypes.ts';
 import { elementTypeFactory } from '@/testUtils/elementTypeFactory.ts';
 import { AtomeqElementType } from '@/types/elementType.ts';
 import { apiService } from '@/vitest.setup.ts';
+import type { AxiosResponse } from 'axios';
 import { describe, it, vi, expect } from 'vitest';
 
 describe('useTypes', () => {
   it('will fetch the type data', async () => {
     const data = Array.from({ length: 5 }).map(() => elementTypeFactory());
-    apiService.fetchTypes.mockResolvedValue({ data });
+    apiService.fetchTypes.mockResolvedValue({ data: { data } } as AxiosResponse);
     const { getTypes, types } = useTypes();
 
     await getTypes();

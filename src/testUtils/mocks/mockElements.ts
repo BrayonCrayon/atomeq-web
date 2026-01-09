@@ -24,6 +24,7 @@ export default {
       type: {
         id: 1,
         name: 'nonmetal',
+        parentId: null,
       },
       atomicRadius: 0.79,
       electronegativity: 2.2,
@@ -60,6 +61,7 @@ export default {
       type: {
         id: 2,
         name: 'noble-gas',
+        parentId: 1,
       },
       atomicRadius: 0.49,
       electronegativity: 0,
@@ -96,6 +98,7 @@ export default {
       type: {
         id: 3,
         name: 'alkali-metal',
+        parentId: 7,
       },
       atomicRadius: 2.1,
       electronegativity: 0.98,
@@ -132,6 +135,7 @@ export default {
       type: {
         id: 4,
         name: 'alkaline-earth-metal',
+        parentId: 7,
       },
       atomicRadius: 1.4,
       electronegativity: 1.57,
@@ -168,6 +172,7 @@ export default {
       type: {
         id: 5,
         name: 'metalloid',
+        parentId: null,
       },
       atomicRadius: 1.2,
       electronegativity: 2.04,
@@ -204,6 +209,7 @@ export default {
       type: {
         id: 1,
         name: 'nonmetal',
+        parentId: null,
       },
       atomicRadius: 0.91,
       electronegativity: 2.55,
@@ -240,6 +246,7 @@ export default {
       type: {
         id: 1,
         name: 'nonmetal',
+        parentId: null,
       },
       atomicRadius: 0.75,
       electronegativity: 3.04,
@@ -276,6 +283,7 @@ export default {
       type: {
         id: 1,
         name: 'nonmetal',
+        parentId: null,
       },
       atomicRadius: 0.65,
       electronegativity: 3.44,
@@ -312,6 +320,7 @@ export default {
       type: {
         id: 6,
         name: 'halogen',
+        parentId: 1,
       },
       atomicRadius: 0.57,
       electronegativity: 3.98,
@@ -348,6 +357,7 @@ export default {
       type: {
         id: 2,
         name: 'noble-gas',
+        parentId: 1,
       },
       atomicRadius: 0.51,
       electronegativity: 0,
@@ -384,6 +394,7 @@ export default {
       type: {
         id: 3,
         name: 'alkali-metal',
+        parentId: 7,
       },
       atomicRadius: 2.2,
       electronegativity: 0.93,
@@ -420,6 +431,7 @@ export default {
       type: {
         id: 4,
         name: 'alkaline-earth-metal',
+        parentId: 7,
       },
       atomicRadius: 1.7,
       electronegativity: 1.31,
@@ -456,6 +468,7 @@ export default {
       type: {
         id: 7,
         name: 'metal',
+        parentId: null,
       },
       atomicRadius: 1.8,
       electronegativity: 1.61,
@@ -492,6 +505,7 @@ export default {
       type: {
         id: 5,
         name: 'metalloid',
+        parentId: null,
       },
       atomicRadius: 1.5,
       electronegativity: 1.9,
@@ -528,6 +542,7 @@ export default {
       type: {
         id: 1,
         name: 'nonmetal',
+        parentId: null,
       },
       atomicRadius: 1.2,
       electronegativity: 2.19,
@@ -564,6 +579,7 @@ export default {
       type: {
         id: 1,
         name: 'nonmetal',
+        parentId: null,
       },
       atomicRadius: 1.1,
       electronegativity: 2.58,
@@ -600,6 +616,7 @@ export default {
       type: {
         id: 6,
         name: 'halogen',
+        parentId: 1,
       },
       atomicRadius: 0.97,
       electronegativity: 3.16,
@@ -636,6 +653,7 @@ export default {
       type: {
         id: 2,
         name: 'noble-gas',
+        parentId: 1,
       },
       atomicRadius: 0.88,
       electronegativity: 0,
@@ -672,6 +690,7 @@ export default {
       type: {
         id: 3,
         name: 'alkali-metal',
+        parentId: 7,
       },
       atomicRadius: 2.8,
       electronegativity: 0.82,
@@ -708,6 +727,7 @@ export default {
       type: {
         id: 4,
         name: 'alkaline-earth-metal',
+        parentId: 7,
       },
       atomicRadius: 2.2,
       electronegativity: 1,
@@ -744,6 +764,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 2.1,
       electronegativity: 1.36,
@@ -780,6 +801,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 2,
       electronegativity: 1.54,
@@ -816,6 +838,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.9,
       electronegativity: 1.63,
@@ -852,6 +875,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.9,
       electronegativity: 1.66,
@@ -888,6 +912,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.8,
       electronegativity: 1.55,
@@ -924,6 +949,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.7,
       electronegativity: 1.83,
@@ -960,6 +986,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.7,
       electronegativity: 1.88,
@@ -996,6 +1023,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.6,
       electronegativity: 1.91,
@@ -1032,6 +1060,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.6,
       electronegativity: 1.9,
@@ -1068,6 +1097,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.5,
       electronegativity: 1.65,
@@ -1104,6 +1134,7 @@ export default {
       type: {
         id: 7,
         name: 'metal',
+        parentId: null,
       },
       atomicRadius: 1.8,
       electronegativity: 1.81,
@@ -1140,6 +1171,7 @@ export default {
       type: {
         id: 5,
         name: 'metalloid',
+        parentId: null,
       },
       atomicRadius: 1.5,
       electronegativity: 2.01,
@@ -1176,6 +1208,7 @@ export default {
       type: {
         id: 5,
         name: 'metalloid',
+        parentId: null,
       },
       atomicRadius: 1.3,
       electronegativity: 2.18,
@@ -1212,6 +1245,7 @@ export default {
       type: {
         id: 1,
         name: 'nonmetal',
+        parentId: null,
       },
       atomicRadius: 1.2,
       electronegativity: 2.55,
@@ -1248,6 +1282,7 @@ export default {
       type: {
         id: 6,
         name: 'halogen',
+        parentId: 1,
       },
       atomicRadius: 1.1,
       electronegativity: 2.96,
@@ -1284,6 +1319,7 @@ export default {
       type: {
         id: 2,
         name: 'noble-gas',
+        parentId: 1,
       },
       atomicRadius: 1,
       electronegativity: 0,
@@ -1320,6 +1356,7 @@ export default {
       type: {
         id: 3,
         name: 'alkali-metal',
+        parentId: 7,
       },
       atomicRadius: 3,
       electronegativity: 0.82,
@@ -1356,6 +1393,7 @@ export default {
       type: {
         id: 4,
         name: 'alkaline-earth-metal',
+        parentId: 7,
       },
       atomicRadius: 2.5,
       electronegativity: 0.95,
@@ -1392,6 +1430,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 2.3,
       electronegativity: 1.22,
@@ -1428,6 +1467,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 2.2,
       electronegativity: 1.33,
@@ -1464,6 +1504,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 2.1,
       electronegativity: 1.6,
@@ -1500,6 +1541,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 2,
       electronegativity: 2.16,
@@ -1536,6 +1578,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 2,
       electronegativity: 1.9,
@@ -1572,6 +1615,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.9,
       electronegativity: 2.2,
@@ -1608,6 +1652,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.8,
       electronegativity: 2.28,
@@ -1644,6 +1689,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.8,
       electronegativity: 2.2,
@@ -1680,6 +1726,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.8,
       electronegativity: 1.93,
@@ -1716,6 +1763,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.7,
       electronegativity: 1.69,
@@ -1752,6 +1800,7 @@ export default {
       type: {
         id: 7,
         name: 'metal',
+        parentId: null,
       },
       atomicRadius: 2,
       electronegativity: 1.78,
@@ -1788,6 +1837,7 @@ export default {
       type: {
         id: 7,
         name: 'metal',
+        parentId: null,
       },
       atomicRadius: 1.7,
       electronegativity: 1.96,
@@ -1824,6 +1874,7 @@ export default {
       type: {
         id: 5,
         name: 'metalloid',
+        parentId: null,
       },
       atomicRadius: 1.5,
       electronegativity: 2.05,
@@ -1860,6 +1911,7 @@ export default {
       type: {
         id: 5,
         name: 'metalloid',
+        parentId: null,
       },
       atomicRadius: 1.4,
       electronegativity: 2.1,
@@ -1896,6 +1948,7 @@ export default {
       type: {
         id: 6,
         name: 'halogen',
+        parentId: 1,
       },
       atomicRadius: 1.3,
       electronegativity: 2.66,
@@ -1932,6 +1985,7 @@ export default {
       type: {
         id: 2,
         name: 'noble-gas',
+        parentId: 1,
       },
       atomicRadius: 1.2,
       electronegativity: 0,
@@ -1968,6 +2022,7 @@ export default {
       type: {
         id: 3,
         name: 'alkali-metal',
+        parentId: 7,
       },
       atomicRadius: 3.3,
       electronegativity: 0.79,
@@ -2004,6 +2059,7 @@ export default {
       type: {
         id: 4,
         name: 'alkaline-earth-metal',
+        parentId: 7,
       },
       atomicRadius: 2.8,
       electronegativity: 0.89,
@@ -2040,6 +2096,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.7,
       electronegativity: 1.1,
@@ -2076,6 +2133,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.7,
       electronegativity: 1.12,
@@ -2112,6 +2170,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.7,
       electronegativity: 1.13,
@@ -2148,6 +2207,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.6,
       electronegativity: 1.14,
@@ -2184,6 +2244,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.6,
       electronegativity: 1.13,
@@ -2220,6 +2281,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.6,
       electronegativity: 1.17,
@@ -2256,6 +2318,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.6,
       electronegativity: 1.2,
@@ -2292,6 +2355,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.5,
       electronegativity: 1.2,
@@ -2328,6 +2392,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.5,
       electronegativity: 1.2,
@@ -2364,6 +2429,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.5,
       electronegativity: 1.22,
@@ -2400,6 +2466,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.5,
       electronegativity: 1.23,
@@ -2436,6 +2503,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.5,
       electronegativity: 1.24,
@@ -2472,6 +2540,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.4,
       electronegativity: 1.25,
@@ -2508,6 +2577,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.4,
       electronegativity: 1.1,
@@ -2544,6 +2614,7 @@ export default {
       type: {
         id: 9,
         name: 'lanthanide',
+        parentId: 7,
       },
       atomicRadius: 2.3,
       electronegativity: 1.27,
@@ -2580,6 +2651,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 2.2,
       electronegativity: 1.3,
@@ -2616,6 +2688,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 2.1,
       electronegativity: 1.5,
@@ -2652,6 +2725,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 2,
       electronegativity: 2.36,
@@ -2688,6 +2762,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 2,
       electronegativity: 1.9,
@@ -2724,6 +2799,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.9,
       electronegativity: 2.2,
@@ -2760,6 +2836,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.9,
       electronegativity: 2.2,
@@ -2796,6 +2873,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.8,
       electronegativity: 2.28,
@@ -2832,6 +2910,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.8,
       electronegativity: 2.54,
@@ -2868,6 +2947,7 @@ export default {
       type: {
         id: 8,
         name: 'transition-metal',
+        parentId: 7,
       },
       atomicRadius: 1.8,
       electronegativity: 2,
@@ -2904,6 +2984,7 @@ export default {
       type: {
         id: 7,
         name: 'metal',
+        parentId: null,
       },
       atomicRadius: 2.1,
       electronegativity: 2.04,
@@ -2940,6 +3021,7 @@ export default {
       type: {
         id: 7,
         name: 'metal',
+        parentId: null,
       },
       atomicRadius: 1.8,
       electronegativity: 2.33,
@@ -2976,6 +3058,7 @@ export default {
       type: {
         id: 7,
         name: 'metal',
+        parentId: null,
       },
       atomicRadius: 1.6,
       electronegativity: 2.02,
@@ -3012,6 +3095,7 @@ export default {
       type: {
         id: 5,
         name: 'metalloid',
+        parentId: null,
       },
       atomicRadius: 1.5,
       electronegativity: 2,
@@ -3048,6 +3132,7 @@ export default {
       type: {
         id: 2,
         name: 'noble-gas',
+        parentId: 1,
       },
       atomicRadius: 1.4,
       electronegativity: 2.2,
@@ -3084,6 +3169,7 @@ export default {
       type: {
         id: 3,
         name: 'alkali-metal',
+        parentId: 7,
       },
       atomicRadius: 1.3,
       electronegativity: 0,
@@ -3120,6 +3206,7 @@ export default {
       type: {
         id: 4,
         name: 'alkaline-earth-metal',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0.7,
@@ -3156,6 +3243,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0.9,
@@ -3192,6 +3280,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.1,
@@ -3228,6 +3317,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.3,
@@ -3264,6 +3354,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.5,
@@ -3300,6 +3391,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.38,
@@ -3336,6 +3428,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.36,
@@ -3372,6 +3465,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.28,
@@ -3408,6 +3502,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.3,
@@ -3444,6 +3539,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.3,
@@ -3480,6 +3576,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.3,
@@ -3516,6 +3613,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.3,
@@ -3552,6 +3650,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.3,
@@ -3588,6 +3687,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.3,
@@ -3624,6 +3724,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.3,
@@ -3660,6 +3761,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 1.3,
@@ -3696,6 +3798,7 @@ export default {
       type: {
         id: 10,
         name: 'actinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -3732,6 +3835,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -3768,6 +3872,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -3804,6 +3909,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -3840,6 +3946,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -3876,6 +3983,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -3912,6 +4020,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -3948,6 +4057,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -3984,6 +4094,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -4020,6 +4131,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -4056,6 +4168,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -4092,6 +4205,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -4128,6 +4242,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -4164,6 +4279,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -4200,6 +4316,7 @@ export default {
       type: {
         id: 11,
         name: 'transactinide',
+        parentId: 7,
       },
       atomicRadius: 0,
       electronegativity: 0,
@@ -4236,6 +4353,7 @@ export default {
       type: {
         id: 2,
         name: 'noble-gas',
+        parentId: 1,
       },
       atomicRadius: 0,
       electronegativity: 0,

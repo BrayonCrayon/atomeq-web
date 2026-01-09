@@ -1,6 +1,6 @@
 import { Element } from '@/types/element.ts';
 import type { IElement } from '@/types/element.ts';
-import { AtomeqElementType, IElementType } from '@/types/elementType.ts';
+import { AtomeqElementType, type IElementType } from '@/types/elementType.ts';
 
 export const transformElement = (element: IElement): Element => {
   return new Element(element);
