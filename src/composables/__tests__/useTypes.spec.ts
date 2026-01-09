@@ -1,5 +1,6 @@
 import { useTypes } from '@/composables/useTypes.ts';
 import { elementTypeFactory } from '@/testUtils/elementTypeFactory.ts';
+import { AtomeqElementType } from '@/types/elementType.ts';
 import { apiService } from '@/vitest.setup.ts';
 import { describe, it, vi, expect } from 'vitest';
 
@@ -13,6 +14,7 @@ describe('useTypes', () => {
 
     expect(types.value.length).toEqual(5);
     expect(types.value).toEqual(data);
+    expect(types.value[0]).instanceof(AtomeqElementType);
   });
 
   it('will catch error when api fails', async () => {

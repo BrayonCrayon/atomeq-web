@@ -1,5 +1,6 @@
 import api from '@/router/api.ts';
 import type { IElementType } from '@/types/elementType.ts';
+import { transformElementTypes } from '@/types/utils.ts';
 import { ref } from 'vue';
 
 export const useTypes = () => {
@@ -9,7 +10,7 @@ export const useTypes = () => {
   const getTypes = async () => {
     try {
       const data = await api.fetchTypes();
-      types.value = data.data;
+      types.value = transformElementTypes(data.data);
     } catch (error) {
       console.error(error);
     }
