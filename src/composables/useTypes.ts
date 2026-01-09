@@ -1,15 +1,18 @@
-import { fetchTypes } from '@/router/api.ts';
+import api from '@/router/api.ts';
 import type { IElementType } from '@/types/elementType.ts';
 import { ref } from 'vue';
 
 export const useTypes = () => {
   const types = ref<IElementType[]>([]);
 
-  // TODO: try-catch
   // separate Types to a class
   const getTypes = async () => {
-    const data = await fetchTypes();
-    types.value = data.data;
+    try {
+      const data = await api.fetchTypes();
+      types.value = data.data;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return {

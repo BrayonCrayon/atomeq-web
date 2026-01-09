@@ -1,7 +1,7 @@
 import { useTypes } from '@/composables/useTypes.ts';
 import { elementTypeFactory } from '@/testUtils/elementTypeFactory.ts';
 import { apiService } from '@/vitest.setup.ts';
-import { describe, it, expect } from 'vitest';
+import { describe, it, vi, expect } from 'vitest';
 
 describe('useTypes', () => {
   it('will fetch the type data', async () => {
@@ -13,5 +13,18 @@ describe('useTypes', () => {
 
     expect(types.value.length).toEqual(5);
     expect(types.value).toEqual(data);
+  });
+
+  it('will catch error when api fails', async () => {
+    const errorMessage = { error: { message: 'Opps, something happened' } };
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementationOnce(() => {});
+    apiService.fetchTypes.mockRejectedValue(errorMessage);
+    const { getTypes, types } = useTypes();
+
+    await getTypes();
+
+    expect(types.value).toEqual([]);
+    expect(consoleSpy).toHaveBeenCalledWith(errorMessage);
+    consoleSpy.mockRestore();
   });
 });
