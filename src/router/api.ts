@@ -3,7 +3,7 @@ import type { IElementType } from '@/types/elementType.ts';
 import type { IElement } from '@/types/element.ts';
 
 export const fetchElements = () => {
-  return axiosClient.get<{ data: IElement[] }>(`/api/elements`, {
+  return axiosClient.get<IElement[]>(`/api/elements`, {
     params: {
       relations: ['state', 'type'],
     },
@@ -11,7 +11,7 @@ export const fetchElements = () => {
 };
 
 export const fetchTypes = () => {
-  return axiosClient.get<{ data: IElementType[] }>(`/api/types`);
+  return axiosClient.get<IElementType[]>(`/api/types`);
 };
 
 export default {
