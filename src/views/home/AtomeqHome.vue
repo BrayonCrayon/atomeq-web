@@ -3,6 +3,13 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import * as d3 from 'd3';
 import AtomeqBackgroundElements from '@/views/home/AtomeqBackgroundElements.vue';
 
+interface IElementsWithDepth {
+  element:
+    | d3.Selection<SVGGElement, unknown, null, undefined>
+    | d3.Selection<SVGElement, unknown, null, undefined>;
+  z: number;
+}
+
 // D3 Atom visualization
 const atomContainer = ref<HTMLElement | null>(null);
 let atomTimer: d3.Timer | null = null;
@@ -163,7 +170,10 @@ const initD3Atom = () => {
   });
 
   // Nucleus (centered) - make it more prominent, will be reordered by z-depth
-  const nucleusGroup = g.append('g').attr('class', 'nucleus-group').attr('data-z', '0');
+  const nucleusGroup: d3.Selection<SVGGElement, unknown, null, undefined> = g
+    .append('g')
+    .attr('class', 'nucleus-group')
+    .attr('data-z', '0');
   nucleusGroup
     .append('circle')
     .attr('r', 16)
@@ -214,15 +224,17 @@ const initD3Atom = () => {
     atomRotation.x = ((time * 12) % 360) * (Math.PI / 180); // 12 degrees per second
 
     // Store elements with their z-depths for sorting
-    const elementsWithDepth: Array<{
-      element: d3.Selection<SVGElement, unknown, null, undefined>;
+    const elementsWithDepth: IElementsWithDepth[] = [];
+    const electronElements: {
+      element: d3.Selection<d3.BaseType, unknown, null, undefined>;
       z: number;
-    }> = [];
+    }[] = [];
 
     // Update each orbit group - update both paths and electrons (both rotate with atom)
-    orbitGroups.each(function (d, orbitIndex) {
+    orbitGroups.each(function (d) {
       const orbitGroup = d3.select(this);
-      const orbitPath = orbitGroup.select('path');
+      const orbitPath: d3.Selection<SVGElement, unknown, null, undefined> =
+        orbitGroup.select('path');
       const electronGroups = orbitGroup.selectAll('g[class^="electron"]');
 
       // Apply orbit plane tilt
@@ -307,7 +319,7 @@ const initD3Atom = () => {
           .style('opacity', electronOpacity);
 
         // Store electron with its z-depth
-        elementsWithDepth.push({ element: electronGroup, z: electronRotated.z });
+        electronElements.push({ element: electronGroup, z: electronRotated.z });
       });
     });
 
@@ -324,6 +336,13 @@ const initD3Atom = () => {
       elementsWithDepth.forEach((item) => {
         const node = item.element.node();
         if (node && node.parentNode === parentNode) {
+          // appendChild moves the node to the end if it's already a child
+          parentNode.appendChild(node);
+        }
+      });
+      electronElements.forEach((item) => {
+        const node = item.element.node();
+        if (node && 'parentNode' in node && node.parentNode === parentNode) {
           // appendChild moves the node to the end if it's already a child
           parentNode.appendChild(node);
         }
