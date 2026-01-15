@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AtomeqTable from '@/views/AtomeqTable.vue';
 import AtomeqFormulator from '@/views/AtomeqFormulator.vue';
-import AtomeqHome from '@/views/AtomeqHome.vue';
+import AtomeqHome from '@/views/home/AtomeqHome.vue';
 import AtomeqAbout from '@/views/AtomeqAbout.vue';
 import AtomeqRegister from '@/views/AtomeqRegister.vue';
 import UserProfile from '@/views/UserProfile.vue';
