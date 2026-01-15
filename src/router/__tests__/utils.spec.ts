@@ -1,4 +1,5 @@
 import { removeDataLayer } from '@/router/utils.ts';
+import type { AxiosResponse } from 'axios';
 import { describe, it, expect } from 'vitest';
 
 describe('api', () => {
@@ -7,7 +8,7 @@ describe('api', () => {
       headers: {},
       data: { data: [] },
       config: {},
-    };
+    } as AxiosResponse;
 
     const result = removeDataLayer(response);
 
@@ -21,7 +22,7 @@ describe('api', () => {
       headers: {},
       data: { hello: 'world' },
       config: {},
-    };
+    } as AxiosResponse;
 
     const result = removeDataLayer(response);
 
