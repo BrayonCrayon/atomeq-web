@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AtomeqElementComponent from '@/components/AtomeqElement.vue';
+import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
 import { computed, onMounted, ref } from 'vue';
@@ -68,6 +69,7 @@ onMounted(async () => {
     <h1 class="text-2xl">Periodic Table:</h1>
     <div class="flex gap-2">
       <SwitchDisplay v-model="elementDisplay" />
+      <AtomeqTypeLegend />
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
       <div :key="`${element?.name}-${idx2}`" v-for="(element, idx2) in row" class="mb-1">
