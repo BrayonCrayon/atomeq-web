@@ -1,4 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import { useTypes } from '@/composables/useTypes.ts';
+
+const { getTypes } = useTypes();
+
+onMounted(async () => {
+  await getTypes();
+});
+</script>
 
 <template>
   <h1>Legendary</h1>
