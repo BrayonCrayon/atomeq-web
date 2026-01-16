@@ -8,11 +8,9 @@ import { Element, type IElement } from '@/types/element';
 
 describe('useElements', () => {
   it('will get all elements coming from the backend endpoint', async () => {
-    const elementData = elementFactory();
-    const compareElement = new Element(elementData);
-    apiService.fetchElements.mockResolvedValue({ data: { data: [elementData] } } as AxiosResponse<{
-      data: IElement[];
-    }>);
+    const data: IElement[] = [elementFactory()];
+    const compareElement = new Element(data[0]);
+    apiService.fetchElements.mockResolvedValue({ data } as AxiosResponse<IElement[]>);
 
     const { getElements, elements } = useElements();
 
