@@ -18,8 +18,13 @@ describe('AtomeqTypeLegend', () => {
   //          real world scenario since we are mocking out the entire api layer and
   //          as a result we are never hitting the removeDataLayer() function
   it('renders out all parent types and subtypes', async () => {
-    const responseType = elementTypeFactory();
-    const response = { data: [responseType] };
+    const familyBundle = [];
+    const parent = elementTypeFactory();
+    familyBundle.push(parent);
+    const child = elementTypeFactory({ parentId: parent.id });
+    familyBundle.push(child);
+
+    const response = { data: familyBundle };
     apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
 
     const wrapper = mount(AtomeqTypeLegend);
@@ -28,7 +33,8 @@ describe('AtomeqTypeLegend', () => {
 
     const types = wrapper.findAll('div');
 
-    expect(types.length).toEqual(1);
-    expect(types[0].html()).toContain(responseType.name);
+    expect(types.length).toEqual(2);
+    expect(types[0].html()).toContain(parent.name);
+    expect(types[1].html()).toContain(child.name);
   });
 });
