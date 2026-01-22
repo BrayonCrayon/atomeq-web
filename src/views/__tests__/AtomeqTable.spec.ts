@@ -11,7 +11,7 @@ import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 
 describe('AtomeqTable', () => {
   it('will call endpoint to retrieve elements and load them in', async () => {
-    const response = { data: { data: [] } };
+    const response = { data: [] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
     mount(AtomeqTable);
     await flushPromises();
@@ -82,7 +82,6 @@ describe('AtomeqTable', () => {
     const response = { data: [element] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
 
-    // mount the table
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
