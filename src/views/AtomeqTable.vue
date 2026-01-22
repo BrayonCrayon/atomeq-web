@@ -69,6 +69,8 @@ onMounted(async () => {
     <h1 class="text-2xl">Periodic Table:</h1>
     <div class="flex gap-2">
       <SwitchDisplay v-model="elementDisplay" />
+    </div>
+    <div class="flex gap-2">
       <AtomeqTypeLegend />
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">

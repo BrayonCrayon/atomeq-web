@@ -10,9 +10,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h1>Legendary</h1>
   <div v-for="type in types" :key="type.id">
-    <h2>{{ type.name }}</h2>
+    <h1 v-if="type.parentId === null" class="bg-amber-500">{{ type.name }}</h1>
+    <h2 v-else class="bg-amber-700">{{ type.name }}</h2>
   </div>
 </template>
 
