@@ -16,13 +16,12 @@ export const useTypes = () => {
   };
 
   const getFormattedTypes = () => {
-      const formattedTypes = [];
-      types.value.forEach( (type) => {
-      if(type.parentId === null) {
+    const formattedTypes = [];
+    types.value.forEach((type) => {
+      if (type.parentId === null) {
         //was intending to key one array with the id of the parent and then put all other types whose parentId is that type's id into that array
       }
-      })
-    }
+    });
   };
 
   return {
