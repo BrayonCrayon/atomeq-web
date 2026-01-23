@@ -1,5 +1,5 @@
 import api from '@/router/api.ts';
-import type { IElementType } from '@/types/elementType.ts';
+import { AtomeqElementType, type IElementType } from '@/types/elementType.ts';
 import { transformElementTypes } from '@/types/utils.ts';
 import { ref } from 'vue';
 
@@ -16,16 +16,21 @@ export const useTypes = () => {
   };
 
   const getFormattedTypes = () => {
-    const formattedTypes = [];
-    types.value.forEach((type) => {
-      if (type.parentId === null) {
-        //was intending to key one array with the id of the parent and then put all other types whose parentId is that type's id into that array
-      }
-    });
+    const formatted: Map<AtomeqElementType, AtomeqElementType[]> = new Map();
+
+    types.value.filter((item) => item.parentId === null).forEach((item) => formatted.set(item, []));
+
+    const children = types.value.filter((item) => item.parentId !== null);
+
+    // TODO: loop over the children and find the respected parent from types ref.
+    //    Then retrieve the parent's children array from the parent key and add the new child to it. ( refer to test as an example )
+
+    return formatted;
   };
 
   return {
     getTypes,
+    getFormattedTypes,
     types,
   };
 };
