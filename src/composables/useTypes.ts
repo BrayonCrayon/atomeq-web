@@ -21,9 +21,15 @@ export const useTypes = () => {
     types.value.filter((item) => item.parentId === null).forEach((item) => formatted.set(item, []));
 
     const children = types.value.filter((item) => item.parentId !== null);
+    children.forEach((child) => {
+      const foundParent: AtomeqElementType | undefined = types.value.find(
+        (item) => item.id === child.parentId,
+      );
 
-    // TODO: loop over the children and find the respected parent from types ref.
-    //    Then retrieve the parent's children array from the parent key and add the new child to it. ( refer to test as an example )
+      if (foundParent) {
+        formatted.get(foundParent)?.push(child);
+      }
+    });
 
     return formatted;
   };

@@ -32,20 +32,17 @@ describe('useTypes', () => {
   });
 
   it('will transform types into a group based on the parent types', async () => {
-    const parentTypeOne = elementTypeFactory();
+    const parentTypeOne = elementTypeFactory({ parentId: null });
     const subTypeOne = elementTypeFactory({ parentId: parentTypeOne.id });
-    const parentTypeTwo = elementTypeFactory();
+    const parentTypeTwo = elementTypeFactory({ parentId: null });
     const subTypeTwo = elementTypeFactory({ parentId: parentTypeTwo.id });
     const subTypeThree = elementTypeFactory({ parentId: parentTypeTwo.id });
-    const payload = [parentTypeOne, parentTypeTwo, subTypeOne, subTypeTwo];
+    const payload = [parentTypeOne, parentTypeTwo, subTypeOne, subTypeTwo, subTypeThree];
 
     const expectedResult = new Map();
     expectedResult.set(parentTypeOne, [subTypeOne]);
     expectedResult.set(parentTypeTwo, [subTypeTwo]);
     expectedResult.get(parentTypeTwo).push(subTypeThree);
-
-    // TODO: remove this
-    console.log(expectedResult);
 
     apiService.fetchTypes.mockResolvedValue({ data: payload } as AxiosResponse);
 
