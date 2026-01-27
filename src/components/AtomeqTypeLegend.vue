@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import { useTypes } from '@/composables/useTypes.ts';
 
-const { types, getTypes } = useTypes();
+const { getTypes, getFormattedTypes } = useTypes();
 
 onMounted(async () => {
   await getTypes();
@@ -10,9 +10,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-for="type in types" :key="type.id">
-    <h1 v-if="type.parentId === null" class="bg-amber-500">{{ type.name }}</h1>
-    <h2 v-else class="bg-amber-700">{{ type.name }}</h2>
+  <div v-for="[parent, children] in getFormattedTypes()" :key="parent.id">
+    <div class="bg-amber-500">
+      {{ parent.name }}
+    </div>
+    <div v-for="child in children" :key="child.id" class="bg-amber-700">
+      {{ child.name }}
+    </div>
   </div>
 </template>
 
