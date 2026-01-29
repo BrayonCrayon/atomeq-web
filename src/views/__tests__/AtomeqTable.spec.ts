@@ -1,4 +1,8 @@
+import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
+import AtomeqRadioInput from '@/components/common/AtomeqRadioInput.vue';
+import SwitchDisplay from '@/components/SwitchDisplay.vue';
 import mockElements from '@/testUtils/mocks/mockElements.ts';
+import type { Display } from '@/types/atomeq-table.ts';
 import { describe, it, expect } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import AtomeqTable from '@/views/AtomeqTable.vue';
@@ -91,5 +95,18 @@ describe('AtomeqTable', () => {
     expect(elementModalComponent.props().show).toBe(false);
     await elementComponent.trigger('click');
     expect(elementModalComponent.props().show).toBe(true);
+  });
+
+  it('will not display type legend when its on state display', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    const [, stateButton] = wrapper.findAllComponents({ name: 'AtomeqRadioInput' });
+
+    await stateButton.trigger('click');
+
+    expect(wrapper.findComponent(AtomeqTypeLegend).exists()).toBe(false);
   });
 });

@@ -70,8 +70,8 @@ onMounted(async () => {
     <div class="flex gap-2">
       <SwitchDisplay v-model="elementDisplay" />
     </div>
-    <div class="flex gap-2">
-      <AtomeqTypeLegend />
+    <div class="flex justify-center">
+      <AtomeqTypeLegend v-if="elementDisplay === Display.TYPE" />
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
       <div :key="`${element?.name}-${idx2}`" v-for="(element, idx2) in row" class="mb-1">
