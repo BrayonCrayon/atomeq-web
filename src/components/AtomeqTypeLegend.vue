@@ -11,7 +11,6 @@ onMounted(async () => {
 
 <!--TODO:
   0. how do I want to handle the design? alignment
-  1. only show under type display option
   2. turn those into buttons that on hover colour the correct section
 -->
 
