@@ -1,10 +1,20 @@
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { elementTypeFactory } from '@/testUtils/elementTypeFactory.ts';
+import type { AtomeqElementType } from '@/types/elementType.ts';
 import { apiService } from '@/vitest.setup.ts';
 import { flushPromises, mount } from '@vue/test-utils';
 import type { AxiosResponse } from 'axios';
 import { describe, it, expect } from 'vitest';
-import { nextTick } from 'vue';
+
+const setupTest = (): AtomeqElementType[] => {
+  const familyBundle = [];
+  const parent = elementTypeFactory({ parentId: null });
+  familyBundle.push(parent);
+  const child = elementTypeFactory({ parentId: parent.id });
+  familyBundle.push(child);
+
+  return familyBundle;
+};
 
 describe('AtomeqTypeLegend', () => {
   it('calls the api to retrieve all data on element type hierarchy', () => {
@@ -16,13 +26,9 @@ describe('AtomeqTypeLegend', () => {
   });
 
   it('renders out all parent types and subtypes', async () => {
-    const familyBundle = [];
-    const parent = elementTypeFactory({ parentId: null });
-    familyBundle.push(parent);
-    const child = elementTypeFactory({ parentId: parent.id });
-    familyBundle.push(child);
-
-    const response = { data: familyBundle };
+    const bundle = setupTest();
+    const [parent, child] = bundle;
+    const response = { data: bundle };
     apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
 
     const wrapper = mount(AtomeqTypeLegend);
@@ -37,15 +43,12 @@ describe('AtomeqTypeLegend', () => {
     expect(childElement.exists()).toBeTruthy();
     expect(childElement.html()).toContain(child.name);
   });
-
+  // TODO: Refactor last two tests to use .each(....)(..)
   it('emits an event when an element is hovered', async () => {
-    const familyBundle = [];
-    const parent = elementTypeFactory({ parentId: null });
-    familyBundle.push(parent);
-    const child = elementTypeFactory({ parentId: parent.id });
-    familyBundle.push(child);
+    const bundle = setupTest();
+    const [parent, child] = bundle;
 
-    const response = { data: familyBundle };
+    const response = { data: bundle };
     apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
 
     const wrapper = mount(AtomeqTypeLegend);
@@ -65,13 +68,10 @@ describe('AtomeqTypeLegend', () => {
   });
 
   it('will emit a click event when an element is clicked', async () => {
-    const familyBundle = [];
-    const parent = elementTypeFactory({ parentId: null });
-    familyBundle.push(parent);
-    const child = elementTypeFactory({ parentId: parent.id });
-    familyBundle.push(child);
+    const bundle = setupTest();
+    const [parent, child] = bundle;
 
-    const response = { data: familyBundle };
+    const response = { data: bundle };
     apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
 
     const wrapper = mount(AtomeqTypeLegend);
