@@ -16,12 +16,16 @@ onMounted(async () => {
 
 <template>
   <div v-for="[parent, children] in getFormattedTypes()" :key="parent.id">
-    <div class="bg-amber-500 border-2 p-2 text-sm text-center capitalize">
+    <div
+      :id="`parent-${parent.id}`"
+      class="bg-amber-500 border-2 p-2 text-sm text-center capitalize"
+    >
       {{ parent.name }}
     </div>
     <div
       v-for="child in children"
       :key="child.id"
+      :id="`child-${child.id}`"
       class="bg-amber-700 border-2 p-2 text-xs text-center capitalize"
     >
       {{ child.name }}

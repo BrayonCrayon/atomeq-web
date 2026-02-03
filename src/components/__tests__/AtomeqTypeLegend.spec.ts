@@ -17,7 +17,7 @@ describe('AtomeqTypeLegend', () => {
 
   it('renders out all parent types and subtypes', async () => {
     const familyBundle = [];
-    const parent = elementTypeFactory();
+    const parent = elementTypeFactory({ parentId: null });
     familyBundle.push(parent);
     const child = elementTypeFactory({ parentId: parent.id });
     familyBundle.push(child);
@@ -29,11 +29,13 @@ describe('AtomeqTypeLegend', () => {
 
     await flushPromises();
 
-    const types = wrapper.findAll('div');
+    const parentElement = wrapper.find(`#parent-${parent.id}`);
+    const childElement = wrapper.find(`#child-${child.id}`);
 
-    expect(types.length).toEqual(2);
-    expect(types[0].html()).toContain(parent.name);
-    expect(types[1].html()).toContain(child.name);
+    expect(parentElement.exists()).toBeTruthy();
+    expect(parentElement.html()).toContain(parent.name);
+    expect(childElement.exists()).toBeTruthy();
+    expect(childElement.html()).toContain(child.name);
   });
 
   it('emits an event when it is hover', async () => {
