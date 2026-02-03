@@ -38,9 +38,9 @@ describe('AtomeqTypeLegend', () => {
     expect(childElement.html()).toContain(child.name);
   });
 
-  it('emits an event when it is hover', async () => {
+  it('emits an event when an element is hovered', async () => {
     const familyBundle = [];
-    const parent = elementTypeFactory();
+    const parent = elementTypeFactory({ parentId: null });
     familyBundle.push(parent);
     const child = elementTypeFactory({ parentId: parent.id });
     familyBundle.push(child);
@@ -51,11 +51,42 @@ describe('AtomeqTypeLegend', () => {
     const wrapper = mount(AtomeqTypeLegend);
 
     await flushPromises();
-    await nextTick();
 
-    const type = wrapper.find('div');
-    await type.trigger('mouseover');
+    const parentElement = wrapper.find(`#parent-${parent.id}`);
+    await parentElement.trigger('mouseover');
+
+    const childElement = wrapper.find(`#child-${child.id}`);
+    await childElement.trigger('mouseover');
 
     expect(wrapper.emitted('hover')).toBeDefined();
+    expect(wrapper.emitted('hover')).toHaveLength(2);
+    expect(wrapper.emitted('hover')![0]).toContainEqual(parent);
+    expect(wrapper.emitted('hover')![1]).toContainEqual(child);
+  });
+
+  it('will emit a click event when an element is clicked', async () => {
+    const familyBundle = [];
+    const parent = elementTypeFactory({ parentId: null });
+    familyBundle.push(parent);
+    const child = elementTypeFactory({ parentId: parent.id });
+    familyBundle.push(child);
+
+    const response = { data: familyBundle };
+    apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
+
+    const wrapper = mount(AtomeqTypeLegend);
+
+    await flushPromises();
+
+    const parentElement = wrapper.find(`#parent-${parent.id}`);
+    await parentElement.trigger('click');
+
+    const childElement = wrapper.find(`#child-${child.id}`);
+    await childElement.trigger('click');
+
+    expect(wrapper.emitted('click')).toBeDefined();
+    expect(wrapper.emitted('click')).toHaveLength(2);
+    expect(wrapper.emitted('click')![0]).toContainEqual(parent);
+    expect(wrapper.emitted('click')![1]).toContainEqual(child);
   });
 });
