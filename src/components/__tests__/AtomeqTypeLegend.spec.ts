@@ -43,8 +43,11 @@ describe('AtomeqTypeLegend', () => {
     expect(childElement.exists()).toBeTruthy();
     expect(childElement.html()).toContain(child.name);
   });
-  // TODO: Refactor last two tests to use .each(....)(..)
-  it('emits an event when an element is hovered', async () => {
+
+  it.each([
+    ['mouseover', 'hover'],
+    ['click', 'click'],
+  ])('emits an event when an element %s is triggered', async (eventTrigger, expectedEvent) => {
     const bundle = setupTest();
     const [parent, child] = bundle;
 
@@ -56,37 +59,14 @@ describe('AtomeqTypeLegend', () => {
     await flushPromises();
 
     const parentElement = wrapper.find(`#parent-${parent.id}`);
-    await parentElement.trigger('mouseover');
+    await parentElement.trigger(eventTrigger);
 
     const childElement = wrapper.find(`#child-${child.id}`);
-    await childElement.trigger('mouseover');
+    await childElement.trigger(eventTrigger);
 
-    expect(wrapper.emitted('hover')).toBeDefined();
-    expect(wrapper.emitted('hover')).toHaveLength(2);
-    expect(wrapper.emitted('hover')![0]).toContainEqual(parent);
-    expect(wrapper.emitted('hover')![1]).toContainEqual(child);
-  });
-
-  it('will emit a click event when an element is clicked', async () => {
-    const bundle = setupTest();
-    const [parent, child] = bundle;
-
-    const response = { data: bundle };
-    apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
-
-    const wrapper = mount(AtomeqTypeLegend);
-
-    await flushPromises();
-
-    const parentElement = wrapper.find(`#parent-${parent.id}`);
-    await parentElement.trigger('click');
-
-    const childElement = wrapper.find(`#child-${child.id}`);
-    await childElement.trigger('click');
-
-    expect(wrapper.emitted('click')).toBeDefined();
-    expect(wrapper.emitted('click')).toHaveLength(2);
-    expect(wrapper.emitted('click')![0]).toContainEqual(parent);
-    expect(wrapper.emitted('click')![1]).toContainEqual(child);
+    expect(wrapper.emitted(expectedEvent)).toBeDefined();
+    expect(wrapper.emitted(expectedEvent)).toHaveLength(2);
+    expect(wrapper.emitted(expectedEvent)![0]).toContainEqual(parent);
+    expect(wrapper.emitted(expectedEvent)![1]).toContainEqual(child);
   });
 });
