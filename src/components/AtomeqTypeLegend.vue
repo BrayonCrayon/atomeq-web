@@ -17,7 +17,7 @@ const emits = defineEmits<{
 
 <!--TODO:
   0. how do I want to handle the design? alignment
-  2. turn those into buttons that on hover colour the correct section
+  2. turn those into divs that on hover colour the correct section
 -->
 
 <template>

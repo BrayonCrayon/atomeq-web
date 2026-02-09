@@ -1,9 +1,7 @@
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
-import AtomeqRadioInput from '@/components/common/AtomeqRadioInput.vue';
-import SwitchDisplay from '@/components/SwitchDisplay.vue';
 import mockElements from '@/testUtils/mocks/mockElements.ts';
-import type { Display } from '@/types/atomeq-table.ts';
-import { describe, it, expect } from 'vitest';
+import mockTypes from '@/testUtils/mocks/mockTypes.ts';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import AtomeqTable from '@/views/AtomeqTable.vue';
 import { apiService } from '@/vitest.setup';
@@ -14,6 +12,10 @@ import AtomeqElement from '@/components/AtomeqElement.vue';
 import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 
 describe('AtomeqTable', () => {
+  beforeEach(() => {
+    apiService.fetchTypes.mockResolvedValue(mockTypes);
+  });
+
   it('will call endpoint to retrieve elements and load them in', async () => {
     const response = { data: [] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
@@ -108,5 +110,35 @@ describe('AtomeqTable', () => {
     await stateButton.trigger('click');
 
     expect(wrapper.findComponent(AtomeqTypeLegend).exists()).toBe(false);
+  });
+
+  it('will highlight the correct elements by type when the type is hovered in type legend', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
+
+    const nobleGases = mockElements.data.filter((element) => element.type.id === nobleGas!.id);
+    const nonNobleGases = mockElements.data.filter((element) => element.type.id !== nobleGas!.id);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    // find the whole type legend component
+    // emit from type legend that something was hovered over
+    const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
+    typeLegend.vm.$emit('hover', nobleGas);
+
+    const nobleGasIds = nobleGases.map((item) => item.id);
+
+    const highlightedElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => nobleGasIds.includes(item.props('element').id));
+
+    highlightedElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(true);
+    });
+
+    // we need to know elements that belong to this type
+    // we need to expect that the correct elements were highlighted
+    // expect that the rest of the elements are gray
   });
 });
