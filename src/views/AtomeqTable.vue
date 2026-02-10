@@ -3,6 +3,7 @@ import AtomeqElementComponent from '@/components/AtomeqElement.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
+import type { AtomeqElementType } from '@/types/elementType.ts';
 import { computed, onMounted, ref } from 'vue';
 import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtils.ts';
 import { Display } from '@/types/atomeq-table.ts';
@@ -11,6 +12,7 @@ import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 
 const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
+const hoveredType = ref<AtomeqElementType | undefined>(undefined);
 
 const { getElements, elements } = useElements();
 
@@ -71,7 +73,7 @@ onMounted(async () => {
       <SwitchDisplay v-model="elementDisplay" />
     </div>
     <div class="flex justify-center">
-      <AtomeqTypeLegend v-if="elementDisplay === Display.TYPE" />
+      <AtomeqTypeLegend v-if="elementDisplay === Display.TYPE" @hover="hoveredType = $event" />
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
       <div :key="`${element?.name}-${idx2}`" v-for="(element, idx2) in row" class="mb-1">
@@ -80,6 +82,7 @@ onMounted(async () => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
+          :faded="hoveredType?.id !== element.typeId"
           @click="selectedElement = element"
         />
       </div>
@@ -91,6 +94,7 @@ onMounted(async () => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
+            :faded="hoveredType?.id !== element.typeId"
             @click="selectedElement = element"
           />
         </div>

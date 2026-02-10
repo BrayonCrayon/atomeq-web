@@ -2,9 +2,15 @@
 import type { Element } from '@/types/element.ts';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
-const props = defineProps<{
-  element: Element;
-}>();
+const props = withDefaults(
+  defineProps<{
+    element: Element;
+    faded?: boolean;
+  }>(),
+  {
+    faded: false,
+  },
+);
 
 const card = ref<HTMLElement | null>(null);
 let requestAnimationFrameId = 0;

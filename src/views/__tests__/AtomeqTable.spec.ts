@@ -4,16 +4,17 @@ import mockTypes from '@/testUtils/mocks/mockTypes.ts';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import AtomeqTable from '@/views/AtomeqTable.vue';
-import { apiService } from '@/vitest.setup';
+import { apiService, generateAxiosResponse } from '@/vitest.setup';
 import type { AxiosResponse } from 'axios';
 import { Element as AtomeqElementType } from '@/types/element.ts';
 
 import AtomeqElement from '@/components/AtomeqElement.vue';
 import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
+import { nextTick } from 'vue';
 
 describe('AtomeqTable', () => {
   beforeEach(() => {
-    apiService.fetchTypes.mockResolvedValue(mockTypes);
+    apiService.fetchTypes.mockResolvedValue(generateAxiosResponse(mockTypes.data));
   });
 
   it('will call endpoint to retrieve elements and load them in', async () => {
@@ -116,29 +117,34 @@ describe('AtomeqTable', () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
 
-    const nobleGases = mockElements.data.filter((element) => element.type.id === nobleGas!.id);
-    const nonNobleGases = mockElements.data.filter((element) => element.type.id !== nobleGas!.id);
+    const nobleGasIds = mockElements.data
+      .filter((element) => element.type.id === nobleGas!.id)
+      .map((item) => item.id);
+    const nonNobleGasIds = mockElements.data
+      .filter((element) => element.type.id !== nobleGas!.id)
+      .map((item) => item.id);
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
-    // find the whole type legend component
-    // emit from type legend that something was hovered over
     const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
     typeLegend.vm.$emit('hover', nobleGas);
-
-    const nobleGasIds = nobleGases.map((item) => item.id);
+    await nextTick();
 
     const highlightedElements = wrapper
       .findAllComponents(AtomeqElement)
       .filter((item) => nobleGasIds.includes(item.props('element').id));
 
     highlightedElements.forEach((element) => {
-      expect(element.props('faded')).toEqual(true);
+      expect(element.props('faded')).toEqual(false);
     });
 
-    // we need to know elements that belong to this type
-    // we need to expect that the correct elements were highlighted
-    // expect that the rest of the elements are gray
+    const fadedElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => nonNobleGasIds.includes(item.props('element').id));
+
+    fadedElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(true);
+    });
   });
 });
