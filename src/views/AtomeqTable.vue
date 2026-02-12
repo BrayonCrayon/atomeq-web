@@ -73,7 +73,11 @@ onMounted(async () => {
       <SwitchDisplay v-model="elementDisplay" />
     </div>
     <div class="flex justify-center">
-      <AtomeqTypeLegend v-if="elementDisplay === Display.TYPE" @hover="hoveredType = $event" />
+      <AtomeqTypeLegend
+        v-if="elementDisplay === Display.TYPE"
+        @hover="hoveredType = $event"
+        @hoverLeave="hoveredType = undefined"
+      />
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
       <div :key="`${element?.name}-${idx2}`" v-for="(element, idx2) in row" class="mb-1">
