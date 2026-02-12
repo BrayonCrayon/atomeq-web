@@ -46,6 +46,7 @@ describe('AtomeqTypeLegend', () => {
 
   it.each([
     ['mouseover', 'hover'],
+    ['mouseleave', 'hoverLeave'],
     ['click', 'click'],
   ])('emits an event when an element %s is triggered', async (eventTrigger, expectedEvent) => {
     const bundle = setupTest();

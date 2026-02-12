@@ -11,6 +11,7 @@ onMounted(async () => {
 
 const emits = defineEmits<{
   hover: [AtomeqElementType];
+  hoverLeave: [AtomeqElementType];
   click: [AtomeqElementType];
 }>();
 </script>
@@ -26,6 +27,7 @@ const emits = defineEmits<{
       :id="`parent-${parent.id}`"
       class="bg-amber-500 border-2 p-2 text-sm text-center capitalize"
       @mouseover="emits('hover', parent)"
+      @mouseleave="emits('hoverLeave', parent)"
       @click="emits('click', parent)"
     >
       {{ parent.name }}
@@ -36,6 +38,7 @@ const emits = defineEmits<{
       :id="`child-${child.id}`"
       class="bg-amber-700 border-2 p-2 text-xs text-center capitalize"
       @mouseover="emits('hover', child)"
+      @mouseleave="emits('hoverLeave', child)"
       @click="emits('click', child)"
     >
       {{ child.name }}
