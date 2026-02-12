@@ -16,4 +16,16 @@ describe('AtomeqElement', () => {
 
     expect(wrapper.find('div').classes()).toContain('faded');
   });
+
+  it('will not fade when the faded prop is false', () => {
+    const element = transformElement(elementFactory());
+    const wrapper = mount(AtomeqElement, {
+      props: {
+        element,
+        faded: false,
+      },
+    });
+
+    expect(wrapper.find('div').classes()).not.toContain('faded');
+  });
 });

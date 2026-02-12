@@ -82,7 +82,7 @@ onMounted(async () => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="hoveredType?.id !== element.typeId"
+          :faded="hoveredType && hoveredType.id !== element.typeId"
           @click="selectedElement = element"
         />
       </div>
@@ -94,7 +94,7 @@ onMounted(async () => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
-            :faded="hoveredType?.id !== element.typeId"
+            :faded="hoveredType && hoveredType?.id !== element.typeId"
             @click="selectedElement = element"
           />
         </div>

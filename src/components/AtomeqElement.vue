@@ -103,6 +103,6 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .faded {
-  @apply hidden;
+  opacity: 50%;
 }
 </style>
