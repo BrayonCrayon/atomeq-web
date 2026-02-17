@@ -30,4 +30,27 @@ describe('useTypes', () => {
     expect(consoleSpy).toHaveBeenCalledWith(errorMessage);
     consoleSpy.mockRestore();
   });
+
+  it('will transform types into a group based on the parent types', async () => {
+    const parentTypeOne = elementTypeFactory({ parentId: null });
+    const subTypeOne = elementTypeFactory({ parentId: parentTypeOne.id });
+    const parentTypeTwo = elementTypeFactory({ parentId: null });
+    const subTypeTwo = elementTypeFactory({ parentId: parentTypeTwo.id });
+    const subTypeThree = elementTypeFactory({ parentId: parentTypeTwo.id });
+    const payload = [parentTypeOne, parentTypeTwo, subTypeOne, subTypeTwo, subTypeThree];
+
+    const expectedResult = new Map();
+    expectedResult.set(parentTypeOne, [subTypeOne]);
+    expectedResult.set(parentTypeTwo, [subTypeTwo]);
+    expectedResult.get(parentTypeTwo).push(subTypeThree);
+
+    apiService.fetchTypes.mockResolvedValue({ data: payload } as AxiosResponse);
+
+    const { getTypes, getFormattedTypes } = useTypes();
+    await getTypes();
+
+    const result = getFormattedTypes();
+
+    expect(result).toEqual(expectedResult);
+  });
 });

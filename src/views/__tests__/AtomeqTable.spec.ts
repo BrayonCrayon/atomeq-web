@@ -1,17 +1,24 @@
+import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import mockElements from '@/testUtils/mocks/mockElements.ts';
-import { describe, it, expect } from 'vitest';
+import mockTypes from '@/testUtils/mocks/mockTypes.ts';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import AtomeqTable from '@/views/AtomeqTable.vue';
-import { apiService } from '@/vitest.setup';
+import { apiService, generateAxiosResponse } from '@/vitest.setup';
 import type { AxiosResponse } from 'axios';
 import { Element as AtomeqElementType } from '@/types/element.ts';
 
 import AtomeqElement from '@/components/AtomeqElement.vue';
 import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
+import { nextTick } from 'vue';
 
 describe('AtomeqTable', () => {
+  beforeEach(() => {
+    apiService.fetchTypes.mockResolvedValue(generateAxiosResponse(mockTypes.data));
+  });
+
   it('will call endpoint to retrieve elements and load them in', async () => {
-    const response = { data: { data: [] } };
+    const response = { data: [] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
     mount(AtomeqTable);
     await flushPromises();
@@ -82,7 +89,6 @@ describe('AtomeqTable', () => {
     const response = { data: [element] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
 
-    // mount the table
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
@@ -92,5 +98,74 @@ describe('AtomeqTable', () => {
     expect(elementModalComponent.props().show).toBe(false);
     await elementComponent.trigger('click');
     expect(elementModalComponent.props().show).toBe(true);
+  });
+
+  it('will not display type legend when its on state display', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    const [, stateButton] = wrapper.findAllComponents({ name: 'AtomeqRadioInput' });
+
+    await stateButton.trigger('click');
+
+    expect(wrapper.findComponent(AtomeqTypeLegend).exists()).toBe(false);
+  });
+
+  it('will highlight the correct elements by type when the type is hovered in type legend', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
+
+    const nobleGasIds = mockElements.data
+      .filter((element) => element.type.id === nobleGas!.id)
+      .map((item) => item.id);
+    const nonNobleGasIds = mockElements.data
+      .filter((element) => element.type.id !== nobleGas!.id)
+      .map((item) => item.id);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
+    typeLegend.vm.$emit('hover', nobleGas);
+    await nextTick();
+
+    const highlightedElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => nobleGasIds.includes(item.props('element').id));
+
+    highlightedElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(false);
+    });
+
+    const fadedElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => nonNobleGasIds.includes(item.props('element').id));
+
+    fadedElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(true);
+    });
+  });
+
+  it('will reset hovered type when hoverLeave is emitted from type legend', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
+    typeLegend.vm.$emit('hover', nobleGas);
+    await nextTick();
+
+    typeLegend.vm.$emit('hoverLeave', nobleGas);
+    await nextTick();
+
+    const allElements = wrapper.findAllComponents(AtomeqElement);
+
+    allElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(false);
+    });
   });
 });

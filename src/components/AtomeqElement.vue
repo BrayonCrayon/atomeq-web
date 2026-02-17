@@ -2,9 +2,15 @@
 import type { Element } from '@/types/element.ts';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
-const props = defineProps<{
-  element: Element;
-}>();
+const props = withDefaults(
+  defineProps<{
+    element: Element;
+    faded?: boolean;
+  }>(),
+  {
+    faded: false,
+  },
+);
 
 const card = ref<HTMLElement | null>(null);
 let requestAnimationFrameId = 0;
@@ -66,10 +72,18 @@ onUnmounted(() => {
   card.value?.removeEventListener('mouseleave', resetCard);
   if (requestAnimationFrameId) cancelAnimationFrame(requestAnimationFrameId);
 });
-</script>
 
+// TODO: Elements don't switch back when hovered on another type.
+// TODO: Bug with faded, not accounting for undefined. Should always be false in this case
+</script>
 <template>
-  <div ref="card" class="h-20 content-center bg-linear-to-b from-slate-100 to-transparent">
+  <div
+    ref="card"
+    class="h-20 content-center bg-linear-to-b from-slate-100 to-transparent"
+    :class="{
+      ['faded']: faded,
+    }"
+  >
     <div class="flex justify-between text-xs font-bold mb-2">
       <div>
         {{ element?.atomicNumber }}
@@ -87,4 +101,8 @@ onUnmounted(() => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.faded {
+  opacity: 50%;
+}
+</style>
