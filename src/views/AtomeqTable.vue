@@ -4,7 +4,7 @@ import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtils.ts';
 import { Display } from '@/types/atomeq-table.ts';
 import SwitchDisplay from '@/components/SwitchDisplay.vue';
@@ -13,6 +13,7 @@ import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
 const hoveredType = ref<AtomeqElementType | undefined>(undefined);
+const selectedTypes = ref<AtomeqElementType[]>([]);
 
 const { getElements, elements } = useElements();
 
@@ -59,6 +60,10 @@ const displayColour = (element: Element) => {
 onMounted(async () => {
   await getElements();
 });
+
+watch(selectedTypes.value, (newVal, oldVal) => {
+  console.log(newVal, oldVal);
+});
 </script>
 
 <template>
@@ -77,6 +82,7 @@ onMounted(async () => {
         v-if="elementDisplay === Display.TYPE"
         @hover="hoveredType = $event"
         @hoverLeave="hoveredType = undefined"
+        @click="selectedTypes.push($event)"
       />
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
@@ -86,7 +92,10 @@ onMounted(async () => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="hoveredType && hoveredType.id !== element.typeId"
+          :faded="
+            (hoveredType && hoveredType.id !== element.typeId) ||
+            (selectedTypes.length > 0 && !selectedTypes.includes(element.type!))
+          "
           @click="selectedElement = element"
         />
       </div>
@@ -98,7 +107,10 @@ onMounted(async () => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
-            :faded="hoveredType && hoveredType?.id !== element.typeId"
+            :faded="
+              (hoveredType && hoveredType.id !== element.typeId) ||
+              (selectedTypes.length > 0 && !selectedTypes.includes(element.type!)) // TODO: compare ids
+            "
             @click="selectedElement = element"
           />
         </div>

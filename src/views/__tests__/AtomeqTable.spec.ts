@@ -168,4 +168,33 @@ describe('AtomeqTable', () => {
       expect(element.props('faded')).toEqual(false);
     });
   });
+
+  it('will persist the highlighted state when the legend type is clicked', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
+    typeLegend.vm.$emit('click', nobleGas);
+    await nextTick();
+
+    const allElements = wrapper.findAllComponents(AtomeqElement);
+
+    const nobleGasElements = allElements.filter(
+      (item) => item.props('element').typeId === nobleGas?.id,
+    );
+    const otherElements = allElements.filter(
+      (item) => item.props('element').typeId !== nobleGas?.id,
+    );
+
+    nobleGasElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(false);
+    });
+
+    otherElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(true);
+    });
+  });
 });
