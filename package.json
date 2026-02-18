@@ -16,6 +16,7 @@
     "format": "prettier --write src"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.31.2",
     "@tailwindcss/vite": "^4.1.11",
     "@types/d3": "^7.4.3",
     "axios": "^1.11.0",
