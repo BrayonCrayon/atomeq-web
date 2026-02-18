@@ -4,7 +4,7 @@ import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtils.ts';
 import { Display } from '@/types/atomeq-table.ts';
 import SwitchDisplay from '@/components/SwitchDisplay.vue';
