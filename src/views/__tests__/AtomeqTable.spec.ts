@@ -197,4 +197,48 @@ describe('AtomeqTable', () => {
       expect(element.props('faded')).toEqual(true);
     });
   });
+
+  it('will persist highlighting when an element type is selected and another type is hovered', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
+    const transitionMetal = mockTypes.data.find((item) => item.name === 'transition-metal');
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
+    typeLegend.vm.$emit('click', nobleGas);
+    await nextTick();
+
+    typeLegend.vm.$emit('hover', transitionMetal);
+    await nextTick();
+
+    const allElements = wrapper.findAllComponents(AtomeqElement);
+
+    const nobleGasElements = allElements.filter(
+      (item) => item.props('element').typeId === nobleGas?.id,
+    );
+
+    const transitionMetalElements = allElements.filter(
+      (item) => item.props('element').typeId === transitionMetal?.id,
+    );
+
+    const otherElements = allElements.filter(
+      (item) =>
+        item.props('element').typeId !== nobleGas?.id &&
+        item.props('element').typeId !== transitionMetal?.id,
+    );
+
+    nobleGasElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(false);
+    });
+
+    transitionMetalElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(false);
+    });
+
+    otherElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(true);
+    });
+  });
 });

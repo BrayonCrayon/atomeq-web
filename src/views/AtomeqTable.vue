@@ -61,9 +61,28 @@ onMounted(async () => {
   await getElements();
 });
 
-watch(selectedTypes.value, (newVal, oldVal) => {
-  console.log(newVal, oldVal);
-});
+const shouldFade = (element: Element): boolean => {
+  const isHovered = hoveredType.value && hoveredType.value.id === element.typeId;
+  const isSelected = selectedTypes.value.length > 0 && selectedTypes.value.includes(element.typeId);
+
+  return !isHovered && !isSelected;
+
+  // if (!hoveredType.value) {
+  //   return false;
+  // }
+  //
+  // if (hoveredType.value && hoveredType.value.id !== element.typeId) {
+  //   return false;
+  // }
+  //
+  // if (selectedTypes.value.length > 0 && !selectedTypes.value.includes(element.typeId)) {
+  //   return false;
+  // }
+  // // (hoveredType.value && hoveredType.value.id !== element.typeId) ||
+  // //   (selectedTypes.value.length > 0 && !selectedTypes.value.includes(element.typeId));
+  //
+  // return true;
+};
 </script>
 
 <template>
@@ -92,10 +111,7 @@ watch(selectedTypes.value, (newVal, oldVal) => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="
-            (hoveredType && hoveredType.id !== element.typeId) ||
-            (selectedTypes.length > 0 && !selectedTypes.includes(element.typeId))
-          "
+          :faded="shouldFade(element)"
           @click="selectedElement = element"
         />
       </div>
@@ -107,10 +123,7 @@ watch(selectedTypes.value, (newVal, oldVal) => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
-            :faded="
-              (hoveredType && hoveredType.id !== element.typeId) ||
-              (selectedTypes.length > 0 && !selectedTypes.includes(element.typeId))
-            "
+            :faded="shouldFade(element)"
             @click="selectedElement = element"
           />
         </div>
