@@ -13,7 +13,7 @@ import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
 const hoveredType = ref<AtomeqElementType | undefined>(undefined);
-const selectedTypes = ref<AtomeqElementType[]>([]);
+const selectedTypes = ref<number[]>([]);
 
 const { getElements, elements } = useElements();
 
@@ -82,7 +82,7 @@ watch(selectedTypes.value, (newVal, oldVal) => {
         v-if="elementDisplay === Display.TYPE"
         @hover="hoveredType = $event"
         @hoverLeave="hoveredType = undefined"
-        @click="selectedTypes.push($event)"
+        @click="selectedTypes.push($event.id)"
       />
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
@@ -94,7 +94,7 @@ watch(selectedTypes.value, (newVal, oldVal) => {
           :element="element"
           :faded="
             (hoveredType && hoveredType.id !== element.typeId) ||
-            (selectedTypes.length > 0 && !selectedTypes.includes(element.type!))
+            (selectedTypes.length > 0 && !selectedTypes.includes(element.typeId))
           "
           @click="selectedElement = element"
         />
@@ -109,7 +109,7 @@ watch(selectedTypes.value, (newVal, oldVal) => {
             :element="element"
             :faded="
               (hoveredType && hoveredType.id !== element.typeId) ||
-              (selectedTypes.length > 0 && !selectedTypes.includes(element.type!)) // TODO: compare ids
+              (selectedTypes.length > 0 && !selectedTypes.includes(element.typeId))
             "
             @click="selectedElement = element"
           />
