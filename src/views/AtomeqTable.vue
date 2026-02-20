@@ -61,25 +61,11 @@ onMounted(async () => {
   await getElements();
 });
 
-// SHOULD FADE IF I AM:
-//   - NOT DEFAULT
-//   - NOT HOVERED
-//   - NOT SELECTED
-//   - AND IF ANYTHING WAS SELECTED, ONLY SELECTED SHOULD BE HIGHLIGHTED
-//   - AND SELECTED SHOULD PERSIST, IF SELECTED, WHEN HOVERED
 const shouldFade = (element: Element): boolean => {
   const isHovered = hoveredType.value && hoveredType.value.id === element.typeId;
   const isSelected = selectedTypes.value.length > 0 && selectedTypes.value.includes(element.typeId);
 
-  if ((hoveredType.value || selectedTypes.value.length > 0) && !isHovered && !isSelected) {
-    return true;
-  }
-
-  if (!hoveredType.value) {
-    return false;
-  }
-
-  return false;
+  return (hoveredType.value || selectedTypes.value.length > 0) && !isHovered && !isSelected;
 };
 </script>
 
