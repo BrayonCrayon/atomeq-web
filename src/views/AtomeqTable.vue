@@ -4,7 +4,7 @@ import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtils.ts';
 import { Display } from '@/types/atomeq-table.ts';
 import SwitchDisplay from '@/components/SwitchDisplay.vue';
@@ -60,6 +60,12 @@ const displayColour = (element: Element) => {
 onMounted(async () => {
   await getElements();
 });
+
+/* * TODO:
+ * 1. parents should highlight everything (all the children)
+ * 2. UI buttons should change colour themselves
+ * 3. redesign the component
+ * */
 
 const shouldFade = (element: Element): boolean => {
   const isHovered = hoveredType.value && hoveredType.value.id === element.typeId;

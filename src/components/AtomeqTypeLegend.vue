@@ -16,11 +16,6 @@ const emits = defineEmits<{
 }>();
 </script>
 
-<!--TODO:
-  0. how do I want to handle the design? alignment
-  2. turn those into divs that on hover colour the correct section
--->
-
 <template>
   <div v-for="[parent, children] in getFormattedTypes()" :key="parent.id">
     <div
