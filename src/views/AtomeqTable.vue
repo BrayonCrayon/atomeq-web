@@ -64,8 +64,9 @@ onMounted(async () => {
 /* * TODO:
  * 1. parents should highlight everything (all the children) -> push down the HIGHLIGHT to all the children (new test)
  *    1.1 any cleanup/refactor? including tests that were written for the feature
- * 2. UI buttons should change colour themselves
- * 3. redesign the component
+ * 2. handle the deselecting things
+ * 3. UI buttons should change colour themselves
+ * 4. redesign the component
  * */
 
 const shouldFade = (element: Element): boolean => {
