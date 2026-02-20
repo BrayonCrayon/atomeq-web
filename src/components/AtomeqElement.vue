@@ -72,10 +72,8 @@ onUnmounted(() => {
   card.value?.removeEventListener('mouseleave', resetCard);
   if (requestAnimationFrameId) cancelAnimationFrame(requestAnimationFrameId);
 });
-
-// TODO: Elements don't switch back when hovered on another type.
-// TODO: Bug with faded, not accounting for undefined. Should always be false in this case
 </script>
+
 <template>
   <div
     ref="card"

@@ -16,16 +16,11 @@ const emits = defineEmits<{
 }>();
 </script>
 
-<!--TODO:
-  0. how do I want to handle the design? alignment
-  2. turn those into divs that on hover colour the correct section
--->
-
 <template>
   <div v-for="[parent, children] in getFormattedTypes()" :key="parent.id">
     <div
       :id="`parent-${parent.id}`"
-      class="bg-amber-500 border-2 p-2 text-sm text-center capitalize"
+      class="bg-amber-500 border-2 p-2 text-sm text-center capitalize cursor-pointer hover:bg-amber-200"
       @mouseover="emits('hover', parent)"
       @mouseleave="emits('hoverLeave', parent)"
       @click="emits('click', parent)"
@@ -36,7 +31,7 @@ const emits = defineEmits<{
       v-for="child in children"
       :key="child.id"
       :id="`child-${child.id}`"
-      class="bg-amber-700 border-2 p-2 text-xs text-center capitalize"
+      class="bg-amber-700 border-2 p-2 text-xs text-center capitalize cursor-pointer hover:bg-amber-500"
       @mouseover="emits('hover', child)"
       @mouseleave="emits('hoverLeave', child)"
       @click="emits('click', child)"

@@ -13,6 +13,7 @@ import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
 const hoveredType = ref<AtomeqElementType | undefined>(undefined);
+const selectedTypes = ref<number[]>([]);
 
 const { getElements, elements } = useElements();
 
@@ -59,6 +60,21 @@ const displayColour = (element: Element) => {
 onMounted(async () => {
   await getElements();
 });
+
+/* * TODO:
+ * 1. parents should highlight everything (all the children) -> push down the HIGHLIGHT to all the children (new test)
+ *    1.1 any cleanup/refactor? including tests that were written for the feature
+ * 2. handle the deselecting things
+ * 3. UI buttons should change colour themselves
+ * 4. redesign the component
+ * */
+
+const shouldFade = (element: Element): boolean => {
+  const isHovered = hoveredType.value && hoveredType.value.id === element.typeId;
+  const isSelected = selectedTypes.value.length > 0 && selectedTypes.value.includes(element.typeId);
+
+  return (hoveredType.value || selectedTypes.value.length > 0) && !isHovered && !isSelected;
+};
 </script>
 
 <template>
@@ -77,6 +93,7 @@ onMounted(async () => {
         v-if="elementDisplay === Display.TYPE"
         @hover="hoveredType = $event"
         @hoverLeave="hoveredType = undefined"
+        @click="selectedTypes.push($event.id)"
       />
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
@@ -86,7 +103,7 @@ onMounted(async () => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="hoveredType && hoveredType.id !== element.typeId"
+          :faded="shouldFade(element)"
           @click="selectedElement = element"
         />
       </div>
@@ -98,7 +115,7 @@ onMounted(async () => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
-            :faded="hoveredType && hoveredType?.id !== element.typeId"
+            :faded="shouldFade(element)"
             @click="selectedElement = element"
           />
         </div>

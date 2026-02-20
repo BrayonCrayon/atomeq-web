@@ -168,4 +168,110 @@ describe('AtomeqTable', () => {
       expect(element.props('faded')).toEqual(false);
     });
   });
+
+  it('will persist the highlighted state when the legend type is clicked', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
+    typeLegend.vm.$emit('click', nobleGas);
+    await nextTick();
+
+    const allElements = wrapper.findAllComponents(AtomeqElement);
+
+    const nobleGasElements = allElements.filter(
+      (item) => item.props('element').typeId === nobleGas?.id,
+    );
+    const otherElements = allElements.filter(
+      (item) => item.props('element').typeId !== nobleGas?.id,
+    );
+
+    nobleGasElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(false);
+    });
+
+    otherElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(true);
+    });
+  });
+
+  it('will persist highlighting when an element type is selected and another type is hovered', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
+    const transitionMetal = mockTypes.data.find((item) => item.name === 'transition-metal');
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
+    typeLegend.vm.$emit('click', nobleGas);
+    await nextTick();
+
+    typeLegend.vm.$emit('hover', transitionMetal);
+    await nextTick();
+
+    const allElements = wrapper.findAllComponents(AtomeqElement);
+
+    const nobleGasElements = allElements.filter(
+      (item) => item.props('element').typeId === nobleGas?.id,
+    );
+
+    const transitionMetalElements = allElements.filter(
+      (item) => item.props('element').typeId === transitionMetal?.id,
+    );
+
+    const otherElements = allElements.filter(
+      (item) =>
+        item.props('element').typeId !== nobleGas?.id &&
+        item.props('element').typeId !== transitionMetal?.id,
+    );
+
+    nobleGasElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(false);
+    });
+
+    transitionMetalElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(false);
+    });
+
+    otherElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(true);
+    });
+  });
+
+  // TODO:
+  // 1. chech that on hover and on click the children types are highlighted if the parent is clicked/hovered
+  // 2. data provider for hover/click? similar test, different emits
+
+  it.skip('will highlight the children types if the parent type is hovered', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
+    typeLegend.vm.$emit('click', nobleGas);
+    await nextTick();
+
+    const allElements = wrapper.findAllComponents(AtomeqElement);
+
+    const nobleGasElements = allElements.filter(
+      (item) => item.props('element').typeId === nobleGas?.id,
+    );
+    const otherElements = allElements.filter(
+      (item) => item.props('element').typeId !== nobleGas?.id,
+    );
+
+    nobleGasElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(false);
+    });
+
+    otherElements.forEach((element) => {
+      expect(element.props('faded')).toEqual(true);
+    });
+  });
 });
