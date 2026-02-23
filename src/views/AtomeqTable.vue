@@ -63,7 +63,7 @@ onMounted(async () => {
 
 /* * TODO:
  * 1. parents should highlight everything (all the children) -> push down the HIGHLIGHT to all the children (new test)
- *    1.1 any cleanup/refactor? including tests that were written for the feature
+ *    2.1 any cleanup/refactor? including tests that were written for the feature
  * 2. handle the deselecting things
  * 3. UI buttons should change colour themselves
  * 4. redesign the component
@@ -74,6 +74,19 @@ const shouldFade = (element: Element): boolean => {
   const isSelected = selectedTypes.value.length > 0 && selectedTypes.value.includes(element.typeId);
 
   return (hoveredType.value || selectedTypes.value.length > 0) && !isHovered && !isSelected;
+};
+
+// TODO: revisit this
+const belongsToSameFamily = (element: Element): boolean => {
+  if (!hoveredType.value) {
+    return false;
+  }
+
+  if (hoveredType.value?.parentId) {
+    return false;
+  }
+
+  return hoveredType.value?.id === element.type?.parentId;
 };
 </script>
 
@@ -103,7 +116,7 @@ const shouldFade = (element: Element): boolean => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="shouldFade(element)"
+          :faded="!belongsToSameFamily(element) || shouldFade(element)"
           @click="selectedElement = element"
         />
       </div>
