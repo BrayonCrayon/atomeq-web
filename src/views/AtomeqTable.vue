@@ -5,6 +5,7 @@ import { useTypes } from '@/composables/useTypes.ts';
 import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
+import { pullAll } from 'lodash';
 import { computed, onMounted, ref } from 'vue';
 import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtils.ts';
 import { Display } from '@/types/atomeq-table.ts';
@@ -86,20 +87,14 @@ const hoverOnType = (type: AtomeqElementType): void => {
 };
 
 const selectAndDeselectTypes = (type: AtomeqElementType): void => {
-  if (selectedTypes.value.includes(type.id)) {
-    const children = !type.parentId ? types.value.filter((item) => (item.parentId = type.id)) : [];
+  const children = !type.parentId ? types.value.filter((item) => item.parentId === type.id) : [];
 
-    [type.id, ...children.map((item) => item.id)].forEach((typeIdToRemove) => {
-      const index = selectedTypes.value.indexOf(typeIdToRemove);
-      selectedTypes.value.splice(index, 1);
-    });
+  if (selectedTypes.value.includes(type.id)) {
+    pullAll(selectedTypes.value, [type.id, ...children.map((item) => item.id)]);
     return;
   }
 
-  if (type.parentId === null) {
-    const children = types.value.filter((item) => item.parentId === type.id);
-    children.forEach((child) => selectedTypes.value.push(child.id));
-  }
+  children.forEach((child) => selectedTypes.value.push(child.id));
 
   selectedTypes.value.push(type.id);
 };
