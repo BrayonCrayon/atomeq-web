@@ -77,6 +77,11 @@ const shouldFade = (element: Element): boolean => {
 };
 
 const hoverOnType = (type: AtomeqElementType): void => {
+  if (type.parentId === null) {
+    const children = types.value.filter((item) => item.parentId === type.id);
+    children.forEach((child) => hoveredType.value.push(child.id));
+  }
+
   hoveredType.value.push(type.id);
 };
 
