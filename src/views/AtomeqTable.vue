@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AtomeqElementComponent from '@/components/AtomeqElement.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
+import { useTypes } from '@/composables/useTypes.ts';
 import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
@@ -16,6 +17,7 @@ const hoveredType = ref<number[]>([]);
 const selectedTypes = ref<number[]>([]);
 
 const { getElements, elements } = useElements();
+const { getTypes, types } = useTypes();
 
 const elementTable = computed(() => {
   return getElementTable(elements.value);
@@ -57,10 +59,6 @@ const displayColour = (element: Element) => {
   };
 };
 
-onMounted(async () => {
-  await getElements();
-});
-
 /* * TODO:
  * 1. parents should highlight everything (all the children) -> push down the HIGHLIGHT to all the children (new test)
  *    2.1 any cleanup/refactor? including tests that were written for the feature
@@ -77,6 +75,15 @@ const shouldFade = (element: Element): boolean => {
     (hoveredType.value.length > 0 || selectedTypes.value.length > 0) && !isHovered && !isSelected
   );
 };
+
+const hoverOnType = (type: AtomeqElementType): void => {
+  hoveredType.value.push(type.id);
+};
+
+onMounted(async () => {
+  await getElements();
+  await getTypes();
+});
 </script>
 
 <template>
@@ -93,7 +100,7 @@ const shouldFade = (element: Element): boolean => {
     <div class="flex justify-center">
       <AtomeqTypeLegend
         v-if="elementDisplay === Display.TYPE"
-        @hover="hoveredType.push($event.id)"
+        @hover="hoverOnType"
         @hoverLeave="hoveredType.pop()"
         @click="selectedTypes.push($event.id)"
       />
