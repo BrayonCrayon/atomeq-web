@@ -86,6 +86,16 @@ const hoverOnType = (type: AtomeqElementType): void => {
 };
 
 const selectAndDeselectTypes = (type: AtomeqElementType): void => {
+  if (selectedTypes.value.includes(type.id)) {
+    const children = !type.parentId ? types.value.filter((item) => (item.parentId = type.id)) : [];
+
+    [type.id, ...children.map((item) => item.id)].forEach((typeIdToRemove) => {
+      const index = selectedTypes.value.indexOf(typeIdToRemove);
+      selectedTypes.value.splice(index, 1);
+    });
+    return;
+  }
+
   if (type.parentId === null) {
     const children = types.value.filter((item) => item.parentId === type.id);
     children.forEach((child) => selectedTypes.value.push(child.id));
