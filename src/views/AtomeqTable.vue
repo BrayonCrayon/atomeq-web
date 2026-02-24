@@ -13,7 +13,7 @@ import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 
 const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
-const hoveredType = ref<number[]>([]);
+const hoveredTypes = ref<number[]>([]);
 const selectedTypes = ref<number[]>([]);
 
 const { getElements, elements } = useElements();
@@ -68,21 +68,21 @@ const displayColour = (element: Element) => {
  * */
 
 const shouldFade = (element: Element): boolean => {
-  const isHovered = hoveredType.value.length > 0 && hoveredType.value.includes(element.typeId);
+  const isHovered = hoveredTypes.value.length > 0 && hoveredTypes.value.includes(element.typeId);
   const isSelected = selectedTypes.value.length > 0 && selectedTypes.value.includes(element.typeId);
 
   return (
-    (hoveredType.value.length > 0 || selectedTypes.value.length > 0) && !isHovered && !isSelected
+    (hoveredTypes.value.length > 0 || selectedTypes.value.length > 0) && !isHovered && !isSelected
   );
 };
 
 const hoverOnType = (type: AtomeqElementType): void => {
   if (type.parentId === null) {
     const children = types.value.filter((item) => item.parentId === type.id);
-    children.forEach((child) => hoveredType.value.push(child.id));
+    children.forEach((child) => hoveredTypes.value.push(child.id));
   }
 
-  hoveredType.value.push(type.id);
+  hoveredTypes.value.push(type.id);
 };
 
 onMounted(async () => {
@@ -106,7 +106,7 @@ onMounted(async () => {
       <AtomeqTypeLegend
         v-if="elementDisplay === Display.TYPE"
         @hover="hoverOnType"
-        @hoverLeave="hoveredType.pop()"
+        @hoverLeave="hoveredTypes = []"
         @click="selectedTypes.push($event.id)"
       />
     </div>
