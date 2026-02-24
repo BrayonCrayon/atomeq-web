@@ -12,7 +12,7 @@ import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 
 const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
-const hoveredType = ref<AtomeqElementType | undefined>(undefined);
+const hoveredType = ref<number[]>([]);
 const selectedTypes = ref<number[]>([]);
 
 const { getElements, elements } = useElements();
@@ -70,23 +70,12 @@ onMounted(async () => {
  * */
 
 const shouldFade = (element: Element): boolean => {
-  const isHovered = hoveredType.value && hoveredType.value.id === element.typeId;
+  const isHovered = hoveredType.value.length > 0 && hoveredType.value.includes(element.typeId);
   const isSelected = selectedTypes.value.length > 0 && selectedTypes.value.includes(element.typeId);
 
-  return (hoveredType.value || selectedTypes.value.length > 0) && !isHovered && !isSelected;
-};
-
-// TODO: revisit this
-const belongsToSameFamily = (element: Element): boolean => {
-  if (!hoveredType.value) {
-    return false;
-  }
-
-  if (hoveredType.value?.parentId) {
-    return false;
-  }
-
-  return hoveredType.value?.id === element.type?.parentId;
+  return (
+    (hoveredType.value.length > 0 || selectedTypes.value.length > 0) && !isHovered && !isSelected
+  );
 };
 </script>
 
@@ -104,8 +93,8 @@ const belongsToSameFamily = (element: Element): boolean => {
     <div class="flex justify-center">
       <AtomeqTypeLegend
         v-if="elementDisplay === Display.TYPE"
-        @hover="hoveredType = $event"
-        @hoverLeave="hoveredType = undefined"
+        @hover="hoveredType.push($event.id)"
+        @hoverLeave="hoveredType.pop()"
         @click="selectedTypes.push($event.id)"
       />
     </div>
@@ -116,7 +105,7 @@ const belongsToSameFamily = (element: Element): boolean => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="!belongsToSameFamily(element) || shouldFade(element)"
+          :faded="shouldFade(element)"
           @click="selectedElement = element"
         />
       </div>
