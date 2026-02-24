@@ -85,6 +85,15 @@ const hoverOnType = (type: AtomeqElementType): void => {
   hoveredTypes.value.push(type.id);
 };
 
+const selectAndDeselectTypes = (type: AtomeqElementType): void => {
+  if (type.parentId === null) {
+    const children = types.value.filter((item) => item.parentId === type.id);
+    children.forEach((child) => selectedTypes.value.push(child.id));
+  }
+
+  selectedTypes.value.push(type.id);
+};
+
 onMounted(async () => {
   await getElements();
   await getTypes();
@@ -107,7 +116,7 @@ onMounted(async () => {
         v-if="elementDisplay === Display.TYPE"
         @hover="hoverOnType"
         @hoverLeave="hoveredTypes = []"
-        @click="selectedTypes.push($event.id)"
+        @click="selectAndDeselectTypes"
       />
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
