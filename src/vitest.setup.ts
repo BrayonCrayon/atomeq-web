@@ -1,4 +1,7 @@
-import { type Mocked, vi } from 'vitest';
+import AtomeqElement from '@/components/AtomeqElement.vue';
+import type { IElement } from '@/types/element.ts';
+import { VueWrapper } from '@vue/test-utils';
+import { type Mocked, vi, expect } from 'vitest';
 import api from '@/router/api';
 import { AxiosHeaders, type AxiosResponse } from 'axios';
 
@@ -23,4 +26,13 @@ export const generateAxiosResponse = <T>(
     ...overrides,
     data,
   };
+};
+
+export const expectFadedOnElements = (
+  elements: VueWrapper<InstanceType<typeof AtomeqElement>>[],
+  faded = true,
+) => {
+  elements.forEach((element) => {
+    expect(element.props('faded')).toEqual(faded);
+  });
 };

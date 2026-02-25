@@ -4,7 +4,7 @@ import mockTypes from '@/testUtils/mocks/mockTypes.ts';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import AtomeqTable from '@/views/AtomeqTable.vue';
-import { apiService, generateAxiosResponse } from '@/vitest.setup';
+import { apiService, expectFadedOnElements, generateAxiosResponse } from '@/vitest.setup';
 import type { AxiosResponse } from 'axios';
 import { Element as AtomeqElementType } from '@/types/element.ts';
 
@@ -135,17 +135,13 @@ describe('AtomeqTable', () => {
       .findAllComponents(AtomeqElement)
       .filter((item) => nobleGasIds.includes(item.props('element').id));
 
-    highlightedElements.forEach((element) => {
-      expect(element.props('faded')).toEqual(false);
-    });
+    expectFadedOnElements(highlightedElements, false);
 
     const fadedElements = wrapper
       .findAllComponents(AtomeqElement)
       .filter((item) => nonNobleGasIds.includes(item.props('element').id));
 
-    fadedElements.forEach((element) => {
-      expect(element.props('faded')).toEqual(true);
-    });
+    expectFadedOnElements(fadedElements);
   });
 
   it('will reset hovered type when hoverLeave is emitted from type legend', async () => {
@@ -164,9 +160,7 @@ describe('AtomeqTable', () => {
 
     const allElements = wrapper.findAllComponents(AtomeqElement);
 
-    allElements.forEach((element) => {
-      expect(element.props('faded')).toEqual(false);
-    });
+    expectFadedOnElements(allElements, false);
   });
 
   it('will persist the highlighted state when the legend type is clicked', async () => {
@@ -241,10 +235,6 @@ describe('AtomeqTable', () => {
       expect(element.props('faded')).toEqual(true);
     });
   });
-
-  // TODO:
-  // 1. check that on hover and on click the children types are highlighted if the parent is clicked/hovered
-  // 2. data provider for hover/click? similar test, different emits
 
   it('will highlight the children types if the parent type is hovered', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
