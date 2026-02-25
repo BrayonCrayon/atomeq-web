@@ -134,13 +134,11 @@ describe('AtomeqTable', () => {
     const highlightedElements = wrapper
       .findAllComponents(AtomeqElement)
       .filter((item) => nobleGasIds.includes(item.props('element').id));
-
-    expectFadedOnElements(highlightedElements, false);
-
     const fadedElements = wrapper
       .findAllComponents(AtomeqElement)
       .filter((item) => nonNobleGasIds.includes(item.props('element').id));
 
+    expectFadedOnElements(highlightedElements, false);
     expectFadedOnElements(fadedElements);
   });
 
@@ -183,13 +181,8 @@ describe('AtomeqTable', () => {
       (item) => item.props('element').typeId !== nobleGas?.id,
     );
 
-    nobleGasElements.forEach((element) => {
-      expect(element.props('faded')).toEqual(false);
-    });
-
-    otherElements.forEach((element) => {
-      expect(element.props('faded')).toEqual(true);
-    });
+    expectFadedOnElements(nobleGasElements, false);
+    expectFadedOnElements(otherElements);
   });
 
   it('will persist highlighting when an element type is selected and another type is hovered', async () => {
@@ -223,17 +216,9 @@ describe('AtomeqTable', () => {
         item.props('element').typeId !== transitionMetal?.id,
     );
 
-    nobleGasElements.forEach((element) => {
-      expect(element.props('faded')).toEqual(false);
-    });
-
-    transitionMetalElements.forEach((element) => {
-      expect(element.props('faded')).toEqual(false);
-    });
-
-    otherElements.forEach((element) => {
-      expect(element.props('faded')).toEqual(true);
-    });
+    expectFadedOnElements(nobleGasElements, false);
+    expectFadedOnElements(transitionMetalElements, false);
+    expectFadedOnElements(otherElements);
   });
 
   it('will highlight the children types if the parent type is hovered', async () => {
@@ -259,12 +244,7 @@ describe('AtomeqTable', () => {
       (item) => ![nonMetal.id, nobleGas.id, halogen.id].includes(item.props('element').typeId),
     );
 
-    nonMetalElements.forEach((element) => {
-      expect(element.props('faded')).toEqual(false);
-    });
-
-    otherElements.forEach((element) => {
-      expect(element.props('faded')).toEqual(true);
-    });
+    expectFadedOnElements(nonMetalElements, false);
+    expectFadedOnElements(otherElements);
   });
 });
