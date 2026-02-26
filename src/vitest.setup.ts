@@ -1,5 +1,4 @@
 import AtomeqElement from '@/components/AtomeqElement.vue';
-import type { IElement } from '@/types/element.ts';
 import { VueWrapper } from '@vue/test-utils';
 import { type Mocked, vi, expect } from 'vitest';
 import api from '@/router/api';
