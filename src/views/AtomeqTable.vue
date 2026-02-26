@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import AtomeqElementComponent from '@/components/AtomeqElement.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
+import { useTypes } from '@/composables/useTypes.ts';
 import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
+import { pullAll } from 'lodash';
 import { computed, onMounted, ref } from 'vue';
 import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtils.ts';
 import { Display } from '@/types/atomeq-table.ts';
@@ -12,10 +14,11 @@ import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 
 const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
-const hoveredType = ref<AtomeqElementType | undefined>(undefined);
+const hoveredTypes = ref<number[]>([]);
 const selectedTypes = ref<number[]>([]);
 
 const { getElements, elements } = useElements();
+const { getTypes, types } = useTypes();
 
 const elementTable = computed(() => {
   return getElementTable(elements.value);
@@ -57,24 +60,46 @@ const displayColour = (element: Element) => {
   };
 };
 
-onMounted(async () => {
-  await getElements();
-});
-
 /* * TODO:
- * 1. parents should highlight everything (all the children) -> push down the HIGHLIGHT to all the children (new test)
- *    1.1 any cleanup/refactor? including tests that were written for the feature
- * 2. handle the deselecting things
  * 3. UI buttons should change colour themselves
  * 4. redesign the component
  * */
 
 const shouldFade = (element: Element): boolean => {
-  const isHovered = hoveredType.value && hoveredType.value.id === element.typeId;
+  const isHovered = hoveredTypes.value.length > 0 && hoveredTypes.value.includes(element.typeId);
   const isSelected = selectedTypes.value.length > 0 && selectedTypes.value.includes(element.typeId);
 
-  return (hoveredType.value || selectedTypes.value.length > 0) && !isHovered && !isSelected;
+  return (
+    (hoveredTypes.value.length > 0 || selectedTypes.value.length > 0) && !isHovered && !isSelected
+  );
 };
+
+const hoverOnType = (type: AtomeqElementType): void => {
+  if (type.parentId === null) {
+    const children = types.value.filter((item) => item.parentId === type.id);
+    children.forEach((child) => hoveredTypes.value.push(child.id));
+  }
+
+  hoveredTypes.value.push(type.id);
+};
+
+const selectAndDeselectTypes = (type: AtomeqElementType): void => {
+  const children = !type.parentId ? types.value.filter((item) => item.parentId === type.id) : [];
+
+  if (selectedTypes.value.includes(type.id)) {
+    pullAll(selectedTypes.value, [type.id, ...children.map((item) => item.id)]);
+    return;
+  }
+
+  children.forEach((child) => selectedTypes.value.push(child.id));
+
+  selectedTypes.value.push(type.id);
+};
+
+onMounted(async () => {
+  await getElements();
+  await getTypes();
+});
 </script>
 
 <template>
@@ -91,9 +116,9 @@ const shouldFade = (element: Element): boolean => {
     <div class="flex justify-center">
       <AtomeqTypeLegend
         v-if="elementDisplay === Display.TYPE"
-        @hover="hoveredType = $event"
-        @hoverLeave="hoveredType = undefined"
-        @click="selectedTypes.push($event.id)"
+        @hover="hoverOnType"
+        @hoverLeave="hoveredTypes = []"
+        @click="selectAndDeselectTypes"
       />
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
