@@ -12,6 +12,65 @@ export class AtomeqElementType implements IElementType {
   constructor(overrides: Partial<IElementType> = {}) {
     Object.assign(this, overrides);
   }
+
+  get colour() {
+    switch (this.name) {
+      case 'nonmetal':
+        return ElementTypeColour.NONMETAL;
+      case 'noble-gas':
+        return ElementTypeColour.NOBLE_GAS;
+      case 'alkali-metal':
+        return ElementTypeColour.ALKALI_METAL;
+      case 'alkaline-earth-metal':
+        return ElementTypeColour.ALKALINE_EARTH_METAL;
+      case 'metalloid':
+        return ElementTypeColour.METALLOID;
+      case 'halogen':
+        return ElementTypeColour.HALOGEN;
+      case 'metal':
+        return ElementTypeColour.METAL;
+      case 'transition-metal':
+        return ElementTypeColour.TRANSITION_METAL;
+      case 'lanthanide':
+        return ElementTypeColour.LANTHANIDE;
+      case 'actinide':
+        return ElementTypeColour.ACTINIDE;
+      case 'transactinide':
+        return ElementTypeColour.TRANSACTINIDE;
+      default:
+        return 'bg-red-300';
+    }
+  }
+
+  // TODO: adjust OR even better! think of a way to hover; opacity?
+  get highlight() {
+    switch (this.name) {
+      case 'nonmetal':
+        return ElementTypeColour.NONMETAL;
+      case 'noble-gas':
+        return ElementTypeColour.NOBLE_GAS;
+      case 'alkali-metal':
+        return ElementTypeColour.ALKALI_METAL;
+      case 'alkaline-earth-metal':
+        return ElementTypeColour.ALKALINE_EARTH_METAL;
+      case 'metalloid':
+        return ElementTypeColour.METALLOID;
+      case 'halogen':
+        return ElementTypeColour.HALOGEN;
+      case 'metal':
+        return ElementTypeColour.METAL;
+      case 'transition-metal':
+        return ElementTypeColour.TRANSITION_METAL;
+      case 'lanthanide':
+        return ElementTypeColour.LANTHANIDE;
+      case 'actinide':
+        return ElementTypeColour.ACTINIDE;
+      case 'transactinide':
+        return ElementTypeColour.TRANSACTINIDE;
+      default:
+        return 'bg-red-300';
+    }
+  }
 }
 
 export enum ElementTypeColour {
