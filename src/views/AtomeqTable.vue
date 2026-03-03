@@ -60,11 +60,6 @@ const displayColour = (element: Element) => {
   };
 };
 
-/* * TODO:
- * 3. UI buttons should change colour themselves
- * 4. redesign the component
- * */
-
 const shouldFade = (element: Element): boolean => {
   const isHovered = hoveredTypes.value.length > 0 && hoveredTypes.value.includes(element.typeId);
   const isSelected = selectedTypes.value.length > 0 && selectedTypes.value.includes(element.typeId);
@@ -119,6 +114,7 @@ onMounted(async () => {
           @hover="hoverOnType"
           @hoverLeave="hoveredTypes = []"
           @click="selectAndDeselectTypes"
+          :selectedTypes="selectedTypes"
         />
       </div>
     </div>

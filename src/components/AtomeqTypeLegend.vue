@@ -14,6 +14,10 @@ const emits = defineEmits<{
   hoverLeave: [AtomeqElementType];
   click: [AtomeqElementType];
 }>();
+
+defineProps<{
+  selectedTypes: number[];
+}>();
 </script>
 
 <template>
@@ -21,7 +25,13 @@ const emits = defineEmits<{
     <div
       :id="`parent-${parent.id}`"
       class="border-2 p-2 text-sm text-center capitalize cursor-pointer rounded mb-0.5"
-      :class="[parent.colour, parent.highlight]"
+      :class="[
+        parent.colour,
+        parent.highlight,
+        {
+          [parent.highlight.replace('hover:', '')]: selectedTypes.includes(parent.id),
+        },
+      ]"
       @mouseover="emits('hover', parent)"
       @mouseleave="emits('hoverLeave', parent)"
       @click="emits('click', parent)"
@@ -39,7 +49,13 @@ const emits = defineEmits<{
         :key="child.id"
         :id="`child-${child.id}`"
         class="border-2 p-2 text-xs text-center capitalize cursor-pointer rounded"
-        :class="[child.colour, child.highlight]"
+        :class="[
+          child.colour,
+          child.highlight,
+          {
+            [child.highlight.replace('hover:', '')]: selectedTypes.includes(child.id),
+          },
+        ]"
         @mouseover="emits('hover', child)"
         @mouseleave="emits('hoverLeave', child)"
         @click="emits('click', child)"
