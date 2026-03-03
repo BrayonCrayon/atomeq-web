@@ -41,32 +41,30 @@ export class AtomeqElementType implements IElementType {
         return 'bg-red-300';
     }
   }
-
-  // TODO: adjust OR even better! think of a way to hover; opacity?
   get highlight() {
     switch (this.name) {
       case 'nonmetal':
-        return ElementTypeColour.NONMETAL;
+        return ElementTypeHoverColour.NONMETAL;
       case 'noble-gas':
-        return ElementTypeColour.NOBLE_GAS;
+        return ElementTypeHoverColour.NOBLE_GAS;
       case 'alkali-metal':
-        return ElementTypeColour.ALKALI_METAL;
+        return ElementTypeHoverColour.ALKALI_METAL;
       case 'alkaline-earth-metal':
-        return ElementTypeColour.ALKALINE_EARTH_METAL;
+        return ElementTypeHoverColour.ALKALINE_EARTH_METAL;
       case 'metalloid':
-        return ElementTypeColour.METALLOID;
+        return ElementTypeHoverColour.METALLOID;
       case 'halogen':
-        return ElementTypeColour.HALOGEN;
+        return ElementTypeHoverColour.HALOGEN;
       case 'metal':
-        return ElementTypeColour.METAL;
+        return ElementTypeHoverColour.METAL;
       case 'transition-metal':
-        return ElementTypeColour.TRANSITION_METAL;
+        return ElementTypeHoverColour.TRANSITION_METAL;
       case 'lanthanide':
-        return ElementTypeColour.LANTHANIDE;
+        return ElementTypeHoverColour.LANTHANIDE;
       case 'actinide':
-        return ElementTypeColour.ACTINIDE;
+        return ElementTypeHoverColour.ACTINIDE;
       case 'transactinide':
-        return ElementTypeColour.TRANSACTINIDE;
+        return ElementTypeHoverColour.TRANSACTINIDE;
       default:
         return 'bg-red-300';
     }
@@ -85,4 +83,18 @@ export enum ElementTypeColour {
   LANTHANIDE = 'bg-violet-300',
   ACTINIDE = 'bg-fuchsia-300',
   TRANSACTINIDE = 'bg-amber-300',
+}
+
+export enum ElementTypeHoverColour {
+  NONMETAL = 'hover:bg-emerald-400',
+  NOBLE_GAS = 'hover:bg-indigo-400',
+  ALKALI_METAL = 'hover:bg-rose-400',
+  ALKALINE_EARTH_METAL = 'hover:bg-orange-400',
+  METALLOID = 'hover:bg-cyan-400',
+  HALOGEN = 'hover:bg-sky-400',
+  METAL = 'hover:bg-zinc-400',
+  TRANSITION_METAL = 'hover:bg-blue-400',
+  LANTHANIDE = 'hover:bg-violet-400',
+  ACTINIDE = 'hover:bg-fuchsia-400',
+  TRANSACTINIDE = 'hover:bg-amber-400',
 }

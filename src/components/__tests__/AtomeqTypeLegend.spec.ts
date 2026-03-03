@@ -1,16 +1,17 @@
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { elementTypeFactory } from '@/testUtils/elementTypeFactory.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
+import { transformElementType } from '@/types/utils.ts';
 import { apiService } from '@/vitest.setup.ts';
 import { flushPromises, mount } from '@vue/test-utils';
 import type { AxiosResponse } from 'axios';
 import { describe, it, expect } from 'vitest';
 
 const setupTest = (): AtomeqElementType[] => {
-  const familyBundle = [];
-  const parent = elementTypeFactory({ parentId: null });
+  const familyBundle: AtomeqElementType[] = [];
+  const parent = transformElementType(elementTypeFactory({ parentId: null }));
   familyBundle.push(parent);
-  const child = elementTypeFactory({ parentId: parent.id });
+  const child = transformElementType(elementTypeFactory({ parentId: parent.id }));
   familyBundle.push(child);
 
   return familyBundle;

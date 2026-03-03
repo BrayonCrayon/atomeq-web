@@ -20,8 +20,8 @@ const emits = defineEmits<{
   <div v-for="[parent, children] in getFormattedTypes()" :key="parent.id">
     <div
       :id="`parent-${parent.id}`"
-      class="border-2 p-2 text-sm text-center capitalize cursor-pointer rounded mb-0.5 hover:bg-amber-200"
-      :class="parent.colour"
+      class="border-2 p-2 text-sm text-center capitalize cursor-pointer rounded mb-0.5"
+      :class="[parent.colour, parent.highlight]"
       @mouseover="emits('hover', parent)"
       @mouseleave="emits('hoverLeave', parent)"
       @click="emits('click', parent)"
@@ -31,15 +31,15 @@ const emits = defineEmits<{
     <div
       :class="{
         'grid grid-cols-3 gap-0.5': children.length > 2,
-        'flex flex-col gap-0.5': children.length <= 2,
+        'flex flex-col gap-0.5 ': children.length <= 2,
       }"
     >
       <div
         v-for="child in children"
         :key="child.id"
         :id="`child-${child.id}`"
-        class="border-2 p-2 text-xs text-center capitalize cursor-pointer rounded hover:bg-amber-500"
-        :class="child.colour"
+        class="border-2 p-2 text-xs text-center capitalize cursor-pointer rounded"
+        :class="[child.colour, child.highlight]"
         @mouseover="emits('hover', child)"
         @mouseleave="emits('hoverLeave', child)"
         @click="emits('click', child)"

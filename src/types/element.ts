@@ -75,7 +75,7 @@ export class Element implements IElement {
   specificHeat: number;
   symbol: string;
   typeId: number;
-  type: IElementType | undefined;
+  type: AtomeqElementType | undefined;
   valence: number;
 
   constructor(overrides: Partial<IElement> = {}) {
