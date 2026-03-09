@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import AtomeqTypeLegendButton from '@/components/AtomeqTypeLegendButton.vue';
-import { useTypes } from '@/composables/useTypes.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
 import { onMounted } from 'vue';
+import { useTypes } from '@/composables/useTypes.ts';
 
 const { getTypes, getFormattedTypes } = useTypes();
 
@@ -23,13 +22,22 @@ defineProps<{
 
 <template>
   <div v-for="[parent, children] in getFormattedTypes()" :key="parent.id">
-    <AtomeqTypeLegendButton
-      @hover="emits('hover', parent)"
-      @hoverLeave="emits('hoverLeave', parent)"
+    <div
+      :id="`parent-${parent.id}`"
+      class="border-2 p-2 text-sm text-center capitalize cursor-pointer rounded mb-0.5"
+      :class="[
+        parent.colour,
+        parent.highlight,
+        {
+          [parent.highlight.replace('hover:', '')]: selectedTypes.includes(parent.id),
+        },
+      ]"
+      @mouseover="emits('hover', parent)"
+      @mouseleave="emits('hoverLeave', parent)"
       @click="emits('click', parent)"
-      :type="parent"
-      :selectedTypes="selectedTypes"
-    />
+    >
+      {{ parent.name }}
+    </div>
     <div
       :class="{
         'grid grid-cols-3 gap-0.5': children.length > 2,

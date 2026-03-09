@@ -17,11 +17,19 @@ const setupTest = (): AtomeqElementType[] => {
   return familyBundle;
 };
 
+const mountComponent = () => {
+  return mount(AtomeqTypeLegend, {
+    props: {
+      selectedTypes: [],
+    },
+  });
+};
+
 describe('AtomeqTypeLegend', () => {
   it('calls the api to retrieve all data on element type hierarchy', () => {
     const response = { data: [] };
     apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
-    mount(AtomeqTypeLegend);
+    mountComponent();
 
     expect(apiService.fetchTypes).toHaveBeenCalled();
   });
@@ -32,7 +40,7 @@ describe('AtomeqTypeLegend', () => {
     const response = { data: bundle };
     apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
 
-    const wrapper = mount(AtomeqTypeLegend);
+    const wrapper = mountComponent();
 
     await flushPromises();
 
@@ -56,7 +64,7 @@ describe('AtomeqTypeLegend', () => {
     const response = { data: bundle };
     apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
 
-    const wrapper = mount(AtomeqTypeLegend);
+    const wrapper = mountComponent();
 
     await flushPromises();
 
