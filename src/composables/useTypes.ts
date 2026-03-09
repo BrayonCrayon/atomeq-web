@@ -1,10 +1,10 @@
 import api from '@/router/api.ts';
-import { AtomeqElementType, type IElementType } from '@/types/elementType.ts';
+import { AtomeqElementType } from '@/types/elementType.ts';
 import { transformElementTypes } from '@/types/utils.ts';
 import { ref } from 'vue';
 
 export const useTypes = () => {
-  const types = ref<IElementType[]>([]);
+  const types = ref<AtomeqElementType[]>([]);
 
   const getTypes = async () => {
     try {
