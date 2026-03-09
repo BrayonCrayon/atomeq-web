@@ -14,13 +14,24 @@ const emits = defineEmits<{
   hoverLeave: [AtomeqElementType];
   click: [AtomeqElementType];
 }>();
+
+defineProps<{
+  selectedTypes: number[];
+}>();
 </script>
 
 <template>
   <div v-for="[parent, children] in getFormattedTypes()" :key="parent.id">
     <div
       :id="`parent-${parent.id}`"
-      class="bg-amber-500 border-2 p-2 text-sm text-center capitalize cursor-pointer hover:bg-amber-200"
+      class="border-2 p-2 text-sm text-center capitalize cursor-pointer rounded mb-0.5"
+      :class="[
+        parent.colour,
+        parent.highlight,
+        {
+          [parent.highlight.replace('hover:', '')]: selectedTypes.includes(parent.id),
+        },
+      ]"
       @mouseover="emits('hover', parent)"
       @mouseleave="emits('hoverLeave', parent)"
       @click="emits('click', parent)"
@@ -28,17 +39,29 @@ const emits = defineEmits<{
       {{ parent.name }}
     </div>
     <div
-      v-for="child in children"
-      :key="child.id"
-      :id="`child-${child.id}`"
-      class="bg-amber-700 border-2 p-2 text-xs text-center capitalize cursor-pointer hover:bg-amber-500"
-      @mouseover="emits('hover', child)"
-      @mouseleave="emits('hoverLeave', child)"
-      @click="emits('click', child)"
+      :class="{
+        'grid grid-cols-3 gap-0.5': children.length > 2,
+        'flex flex-col gap-0.5 ': children.length <= 2,
+      }"
     >
-      {{ child.name }}
+      <div
+        v-for="child in children"
+        :key="child.id"
+        :id="`child-${child.id}`"
+        class="border-2 p-2 text-xs text-center capitalize cursor-pointer rounded"
+        :class="[
+          child.colour,
+          child.highlight,
+          {
+            [child.highlight.replace('hover:', '')]: selectedTypes.includes(child.id),
+          },
+        ]"
+        @mouseover="emits('hover', child)"
+        @mouseleave="emits('hoverLeave', child)"
+        @click="emits('click', child)"
+      >
+        {{ child.name }}
+      </div>
     </div>
   </div>
 </template>
-
-<style scoped></style>

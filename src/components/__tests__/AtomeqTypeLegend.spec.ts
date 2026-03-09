@@ -1,26 +1,35 @@
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { elementTypeFactory } from '@/testUtils/elementTypeFactory.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
+import { transformElementType } from '@/types/utils.ts';
 import { apiService } from '@/vitest.setup.ts';
 import { flushPromises, mount } from '@vue/test-utils';
 import type { AxiosResponse } from 'axios';
 import { describe, it, expect } from 'vitest';
 
 const setupTest = (): AtomeqElementType[] => {
-  const familyBundle = [];
-  const parent = elementTypeFactory({ parentId: null });
+  const familyBundle: AtomeqElementType[] = [];
+  const parent = transformElementType(elementTypeFactory({ parentId: null }));
   familyBundle.push(parent);
-  const child = elementTypeFactory({ parentId: parent.id });
+  const child = transformElementType(elementTypeFactory({ parentId: parent.id }));
   familyBundle.push(child);
 
   return familyBundle;
+};
+
+const mountComponent = () => {
+  return mount(AtomeqTypeLegend, {
+    props: {
+      selectedTypes: [],
+    },
+  });
 };
 
 describe('AtomeqTypeLegend', () => {
   it('calls the api to retrieve all data on element type hierarchy', () => {
     const response = { data: [] };
     apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
-    mount(AtomeqTypeLegend);
+    mountComponent();
 
     expect(apiService.fetchTypes).toHaveBeenCalled();
   });
@@ -31,7 +40,7 @@ describe('AtomeqTypeLegend', () => {
     const response = { data: bundle };
     apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
 
-    const wrapper = mount(AtomeqTypeLegend);
+    const wrapper = mountComponent();
 
     await flushPromises();
 
@@ -55,7 +64,7 @@ describe('AtomeqTypeLegend', () => {
     const response = { data: bundle };
     apiService.fetchTypes.mockResolvedValue(response as AxiosResponse);
 
-    const wrapper = mount(AtomeqTypeLegend);
+    const wrapper = mountComponent();
 
     await flushPromises();
 

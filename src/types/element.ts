@@ -1,4 +1,4 @@
-import { AtomeqElementType, ElementTypeColour, type IElementType } from '@/types/elementType.ts';
+import { AtomeqElementType, type IElementType } from '@/types/elementType.ts';
 import { ElementState, ElementStateColour, type IElementState } from '@/types/elementState.ts';
 
 export enum ElementBlock {
@@ -75,7 +75,7 @@ export class Element implements IElement {
   specificHeat: number;
   symbol: string;
   typeId: number;
-  type: IElementType | undefined;
+  type: AtomeqElementType | undefined;
   valence: number;
 
   constructor(overrides: Partial<IElement> = {}) {
@@ -112,32 +112,7 @@ export class Element implements IElement {
   }
 
   get typeColour(): string {
-    switch (this.type?.name) {
-      case 'nonmetal':
-        return ElementTypeColour.NONMETAL;
-      case 'noble-gas':
-        return ElementTypeColour.NOBLE_GAS;
-      case 'alkali-metal':
-        return ElementTypeColour.ALKALI_METAL;
-      case 'alkaline-earth-metal':
-        return ElementTypeColour.ALKALINE_EARTH_METAL;
-      case 'metalloid':
-        return ElementTypeColour.METALLOID;
-      case 'halogen':
-        return ElementTypeColour.HALOGEN;
-      case 'metal':
-        return ElementTypeColour.METAL;
-      case 'transition-metal':
-        return ElementTypeColour.TRANSITION_METAL;
-      case 'lanthanide':
-        return ElementTypeColour.LANTHANIDE;
-      case 'actinide':
-        return ElementTypeColour.ACTINIDE;
-      case 'transactinide':
-        return ElementTypeColour.TRANSACTINIDE;
-      default:
-        return 'bg-red-300';
-    }
+    return this.type?.colour ?? 'bg-red-900';
   }
 
   get stateColour(): string {

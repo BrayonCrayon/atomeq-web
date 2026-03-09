@@ -18,7 +18,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="relative m-auto max-w-[10em] flex gap-x-6">
+  <div class="relative m-auto flex gap-x-6">
     <AtomeqRadioInput
       :modelValue="modelValue"
       :initialValue="Display.TYPE"

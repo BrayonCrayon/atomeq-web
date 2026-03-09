@@ -60,11 +60,6 @@ const displayColour = (element: Element) => {
   };
 };
 
-/* * TODO:
- * 3. UI buttons should change colour themselves
- * 4. redesign the component
- * */
-
 const shouldFade = (element: Element): boolean => {
   const isHovered = hoveredTypes.value.length > 0 && hoveredTypes.value.includes(element.typeId);
   const isSelected = selectedTypes.value.length > 0 && selectedTypes.value.includes(element.typeId);
@@ -109,17 +104,19 @@ onMounted(async () => {
       :element="selectedElement"
       @close="selectedElement = undefined"
     />
-    <h1 class="text-2xl">Periodic Table:</h1>
-    <div class="flex gap-2">
-      <SwitchDisplay v-model="elementDisplay" />
-    </div>
-    <div class="flex justify-center">
-      <AtomeqTypeLegend
-        v-if="elementDisplay === Display.TYPE"
-        @hover="hoverOnType"
-        @hoverLeave="hoveredTypes = []"
-        @click="selectAndDeselectTypes"
-      />
+    <div class="flex gap-6 justify-center">
+      <div>
+        <SwitchDisplay v-model="elementDisplay" />
+      </div>
+      <div class="flex justify-center gap-0.5">
+        <AtomeqTypeLegend
+          v-if="elementDisplay === Display.TYPE"
+          @hover="hoverOnType"
+          @hoverLeave="hoveredTypes = []"
+          @click="selectAndDeselectTypes"
+          :selectedTypes="selectedTypes"
+        />
+      </div>
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
       <div :key="`${element?.name}-${idx2}`" v-for="(element, idx2) in row" class="mb-1">
