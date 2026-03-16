@@ -41,7 +41,7 @@ watch(
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
+  width: 60px;
   height: 50px;
   border-radius: 8px;
   position: relative;
@@ -80,16 +80,12 @@ watch(
 }
 
 .link-icon {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: block;
   flex-shrink: 0;
   left: 18px;
   position: absolute;
-  svg {
-    width: 28px;
-    height: 28px;
-  }
 }
 
 .link-title {

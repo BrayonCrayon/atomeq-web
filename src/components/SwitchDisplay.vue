@@ -2,7 +2,6 @@
 import { withDefaults } from 'vue';
 import { Display } from '@/types/atomeq-table.ts';
 import AtomeqRadioInput from '@/components/common/AtomeqRadioInput.vue';
-import { Ban } from 'lucide-vue-next';
 
 withDefaults(
   defineProps<{
