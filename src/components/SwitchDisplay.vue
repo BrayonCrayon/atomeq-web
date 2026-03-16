@@ -27,8 +27,8 @@ const emit = defineEmits<{
       label="Type"
       @update:modelValue="emit('update:modelValue', $event)"
     >
-      <template #svg>
-        <Ban :size="24" />
+      <template #icon>
+        <img src="@/assets/images/type.png" alt="Type Icon" />
       </template>
     </AtomeqRadioInput>
     <AtomeqRadioInput
@@ -38,8 +38,8 @@ const emit = defineEmits<{
       label="State"
       @update:modelValue="emit('update:modelValue', $event)"
     >
-      <template #svg>
-        <Ban :size="18" />
+      <template #icon>
+        <img src="@/assets/images/state.png" alt="State Icon" />
       </template>
     </AtomeqRadioInput>
     <AtomeqRadioInput
@@ -49,8 +49,8 @@ const emit = defineEmits<{
       label="Block"
       @update:modelValue="emit('update:modelValue', $event)"
     >
-      <template #svg>
-        <Ban :size="18" />
+      <template #icon>
+        <img src="@/assets/images/block.png" alt="Block Icon" />
       </template>
     </AtomeqRadioInput>
   </div>
