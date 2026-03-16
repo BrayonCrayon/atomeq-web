@@ -41,7 +41,7 @@ watch(
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 70px;
+  width: 50px;
   height: 50px;
   border-radius: 8px;
   position: relative;
