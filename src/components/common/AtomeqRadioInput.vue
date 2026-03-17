@@ -27,7 +27,14 @@ watch(
 </script>
 
 <template>
-  <label class="link cursor-pointer" :aria-label="ariaLabel" @click="update">
+  <label
+    class="link cursor-pointer"
+    :aria-label="ariaLabel"
+    :class="{
+      'bg-gray-100': initialValue === inputValue,
+    }"
+    @click="update"
+  >
     <span class="link-icon">
       <slot name="icon" />
     </span>
@@ -84,7 +91,7 @@ watch(
   height: 32px;
   display: block;
   flex-shrink: 0;
-  left: 18px;
+  left: 14px;
   position: absolute;
 }
 
