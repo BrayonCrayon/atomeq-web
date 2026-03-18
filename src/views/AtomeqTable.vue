@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import AtomeqElementComponent from '@/components/AtomeqElement.vue';
+import AtomeqStateLegend from '@/components/AtomeqStateLegend.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { useTypes } from '@/composables/useTypes.ts';
 import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
+import type { ElementState } from '@/types/elementState.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
-import { pullAll } from 'lodash';
+import { pull, pullAll } from 'lodash';
 import { computed, onMounted, ref } from 'vue';
 import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtils.ts';
 import { Display } from '@/types/atomeq-table.ts';
@@ -16,6 +18,7 @@ const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
 const hoveredTypes = ref<number[]>([]);
 const selectedTypes = ref<number[]>([]);
+const selectedStates = ref<number[]>([]);
 
 const { getElements, elements } = useElements();
 const { getTypes, types } = useTypes();
@@ -91,6 +94,15 @@ const selectAndDeselectTypes = (type: AtomeqElementType): void => {
   selectedTypes.value.push(type.id);
 };
 
+const selectAndDeselectStates = (state: ElementState): void => {
+  if (selectedStates.value.includes(state.id)) {
+    pull(selectedTypes.value, state.id);
+    return;
+  }
+
+  selectedStates.value.push(state.id);
+};
+
 onMounted(async () => {
   await getElements();
   await getTypes();
@@ -115,6 +127,11 @@ onMounted(async () => {
           @hoverLeave="hoveredTypes = []"
           @click="selectAndDeselectTypes"
           :selectedTypes="selectedTypes"
+        />
+        <AtomeqStateLegend
+          v-if="elementDisplay === Display.STATE"
+          @click="selectAndDeselectStates"
+          :selectedStates="selectedStates"
         />
       </div>
     </div>

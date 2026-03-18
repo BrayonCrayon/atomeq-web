@@ -10,6 +10,19 @@ export class ElementState implements IElementState {
   constructor(overrides: Partial<IElementState> = {}) {
     Object.assign(this, overrides);
   }
+
+  get colour() {
+    switch (this.name) {
+      case 'gas':
+        return ElementStateColour.GAS;
+      case 'solid':
+        return ElementStateColour.SOLID;
+      case 'liquid':
+        return ElementStateColour.LIQUID;
+      default:
+        return 'bg-red-300';
+    }
+  }
 }
 
 export enum ElementStateColour {

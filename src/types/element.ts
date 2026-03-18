@@ -57,7 +57,7 @@ export class Element implements IElement {
   electronegativity: number;
   electrons: number;
   elementStateId: number;
-  elementState: IElementState | undefined;
+  elementState: ElementState | undefined;
   firstIonization: number;
   group: number;
   id: number;
@@ -116,16 +116,7 @@ export class Element implements IElement {
   }
 
   get stateColour(): string {
-    switch (this.elementState?.name) {
-      case 'gas':
-        return ElementStateColour.GAS;
-      case 'solid':
-        return ElementStateColour.SOLID;
-      case 'liquid':
-        return ElementStateColour.LIQUID;
-      default:
-        return 'bg-red-300';
-    }
+    return this.elementState?.colour ?? 'bg-red-300';
   }
 
   get blockColour(): string {
