@@ -17,6 +17,7 @@ import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
 const hoveredTypes = ref<number[]>([]);
+const hoveredState = ref<ElementState | undefined>();
 const selectedTypes = ref<number[]>([]);
 const selectedStates = ref<number[]>([]);
 
@@ -128,9 +129,11 @@ onMounted(async () => {
           @click="selectAndDeselectTypes"
           :selectedTypes="selectedTypes"
         />
+        <!--TODO: Something type thing is wrong -->
         <AtomeqStateLegend
           v-if="elementDisplay === Display.STATE"
           @click="selectAndDeselectStates"
+          @hover="hoveredState"
           :selectedStates="selectedStates"
         />
       </div>

@@ -1,15 +1,18 @@
+import AtomeqElement from '@/components/AtomeqElement.vue';
+import AtomeqStateLegend from '@/components/AtomeqStateLegend.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
+import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
+import SwitchDisplay from '@/components/SwitchDisplay.vue';
 import mockElements from '@/testUtils/mocks/mockElements.ts';
+import mockStates from '@/testUtils/mocks/mockStates.ts';
 import mockTypes from '@/testUtils/mocks/mockTypes.ts';
-import { describe, it, expect, beforeEach } from 'vitest';
-import { flushPromises, mount } from '@vue/test-utils';
+import { Display } from '@/types/atomeq-table.ts';
+import { Element as AtomeqElementType } from '@/types/element.ts';
 import AtomeqTable from '@/views/AtomeqTable.vue';
 import { apiService, expectFadedOnElements, generateAxiosResponse } from '@/vitest.setup';
+import { flushPromises, mount, type VueWrapper } from '@vue/test-utils';
 import type { AxiosResponse } from 'axios';
-import { Element as AtomeqElementType } from '@/types/element.ts';
-
-import AtomeqElement from '@/components/AtomeqElement.vue';
-import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { nextTick } from 'vue';
 
 describe('AtomeqTable', () => {
@@ -142,6 +145,37 @@ describe('AtomeqTable', () => {
     expectFadedOnElements(fadedElements);
   });
 
+  it('will highlight the correct elements by state when the state is hovered in state legend', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const gas = mockStates.data.find((item) => item.name === 'gas');
+
+    const gasIds = mockElements.data
+      .filter((element) => element.elementState.id === gas!.id)
+      .map((item) => item.id);
+    const nonGasIds = mockElements.data
+      .filter((element) => element.elementState.id !== gas!.id)
+      .map((item) => item.id);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    await switchDisplays(wrapper, Display.STATE);
+
+    const stateLegend = wrapper.findComponent(AtomeqStateLegend);
+    stateLegend.vm.$emit('hover', gas);
+    await nextTick();
+
+    const highlightedElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => gasIds.includes(item.props('element').id));
+    const fadedElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => nonGasIds.includes(item.props('element').id));
+
+    expectFadedOnElements(highlightedElements, false);
+    expectFadedOnElements(fadedElements);
+  });
+
   it('will reset hovered type when hoverLeave is emitted from type legend', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
@@ -248,3 +282,9 @@ describe('AtomeqTable', () => {
     expectFadedOnElements(otherElements);
   });
 });
+
+const switchDisplays = async (wrapper: VueWrapper, type: Display) => {
+  const switchDisplay = wrapper.findComponent(SwitchDisplay);
+  switchDisplay.vm.$emit('update:modelValue', type);
+  await nextTick();
+};
