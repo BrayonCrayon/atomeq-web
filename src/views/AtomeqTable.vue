@@ -105,7 +105,7 @@ const selectAndDeselectTypes = (type: AtomeqElementType): void => {
 
 const selectAndDeselectStates = (state: ElementState): void => {
   if (selectedStates.value.includes(state.id)) {
-    pull(selectedTypes.value, state.id);
+    pull(selectedStates.value, state.id);
     return;
   }
 

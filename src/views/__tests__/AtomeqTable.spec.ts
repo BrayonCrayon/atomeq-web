@@ -216,7 +216,7 @@ describe('AtomeqTable', () => {
     expectFadedOnElements(allElements, false);
   });
 
-  it('will persist the highlighted state when the legend type is clicked', async () => {
+  it('will persist the highlighted state when the legend type is clicked and deselect previous selected elements on subsequent click', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
 
@@ -238,9 +238,15 @@ describe('AtomeqTable', () => {
 
     expectFadedOnElements(nobleGasElements, false);
     expectFadedOnElements(otherElements);
+
+    typeLegend.vm.$emit('click', nobleGas);
+    await nextTick();
+
+    expectFadedOnElements(nobleGasElements, false);
+    expectFadedOnElements(otherElements, false);
   });
 
-  it('will persist the highlighted state when the legend state is clicked', async () => {
+  it('will persist the highlighted state when the legend state is clicked and deselect previous selected elements on subsequent click', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const gas = mockStates.data.find((item) => item.name === 'gas');
 
@@ -264,6 +270,12 @@ describe('AtomeqTable', () => {
 
     expectFadedOnElements(gasElements, false);
     expectFadedOnElements(otherElements);
+
+    stateLegend.vm.$emit('click', gas);
+    await nextTick();
+
+    expectFadedOnElements(gasElements, false);
+    expectFadedOnElements(otherElements, false);
   });
 
   it('will persist highlighting when an element type is selected and another type is hovered', async () => {
