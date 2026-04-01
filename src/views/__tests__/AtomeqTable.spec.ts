@@ -302,6 +302,42 @@ describe('AtomeqTable', () => {
     expectFadedOnElements(otherElements);
   });
 
+  it('will persist highlighting when an element state is selected and another state is hovered', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const gas = mockStates.data.find((item) => item.name === 'gas');
+    const liquid = mockStates.data.find((item) => item.name === 'liquid');
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    await switchDisplays(wrapper, Display.STATE);
+
+    const stateLegend = wrapper.findComponent(AtomeqStateLegend);
+    stateLegend.vm.$emit('click', gas);
+    await nextTick();
+
+    stateLegend.vm.$emit('hover', liquid);
+    await nextTick();
+
+    const allElements = wrapper.findAllComponents(AtomeqElement);
+
+    const gasElements = allElements.filter(
+      (item) => item.props('element').elementStateId === gas?.id,
+    );
+    const liquidElements = allElements.filter(
+      (item) => item.props('element').elementStateId === liquid?.id,
+    );
+    const otherElements = allElements.filter(
+      (item) =>
+        item.props('element').elementStateId !== gas?.id &&
+        item.props('element').elementStateId !== liquid?.id,
+    );
+
+    expectFadedOnElements(gasElements, false);
+    expectFadedOnElements(liquidElements, false);
+    expectFadedOnElements(otherElements);
+  });
+
   it('will highlight the children types if the parent type is hovered', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const [nonMetal, nobleGas, halogen] = mockTypes.data.filter((item) =>
