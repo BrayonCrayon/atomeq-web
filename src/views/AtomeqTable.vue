@@ -17,7 +17,7 @@ import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
 const hoveredTypes = ref<number[]>([]);
-const hoveredState = ref<ElementState | undefined>();
+const hoveredState = ref<number | undefined>(undefined);
 const selectedTypes = ref<number[]>([]);
 const selectedStates = ref<number[]>([]);
 
@@ -71,6 +71,14 @@ const shouldFade = (element: Element): boolean => {
   return (
     (hoveredTypes.value.length > 0 || selectedTypes.value.length > 0) && !isHovered && !isSelected
   );
+};
+
+const shouldFadeOnState = (element: Element): boolean => {
+  const isHovered = !!hoveredState.value && hoveredState.value === element.elementStateId;
+  const isSelected =
+    selectedStates.value.length > 0 && selectedStates.value.includes(element.elementStateId);
+
+  return (!!hoveredState.value || selectedStates.value.length > 0) && !isHovered && !isSelected;
 };
 
 const hoverOnType = (type: AtomeqElementType): void => {
@@ -129,11 +137,11 @@ onMounted(async () => {
           @click="selectAndDeselectTypes"
           :selectedTypes="selectedTypes"
         />
-        <!--TODO: Something type thing is wrong -->
         <AtomeqStateLegend
           v-if="elementDisplay === Display.STATE"
+          @hover="(state) => (hoveredState = state.id)"
+          @hoverLeave="hoveredState = undefined"
           @click="selectAndDeselectStates"
-          @hover="hoveredState"
           :selectedStates="selectedStates"
         />
       </div>
@@ -145,7 +153,7 @@ onMounted(async () => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="shouldFade(element)"
+          :faded="shouldFade(element) || shouldFadeOnState(element)"
           @click="selectedElement = element"
         />
       </div>
@@ -157,7 +165,7 @@ onMounted(async () => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
-            :faded="shouldFade(element)"
+            :faded="shouldFade(element) || shouldFadeOnState(element)"
             @click="selectedElement = element"
           />
         </div>

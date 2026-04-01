@@ -27,10 +27,10 @@ defineProps<{
       class="border-2 p-2 text-sm text-center capitalize cursor-pointer rounded mb-0.5"
       :class="[
         state.colour,
-        // state.highlight,
-        // {
-        //   [state.highlight.replace('hover:', '')]: selectedStates.includes(state.id),
-        // },
+        state.highlight,
+        {
+          [state.highlight.replace('hover:', '')]: selectedStates.includes(state.id),
+        },
       ]"
       @mouseover="emits('hover', state)"
       @mouseleave="emits('hoverLeave', state)"
