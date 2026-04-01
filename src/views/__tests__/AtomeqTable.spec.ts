@@ -195,6 +195,27 @@ describe('AtomeqTable', () => {
     expectFadedOnElements(allElements, false);
   });
 
+  it('will reset hovered state when hoverLeave is emitted from state legend', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const gas = mockStates.data.find((item) => item.name === 'gas');
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    await switchDisplays(wrapper, Display.STATE);
+
+    const stateLegend = wrapper.findComponent(AtomeqStateLegend);
+    stateLegend.vm.$emit('hover', gas);
+    await nextTick();
+
+    stateLegend.vm.$emit('hoverLeave', gas);
+    await nextTick();
+
+    const allElements = wrapper.findAllComponents(AtomeqElement);
+
+    expectFadedOnElements(allElements, false);
+  });
+
   it('will persist the highlighted state when the legend type is clicked', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
