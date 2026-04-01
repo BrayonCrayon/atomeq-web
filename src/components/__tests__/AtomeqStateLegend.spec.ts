@@ -2,7 +2,6 @@ import AtomeqStateLegend from '@/components/AtomeqStateLegend.vue';
 import { elementStateFactory } from '@/testUtils/elementStateFactory.ts';
 import { apiService, generateAxiosResponse } from '@/vitest.setup.ts';
 import { flushPromises, mount } from '@vue/test-utils';
-import type { AxiosResponse } from 'axios';
 import { describe, it, expect } from 'vitest';
 
 const mountComponent = () => {

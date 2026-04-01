@@ -1,5 +1,5 @@
 import { AtomeqElementType, type IElementType } from '@/types/elementType.ts';
-import { ElementState, ElementStateColour, type IElementState } from '@/types/elementState.ts';
+import { ElementState, type IElementState } from '@/types/elementState.ts';
 
 export enum ElementBlock {
   S = 's',
