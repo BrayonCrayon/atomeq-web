@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import AtomeqElementComponent from '@/components/AtomeqElement.vue';
+import AtomeqStateLegend from '@/components/AtomeqStateLegend.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { useTypes } from '@/composables/useTypes.ts';
 import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
+import type { ElementState } from '@/types/elementState.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
-import { pullAll } from 'lodash';
+import { pull, pullAll } from 'lodash';
 import { computed, onMounted, ref } from 'vue';
 import { getElementTable, getRadioactiveElementTable } from '@/helpers/tableUtils.ts';
 import { Display } from '@/types/atomeq-table.ts';
@@ -15,7 +17,9 @@ import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
 const hoveredTypes = ref<number[]>([]);
+const hoveredState = ref<number | undefined>(undefined);
 const selectedTypes = ref<number[]>([]);
+const selectedStates = ref<number[]>([]);
 
 const { getElements, elements } = useElements();
 const { getTypes, types } = useTypes();
@@ -69,6 +73,14 @@ const shouldFade = (element: Element): boolean => {
   );
 };
 
+const shouldFadeOnState = (element: Element): boolean => {
+  const isHovered = !!hoveredState.value && hoveredState.value === element.elementStateId;
+  const isSelected =
+    selectedStates.value.length > 0 && selectedStates.value.includes(element.elementStateId);
+
+  return (!!hoveredState.value || selectedStates.value.length > 0) && !isHovered && !isSelected;
+};
+
 const hoverOnType = (type: AtomeqElementType): void => {
   if (type.parentId === null) {
     const children = types.value.filter((item) => item.parentId === type.id);
@@ -89,6 +101,15 @@ const selectAndDeselectTypes = (type: AtomeqElementType): void => {
   children.forEach((child) => selectedTypes.value.push(child.id));
 
   selectedTypes.value.push(type.id);
+};
+
+const selectAndDeselectStates = (state: ElementState): void => {
+  if (selectedStates.value.includes(state.id)) {
+    pull(selectedStates.value, state.id);
+    return;
+  }
+
+  selectedStates.value.push(state.id);
 };
 
 onMounted(async () => {
@@ -116,6 +137,13 @@ onMounted(async () => {
           @click="selectAndDeselectTypes"
           :selectedTypes="selectedTypes"
         />
+        <AtomeqStateLegend
+          v-if="elementDisplay === Display.STATE"
+          @hover="(state) => (hoveredState = state.id)"
+          @hoverLeave="hoveredState = undefined"
+          @click="selectAndDeselectStates"
+          :selectedStates="selectedStates"
+        />
       </div>
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
@@ -125,7 +153,7 @@ onMounted(async () => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="shouldFade(element)"
+          :faded="shouldFade(element) || shouldFadeOnState(element)"
           @click="selectedElement = element"
         />
       </div>
@@ -137,7 +165,7 @@ onMounted(async () => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
-            :faded="shouldFade(element)"
+            :faded="shouldFade(element) || shouldFadeOnState(element)"
             @click="selectedElement = element"
           />
         </div>

@@ -1,4 +1,5 @@
 import { axiosClient } from '@/router/utils.ts';
+import type { IElementState } from '@/types/elementState.ts';
 import type { IElementType } from '@/types/elementType.ts';
 import type { IElement } from '@/types/element.ts';
 
@@ -14,7 +15,12 @@ export const fetchTypes = () => {
   return axiosClient.get<IElementType[]>(`/api/types`);
 };
 
+export const fetchStates = () => {
+  return axiosClient.get<IElementState[]>(`/api/states`);
+};
+
 export default {
   fetchElements,
   fetchTypes,
+  fetchStates,
 };

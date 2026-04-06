@@ -9,6 +9,7 @@ export const apiService = api as Mocked<typeof api>;
 
 apiService.fetchElements.mockResolvedValue({ data: [] } as AxiosResponse);
 apiService.fetchTypes.mockResolvedValue({ data: [] } as AxiosResponse);
+apiService.fetchStates.mockResolvedValue({ data: [] } as AxiosResponse);
 
 export const generateAxiosResponse = <T>(
   data: T,

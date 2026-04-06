@@ -1,5 +1,6 @@
 import { Element } from '@/types/element.ts';
 import type { IElement } from '@/types/element.ts';
+import { ElementState, type IElementState } from '@/types/elementState.ts';
 import { AtomeqElementType, type IElementType } from '@/types/elementType.ts';
 
 export const transformElement = (element: IElement): Element => {
@@ -16,4 +17,8 @@ export const transformElementType = (type: IElementType): AtomeqElementType => {
 
 export const transformElementTypes = (types: IElementType[]): AtomeqElementType[] => {
   return types.map((type) => transformElementType(type));
+};
+
+export const transformElementStates = (states: IElementState[]): ElementState[] => {
+  return states.map((state) => new ElementState(state));
 };
