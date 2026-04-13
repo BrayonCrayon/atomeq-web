@@ -12,6 +12,7 @@ defineProps<{
 }>();
 </script>
 
+<!--TODO: slide in the highlighting here and finish up the tests-->
 <template>
   <div v-for="block in Object.values(ElementBlock)" :key="block">
     <div

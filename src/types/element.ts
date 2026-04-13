@@ -15,6 +15,13 @@ export const ElementBlockColour = {
   [ElementBlock.F]: 'bg-zinc-300',
 };
 
+export const ElementBlockColourHighlight = {
+  [ElementBlock.S]: 'bg-blue-400',
+  [ElementBlock.P]: 'bg-violet-400',
+  [ElementBlock.D]: 'bg-fuchsia-400',
+  [ElementBlock.F]: 'bg-zinc-400',
+};
+
 export interface IElement {
   id: number;
   atomicMass: number;
