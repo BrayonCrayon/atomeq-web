@@ -45,7 +45,7 @@ export enum ElementStateColour {
 }
 
 export enum ElementStateHoverColour {
-  SOLID = 'hover:bg-lime-300',
-  LIQUID = 'hover:bg-purple-300',
-  GAS = 'hover:bg-teal-300',
+  SOLID = 'bg-lime-400',
+  LIQUID = 'bg-purple-400',
+  GAS = 'bg-teal-400',
 }

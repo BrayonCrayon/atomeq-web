@@ -86,15 +86,15 @@ export enum ElementTypeColour {
 }
 
 export enum ElementTypeHoverColour {
-  NONMETAL = 'hover:bg-emerald-400',
-  NOBLE_GAS = 'hover:bg-indigo-400',
-  ALKALI_METAL = 'hover:bg-rose-400',
-  ALKALINE_EARTH_METAL = 'hover:bg-orange-400',
-  METALLOID = 'hover:bg-cyan-400',
-  HALOGEN = 'hover:bg-sky-400',
-  METAL = 'hover:bg-zinc-400',
-  TRANSITION_METAL = 'hover:bg-blue-400',
-  LANTHANIDE = 'hover:bg-violet-400',
-  ACTINIDE = 'hover:bg-fuchsia-400',
-  TRANSACTINIDE = 'hover:bg-amber-400',
+  NONMETAL = 'bg-emerald-400',
+  NOBLE_GAS = 'bg-indigo-400',
+  ALKALI_METAL = 'bg-rose-400',
+  ALKALINE_EARTH_METAL = 'bg-orange-400',
+  METALLOID = 'bg-cyan-400',
+  HALOGEN = 'bg-sky-400',
+  METAL = 'bg-zinc-400',
+  TRANSITION_METAL = 'bg-blue-400',
+  LANTHANIDE = 'bg-violet-400',
+  ACTINIDE = 'bg-fuchsia-400',
+  TRANSACTINIDE = 'bg-amber-400',
 }
