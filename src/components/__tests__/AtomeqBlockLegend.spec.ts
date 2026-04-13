@@ -23,4 +23,22 @@ describe('AtomeqBlockLegend', () => {
       expect(blockElement.text()).toContain(name);
     });
   });
+
+  it.each([
+    ['mouseover', 'hover'],
+    ['mouseleave', 'hoverLeave'],
+    ['click', 'click'],
+  ])('emits an event when an element %s is triggered', async (eventTrigger, expectedEvent) => {
+    const blocks = Object.entries(ElementBlock).map(([_, value]) => value);
+    const wrapper = mountComponent();
+
+    blocks.forEach(async (name, idx) => {
+      const blockElement = wrapper.find(`#block-${name}`);
+      await blockElement.trigger(eventTrigger);
+
+      expect(wrapper.emitted(expectedEvent)).toBeDefined();
+      expect(wrapper.emitted(expectedEvent)).toHaveLength(blocks.length);
+      expect(wrapper.emitted(expectedEvent)![idx]).toContainEqual(name);
+    });
+  });
 });
