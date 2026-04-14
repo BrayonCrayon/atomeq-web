@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElementBlock, ElementBlockColour } from '@/types/element.ts';
+import { ElementBlock, ElementBlockColour, ElementBlockColourHighlight } from '@/types/element.ts';
 
 const emits = defineEmits<{
   hover: [ElementBlock];
@@ -18,7 +18,13 @@ defineProps<{
     <div
       :id="`block-${block}`"
       class="border-2 p-2 text-sm text-center capitalize cursor-pointer rounded mb-0.5"
-      :class="[ElementBlockColour[block]]"
+      :class="[
+        ElementBlockColour[block],
+        'hover:' + ElementBlockColourHighlight[block],
+        {
+          [ElementBlockColourHighlight[block]]: selectedBlocks.includes(block),
+        },
+      ]"
       @mouseover="emits('hover', block)"
       @mouseleave="emits('hoverLeave', block)"
       @click="emits('click', block)"

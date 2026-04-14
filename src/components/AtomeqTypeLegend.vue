@@ -27,7 +27,7 @@ defineProps<{
       class="border-2 p-2 text-sm text-center capitalize cursor-pointer rounded mb-0.5"
       :class="[
         parent.colour,
-        'hover:' + parent.highlight,
+        parent.hover,
         {
           [parent.highlight]: selectedTypes.includes(parent.id),
         },
@@ -51,8 +51,7 @@ defineProps<{
         class="border-2 p-2 text-xs text-center capitalize cursor-pointer rounded"
         :class="[
           child.colour,
-          'hover:' + child.highlight,
-
+          child.hover,
           {
             [child.highlight]: selectedTypes.includes(child.id),
           },

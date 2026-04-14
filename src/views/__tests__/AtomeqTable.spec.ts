@@ -54,7 +54,7 @@ describe('AtomeqTable', () => {
     expect(elementComponent.classes()).toContain(target.typeColour);
   });
 
-  it('will display elements colour by state when state radio option is clicked', async () => {
+  it('will display elements colour by state when the corresponding radio button is clicked', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElementType(element);
     const response = { data: [element] };
@@ -71,7 +71,23 @@ describe('AtomeqTable', () => {
     expect(elementComponent.classes()).toContain(target.stateColour);
   });
 
-  it('will display elements colour by type when type radio is clicked', async () => {
+  it('will display elements colour by type when the corresponding radio button is clicked', async () => {
+    const element = mockElements.data[0];
+    const target = new AtomeqElementType(element);
+    const response = { data: [element] };
+    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    await wrapper.find("label[aria-label='type-display']").trigger('click');
+
+    const elementComponent = wrapper.findComponent(AtomeqElement);
+
+    expect(elementComponent.classes()).toContain(target.typeColour);
+  });
+
+  it('will display elements colour by block when the corresponding radio button is clicked', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElementType(element);
     const response = { data: [element] };
