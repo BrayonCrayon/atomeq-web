@@ -27,7 +27,7 @@ defineProps<{
       class="border-2 p-2 text-sm text-center capitalize cursor-pointer rounded mb-0.5"
       :class="[
         state.colour,
-        'hover:' + state.highlight,
+        state.hover,
         {
           [state.highlight]: selectedStates.includes(state.id),
         },
