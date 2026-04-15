@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { ElementBlock, ElementBlockColour, ElementBlockColourHighlight } from '@/types/element.ts';
+import {
+  ElementBlock,
+  ElementBlockColour,
+  ElementBlockColourHighlight,
+  ElementBlockColourHover,
+} from '@/types/element.ts';
 
 const emits = defineEmits<{
   hover: [ElementBlock];
@@ -12,7 +17,6 @@ defineProps<{
 }>();
 </script>
 
-<!--TODO: slide in the highlighting here and finish up the tests-->
 <template>
   <div v-for="block in Object.values(ElementBlock)" :key="block">
     <div
@@ -20,7 +24,7 @@ defineProps<{
       class="border-2 p-2 text-sm text-center capitalize cursor-pointer rounded mb-0.5"
       :class="[
         ElementBlockColour[block],
-        'hover:' + ElementBlockColourHighlight[block],
+        ElementBlockColourHover[block],
         {
           [ElementBlockColourHighlight[block]]: selectedBlocks.includes(block),
         },

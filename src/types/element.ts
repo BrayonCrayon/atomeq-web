@@ -22,6 +22,13 @@ export const ElementBlockColourHighlight = {
   [ElementBlock.F]: 'bg-zinc-400',
 };
 
+export const ElementBlockColourHover = {
+  [ElementBlock.S]: 'hover:bg-blue-400',
+  [ElementBlock.P]: 'hover:bg-violet-400',
+  [ElementBlock.D]: 'hover:bg-fuchsia-400',
+  [ElementBlock.F]: 'hover:bg-zinc-400',
+};
+
 export interface IElement {
   id: number;
   atomicMass: number;

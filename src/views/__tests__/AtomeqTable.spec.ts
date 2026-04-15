@@ -7,7 +7,7 @@ import mockElements from '@/testUtils/mocks/mockElements.ts';
 import mockStates from '@/testUtils/mocks/mockStates.ts';
 import mockTypes from '@/testUtils/mocks/mockTypes.ts';
 import { Display } from '@/types/atomeq-table.ts';
-import { Element as AtomeqElementType } from '@/types/element.ts';
+import { Element as AtomeqElementClass } from '@/types/element.ts';
 import AtomeqTable from '@/views/AtomeqTable.vue';
 import { apiService, expectFadedOnElements, generateAxiosResponse } from '@/vitest.setup';
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils';
@@ -43,7 +43,7 @@ describe('AtomeqTable', () => {
 
   it('will display elements colour by type as default', async () => {
     const element = mockElements.data[0];
-    const target = new AtomeqElementType(element);
+    const target = new AtomeqElementClass(element);
     const response = { data: [element] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
 
@@ -56,7 +56,7 @@ describe('AtomeqTable', () => {
 
   it('will display elements colour by state when the corresponding radio button is clicked', async () => {
     const element = mockElements.data[0];
-    const target = new AtomeqElementType(element);
+    const target = new AtomeqElementClass(element);
     const response = { data: [element] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
 
@@ -73,7 +73,7 @@ describe('AtomeqTable', () => {
 
   it('will display elements colour by type when the corresponding radio button is clicked', async () => {
     const element = mockElements.data[0];
-    const target = new AtomeqElementType(element);
+    const target = new AtomeqElementClass(element);
     const response = { data: [element] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
 
@@ -89,18 +89,18 @@ describe('AtomeqTable', () => {
 
   it('will display elements colour by block when the corresponding radio button is clicked', async () => {
     const element = mockElements.data[0];
-    const target = new AtomeqElementType(element);
+    const target = new AtomeqElementClass(element);
     const response = { data: [element] };
     apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
-    await wrapper.find("label[aria-label='type-display']").trigger('click');
+    await wrapper.find("label[aria-label='block-display']").trigger('click');
 
     const elementComponent = wrapper.findComponent(AtomeqElement);
 
-    expect(elementComponent.classes()).toContain(target.typeColour);
+    expect(elementComponent.classes()).toContain(target.blockColour);
   });
 
   it('will display an element details modal when an element is clicked', async () => {

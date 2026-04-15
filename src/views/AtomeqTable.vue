@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import AtomeqBlockLegend from '@/components/AtomeqBlockLegend.vue';
 import AtomeqElementComponent from '@/components/AtomeqElement.vue';
 import AtomeqStateLegend from '@/components/AtomeqStateLegend.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { useTypes } from '@/composables/useTypes.ts';
-import { Element } from '@/types/element';
+import { Element, ElementBlock } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
 import type { ElementState } from '@/types/elementState.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
@@ -18,8 +19,10 @@ const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
 const hoveredTypes = ref<number[]>([]);
 const hoveredState = ref<number | undefined>(undefined);
+const hoveredBlock = ref<string | undefined>(undefined);
 const selectedTypes = ref<number[]>([]);
 const selectedStates = ref<number[]>([]);
+const selectedBlocks = ref<ElementBlock[]>([]);
 
 const { getElements, elements } = useElements();
 const { getTypes, types } = useTypes();
@@ -112,6 +115,15 @@ const selectAndDeselectStates = (state: ElementState): void => {
   selectedStates.value.push(state.id);
 };
 
+const selectAndDeselectBlocks = (block: ElementBlock): void => {
+  if (selectedBlocks.value.includes(block)) {
+    pull(selectedBlocks.value, block);
+    return;
+  }
+
+  selectedBlocks.value.push(block);
+};
+
 onMounted(async () => {
   await getElements();
   await getTypes();
@@ -143,6 +155,13 @@ onMounted(async () => {
           @hoverLeave="hoveredState = undefined"
           @click="selectAndDeselectStates"
           :selectedStates="selectedStates"
+        />
+        <AtomeqBlockLegend
+          v-if="elementDisplay === Display.BLOCK"
+          @hover="(block) => (hoveredBlock = block)"
+          @hoverLeave="hoveredState = undefined"
+          @click="selectAndDeselectBlocks"
+          :selectedBlocks="selectedBlocks"
         />
       </div>
     </div>
