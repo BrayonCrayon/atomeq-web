@@ -13,7 +13,7 @@ const emits = defineEmits<{
 }>();
 
 defineProps<{
-  selectedBlocks: ElementBlock[];
+  selectedBlocks: string[];
 }>();
 </script>
 

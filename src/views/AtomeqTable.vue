@@ -22,7 +22,7 @@ const hoveredState = ref<number | undefined>(undefined);
 const hoveredBlock = ref<string | undefined>(undefined);
 const selectedTypes = ref<number[]>([]);
 const selectedStates = ref<number[]>([]);
-const selectedBlocks = ref<ElementBlock[]>([]);
+const selectedBlocks = ref<string[]>([]);
 
 const { getElements, elements } = useElements();
 const { getTypes, types } = useTypes();
@@ -84,6 +84,14 @@ const shouldFadeOnState = (element: Element): boolean => {
   return (!!hoveredState.value || selectedStates.value.length > 0) && !isHovered && !isSelected;
 };
 
+const shouldFadeOnBlock = (element: Element): boolean => {
+  const isHovered = !!hoveredBlock.value && hoveredBlock.value === element.block;
+  const isSelected =
+    selectedBlocks.value.length > 0 && selectedBlocks.value.includes(element.block);
+
+  return (!!hoveredBlock.value || selectedBlocks.value.length > 0) && !isHovered && !isSelected;
+};
+
 const hoverOnType = (type: AtomeqElementType): void => {
   if (type.parentId === null) {
     const children = types.value.filter((item) => item.parentId === type.id);
@@ -115,7 +123,7 @@ const selectAndDeselectStates = (state: ElementState): void => {
   selectedStates.value.push(state.id);
 };
 
-const selectAndDeselectBlocks = (block: ElementBlock): void => {
+const selectAndDeselectBlocks = (block: string): void => {
   if (selectedBlocks.value.includes(block)) {
     pull(selectedBlocks.value, block);
     return;
@@ -172,7 +180,7 @@ onMounted(async () => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="shouldFade(element) || shouldFadeOnState(element)"
+          :faded="shouldFade(element) || shouldFadeOnState(element) || shouldFadeOnBlock(element)"
           @click="selectedElement = element"
         />
       </div>
@@ -184,7 +192,7 @@ onMounted(async () => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
-            :faded="shouldFade(element) || shouldFadeOnState(element)"
+            :faded="shouldFade(element) || shouldFadeOnState(element) || shouldFadeOnBlock(element)"
             @click="selectedElement = element"
           />
         </div>
