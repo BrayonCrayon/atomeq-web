@@ -41,10 +41,4 @@ describe('AtomeqBlockLegend', () => {
       expect(wrapper.emitted(expectedEvent)![idx]).toContainEqual(name);
     });
   });
-
-  it('will highlight a block element that the user is hovering over it', () => {
-    const blocks = Object.entries(ElementBlock).map(([_, value]) => value);
-    const wrapper = mountComponent();
-    const blockElement = wrapper.find(`#block-${blocks[0]}`);
-  });
 });

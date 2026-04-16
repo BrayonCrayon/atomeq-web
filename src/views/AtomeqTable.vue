@@ -4,7 +4,7 @@ import AtomeqElementComponent from '@/components/AtomeqElement.vue';
 import AtomeqStateLegend from '@/components/AtomeqStateLegend.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import { useTypes } from '@/composables/useTypes.ts';
-import { Element, ElementBlock } from '@/types/element';
+import { Element } from '@/types/element';
 import useElements from '@/composables/useElements.ts';
 import type { ElementState } from '@/types/elementState.ts';
 import type { AtomeqElementType } from '@/types/elementType.ts';
