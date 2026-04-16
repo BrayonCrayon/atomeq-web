@@ -349,6 +349,45 @@ describe('AtomeqTable', () => {
     expectFadedOnElements(otherElements, false);
   });
 
+  it('will persist the highlighted block when the legend block is clicked and deselect previous selected elements on subsequent click', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const sBlock = ElementBlock.S;
+
+    const sBlockIds = mockElements.data
+      .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
+      .map((item) => item.id);
+    const nonSBlockIds = mockElements.data
+      .filter(
+        (element) => ![1, 2].includes(element.group) && ![1, 2].includes(element.atomicNumber),
+      )
+      .map((item) => item.id);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    await switchDisplays(wrapper, Display.BLOCK);
+
+    const blockLegend = wrapper.findComponent(AtomeqBlockLegend);
+    blockLegend.vm.$emit('click', sBlock);
+    await nextTick();
+
+    const highlightedElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => sBlockIds.includes(item.props('element').id));
+    const otherElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => nonSBlockIds.includes(item.props('element').id));
+
+    expectFadedOnElements(highlightedElements, false);
+    expectFadedOnElements(otherElements);
+
+    blockLegend.vm.$emit('click', sBlock);
+    await nextTick();
+
+    expectFadedOnElements(highlightedElements, false);
+    expectFadedOnElements(otherElements, false);
+  });
+
   it('will persist highlighting when an element type is selected and another type is hovered', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
