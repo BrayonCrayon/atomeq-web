@@ -460,6 +460,53 @@ describe('AtomeqTable', () => {
     expectFadedOnElements(otherElements);
   });
 
+  it('will persist highlighting when an element block is selected and another block is hovered', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const sBlock = ElementBlock.S;
+    const pBlock = ElementBlock.P;
+
+    const sBlockIds = mockElements.data
+      .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
+      .map((item) => item.id);
+    const pBlockIds = mockElements.data
+      .filter((element) => [13, 14, 15, 16, 17, 18].includes(element.group))
+      .map((item) => item.id);
+    const otherElementIds = mockElements.data
+      .filter(
+        (element) =>
+          ![1, 2].includes(element.group) &&
+          ![1, 2].includes(element.atomicNumber) &&
+          ![13, 14, 15, 16, 17, 18].includes(element.group),
+      )
+      .map((item) => item.id);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    await switchDisplays(wrapper, Display.BLOCK);
+
+    const blockLegend = wrapper.findComponent(AtomeqBlockLegend);
+    blockLegend.vm.$emit('click', sBlock);
+    await nextTick();
+
+    blockLegend.vm.$emit('hover', pBlock);
+    await nextTick();
+
+    const sBlockElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => sBlockIds.includes(item.props('element').id));
+    const pBlockElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => pBlockIds.includes(item.props('element').id));
+    const otherElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => otherElementIds.includes(item.props('element').id));
+
+    expectFadedOnElements(sBlockElements, false);
+    expectFadedOnElements(pBlockElements, false);
+    expectFadedOnElements(otherElements);
+  });
+
   it('will highlight the children types if the parent type is hovered', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const [nonMetal, nobleGas, halogen] = mockTypes.data.filter((item) =>
