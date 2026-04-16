@@ -1,3 +1,4 @@
+import AtomeqBlockLegend from '@/components/AtomeqBlockLegend.vue';
 import AtomeqElement from '@/components/AtomeqElement.vue';
 import AtomeqStateLegend from '@/components/AtomeqStateLegend.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
@@ -7,7 +8,7 @@ import mockElements from '@/testUtils/mocks/mockElements.ts';
 import mockStates from '@/testUtils/mocks/mockStates.ts';
 import mockTypes from '@/testUtils/mocks/mockTypes.ts';
 import { Display } from '@/types/atomeq-table.ts';
-import { Element as AtomeqElementClass } from '@/types/element.ts';
+import { Element as AtomeqElementClass, ElementBlock } from '@/types/element.ts';
 import AtomeqTable from '@/views/AtomeqTable.vue';
 import { apiService, expectFadedOnElements, generateAxiosResponse } from '@/vitest.setup';
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils';
@@ -187,6 +188,39 @@ describe('AtomeqTable', () => {
     const fadedElements = wrapper
       .findAllComponents(AtomeqElement)
       .filter((item) => nonGasIds.includes(item.props('element').id));
+
+    expectFadedOnElements(highlightedElements, false);
+    expectFadedOnElements(fadedElements);
+  });
+
+  it('will highlight the correct elements by block when the block is hovered in block legend', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const sBlock = ElementBlock.S;
+
+    const sBlockIds = mockElements.data
+      .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
+      .map((item) => item.id);
+    const nonSBlockIds = mockElements.data
+      .filter(
+        (element) => ![1, 2].includes(element.group) && ![1, 2].includes(element.atomicNumber),
+      )
+      .map((item) => item.id);
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    await switchDisplays(wrapper, Display.BLOCK);
+
+    const blockLegend = wrapper.findComponent(AtomeqBlockLegend);
+    blockLegend.vm.$emit('hover', sBlock);
+    await nextTick();
+
+    const highlightedElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => sBlockIds.includes(item.props('element').id));
+    const fadedElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => nonSBlockIds.includes(item.props('element').id));
 
     expectFadedOnElements(highlightedElements, false);
     expectFadedOnElements(fadedElements);
