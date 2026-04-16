@@ -167,7 +167,7 @@ onMounted(async () => {
         <AtomeqBlockLegend
           v-if="elementDisplay === Display.BLOCK"
           @hover="(block) => (hoveredBlock = block)"
-          @hoverLeave="hoveredState = undefined"
+          @hoverLeave="hoveredBlock = undefined"
           @click="selectAndDeselectBlocks"
           :selectedBlocks="selectedBlocks"
         />

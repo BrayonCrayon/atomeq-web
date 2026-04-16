@@ -266,6 +266,27 @@ describe('AtomeqTable', () => {
     expectFadedOnElements(allElements, false);
   });
 
+  it('will reset hovered block when hoverLeave is emitted from block legend', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+    const sBlock = ElementBlock.S;
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    await switchDisplays(wrapper, Display.BLOCK);
+
+    const blockLegend = wrapper.findComponent(AtomeqBlockLegend);
+    blockLegend.vm.$emit('hover', sBlock);
+    await nextTick();
+
+    blockLegend.vm.$emit('hoverLeave', sBlock);
+    await nextTick();
+
+    const allElements = wrapper.findAllComponents(AtomeqElement);
+
+    expectFadedOnElements(allElements, false);
+  });
+
   it('will persist the highlighted state when the legend type is clicked and deselect previous selected elements on subsequent click', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
