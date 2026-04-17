@@ -533,10 +533,53 @@ describe('AtomeqTable', () => {
     expectFadedOnElements(nonMetalElements, false);
     expectFadedOnElements(otherElements);
   });
+
+  it('will reset the previously selected elements when switching between legends', async () => {
+    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
+
+    const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
+
+    const wrapper = mount(AtomeqTable);
+    await flushPromises();
+
+    const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
+    typeLegend.vm.$emit('click', nobleGas);
+    await nextTick();
+
+    await switchDisplays(wrapper, Display.BLOCK);
+    await flushPromises();
+
+    const blockLegend = wrapper.findComponent(AtomeqBlockLegend);
+    blockLegend.vm.$emit('click', ElementBlock.S);
+    await nextTick();
+
+    const sBlockIds = mockElements.data
+      .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
+      .map((item) => item.id);
+
+    const allElements = wrapper.findAllComponents(AtomeqElement);
+
+    const nobleGasElements = allElements.filter(
+      (item) => item.props('element').typeId === nobleGas?.id,
+    );
+    const sBlockElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => sBlockIds.includes(item.props('element').id));
+    const otherElements = allElements.filter(
+      (item) =>
+        item.props('element').typeId !== nobleGas?.id &&
+        !sBlockIds.includes(item.props('element').id),
+    );
+
+    expectFadedOnElements(sBlockElements, false);
+    expectFadedOnElements(nobleGasElements);
+    expectFadedOnElements(otherElements);
+  });
 });
 
 const switchDisplays = async (wrapper: VueWrapper, type: Display) => {
   const switchDisplay = wrapper.findComponent(SwitchDisplay);
   switchDisplay.vm.$emit('update:modelValue', type);
+  await switchDisplay.trigger('click'); // TODO: ask Brady for the best way to handle this
   await nextTick();
 };

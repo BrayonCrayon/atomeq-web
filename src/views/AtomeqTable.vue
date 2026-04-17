@@ -132,6 +132,19 @@ const selectAndDeselectBlocks = (block: string): void => {
   selectedBlocks.value.push(block);
 };
 
+const resetSelected = () => {
+  if (elementDisplay.value === Display.TYPE) {
+    selectedStates.value = [];
+    selectedBlocks.value = [];
+  } else if (elementDisplay.value === Display.STATE) {
+    selectedTypes.value = [];
+    selectedBlocks.value = [];
+  } else {
+    selectedStates.value = [];
+    selectedTypes.value = [];
+  }
+};
+
 onMounted(async () => {
   await getElements();
   await getTypes();
@@ -147,7 +160,7 @@ onMounted(async () => {
     />
     <div class="flex gap-6 justify-center">
       <div>
-        <SwitchDisplay v-model="elementDisplay" />
+        <SwitchDisplay v-model="elementDisplay" @click="resetSelected" />
       </div>
       <div class="flex justify-center gap-0.5">
         <AtomeqTypeLegend
