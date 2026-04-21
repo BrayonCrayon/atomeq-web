@@ -1,4 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
 @import 'tailwindcss';
+
+p, div, h1, h2, h3, h4 {
+  font-family: "Electrolize", sans-serif;
+}
 
 @theme {
   --color-error-badge-50: oklch(0.967 0.016 8.28);
