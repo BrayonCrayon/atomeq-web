@@ -27,9 +27,9 @@ defineProps<{
       class="border-2 p-2 text-sm text-center capitalize cursor-pointer rounded mb-0.5"
       :class="[
         parent.colour,
-        parent.highlight,
+        parent.hover,
         {
-          [parent.highlight.replace('hover:', '')]: selectedTypes.includes(parent.id),
+          [parent.highlight]: selectedTypes.includes(parent.id),
         },
       ]"
       @mouseover="emits('hover', parent)"
@@ -51,9 +51,9 @@ defineProps<{
         class="border-2 p-2 text-xs text-center capitalize cursor-pointer rounded"
         :class="[
           child.colour,
-          child.highlight,
+          child.hover,
           {
-            [child.highlight.replace('hover:', '')]: selectedTypes.includes(child.id),
+            [child.highlight]: selectedTypes.includes(child.id),
           },
         ]"
         @mouseover="emits('hover', child)"

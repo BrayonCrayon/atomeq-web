@@ -15,6 +15,20 @@ export const ElementBlockColour = {
   [ElementBlock.F]: 'bg-zinc-300',
 };
 
+export const ElementBlockColourHighlight = {
+  [ElementBlock.S]: 'bg-blue-400',
+  [ElementBlock.P]: 'bg-violet-400',
+  [ElementBlock.D]: 'bg-fuchsia-400',
+  [ElementBlock.F]: 'bg-zinc-400',
+};
+
+export const ElementBlockColourHover = {
+  [ElementBlock.S]: 'hover:bg-blue-400',
+  [ElementBlock.P]: 'hover:bg-violet-400',
+  [ElementBlock.D]: 'hover:bg-fuchsia-400',
+  [ElementBlock.F]: 'hover:bg-zinc-400',
+};
+
 export interface IElement {
   id: number;
   atomicMass: number;
@@ -117,6 +131,26 @@ export class Element implements IElement {
 
   get stateColour(): string {
     return this.elementState?.colour ?? 'bg-red-300';
+  }
+
+  get block(): string {
+    if ([1, 2].includes(this.group) || [1, 2].includes(this.atomicNumber)) {
+      return ElementBlock.S;
+    }
+
+    if ([13, 14, 15, 16, 17, 18].includes(this.group)) {
+      return ElementBlock.P;
+    }
+
+    if (
+      [3, 4, 5, 6, 7, 8, 9, 10, 11, 12].includes(this.group) &&
+      (this.atomicNumber < 57 || this.atomicNumber > 71) &&
+      (this.atomicNumber < 89 || this.atomicNumber > 103)
+    ) {
+      return ElementBlock.D;
+    }
+
+    return ElementBlock.F;
   }
 
   get blockColour(): string {

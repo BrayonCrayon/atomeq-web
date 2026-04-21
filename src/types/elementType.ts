@@ -44,6 +44,35 @@ export class AtomeqElementType implements IElementType {
   get highlight() {
     switch (this.name) {
       case 'nonmetal':
+        return ElementTypeHighlightColour.NONMETAL;
+      case 'noble-gas':
+        return ElementTypeHighlightColour.NOBLE_GAS;
+      case 'alkali-metal':
+        return ElementTypeHighlightColour.ALKALI_METAL;
+      case 'alkaline-earth-metal':
+        return ElementTypeHighlightColour.ALKALINE_EARTH_METAL;
+      case 'metalloid':
+        return ElementTypeHighlightColour.METALLOID;
+      case 'halogen':
+        return ElementTypeHighlightColour.HALOGEN;
+      case 'metal':
+        return ElementTypeHighlightColour.METAL;
+      case 'transition-metal':
+        return ElementTypeHighlightColour.TRANSITION_METAL;
+      case 'lanthanide':
+        return ElementTypeHighlightColour.LANTHANIDE;
+      case 'actinide':
+        return ElementTypeHighlightColour.ACTINIDE;
+      case 'transactinide':
+        return ElementTypeHighlightColour.TRANSACTINIDE;
+      default:
+        return 'bg-red-300';
+    }
+  }
+
+  get hover() {
+    switch (this.name) {
+      case 'nonmetal':
         return ElementTypeHoverColour.NONMETAL;
       case 'noble-gas':
         return ElementTypeHoverColour.NOBLE_GAS;
@@ -83,6 +112,20 @@ export enum ElementTypeColour {
   LANTHANIDE = 'bg-violet-300',
   ACTINIDE = 'bg-fuchsia-300',
   TRANSACTINIDE = 'bg-amber-300',
+}
+
+export enum ElementTypeHighlightColour {
+  NONMETAL = 'bg-emerald-400',
+  NOBLE_GAS = 'bg-indigo-400',
+  ALKALI_METAL = 'bg-rose-400',
+  ALKALINE_EARTH_METAL = 'bg-orange-400',
+  METALLOID = 'bg-cyan-400',
+  HALOGEN = 'bg-sky-400',
+  METAL = 'bg-zinc-400',
+  TRANSITION_METAL = 'bg-blue-400',
+  LANTHANIDE = 'bg-violet-400',
+  ACTINIDE = 'bg-fuchsia-400',
+  TRANSACTINIDE = 'bg-amber-400',
 }
 
 export enum ElementTypeHoverColour {

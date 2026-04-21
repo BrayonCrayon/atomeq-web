@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AtomeqBlockLegend from '@/components/AtomeqBlockLegend.vue';
 import AtomeqElementComponent from '@/components/AtomeqElement.vue';
 import AtomeqStateLegend from '@/components/AtomeqStateLegend.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
@@ -18,8 +19,10 @@ const elementDisplay = ref<Display>(Display.TYPE);
 const selectedElement = ref<Element | undefined>(undefined);
 const hoveredTypes = ref<number[]>([]);
 const hoveredState = ref<number | undefined>(undefined);
+const hoveredBlock = ref<string | undefined>(undefined);
 const selectedTypes = ref<number[]>([]);
 const selectedStates = ref<number[]>([]);
+const selectedBlocks = ref<string[]>([]);
 
 const { getElements, elements } = useElements();
 const { getTypes, types } = useTypes();
@@ -81,6 +84,14 @@ const shouldFadeOnState = (element: Element): boolean => {
   return (!!hoveredState.value || selectedStates.value.length > 0) && !isHovered && !isSelected;
 };
 
+const shouldFadeOnBlock = (element: Element): boolean => {
+  const isHovered = !!hoveredBlock.value && hoveredBlock.value === element.block;
+  const isSelected =
+    selectedBlocks.value.length > 0 && selectedBlocks.value.includes(element.block);
+
+  return (!!hoveredBlock.value || selectedBlocks.value.length > 0) && !isHovered && !isSelected;
+};
+
 const hoverOnType = (type: AtomeqElementType): void => {
   if (type.parentId === null) {
     const children = types.value.filter((item) => item.parentId === type.id);
@@ -112,6 +123,28 @@ const selectAndDeselectStates = (state: ElementState): void => {
   selectedStates.value.push(state.id);
 };
 
+const selectAndDeselectBlocks = (block: string): void => {
+  if (selectedBlocks.value.includes(block)) {
+    pull(selectedBlocks.value, block);
+    return;
+  }
+
+  selectedBlocks.value.push(block);
+};
+
+const resetSelected = () => {
+  if (elementDisplay.value === Display.TYPE) {
+    selectedStates.value = [];
+    selectedBlocks.value = [];
+  } else if (elementDisplay.value === Display.STATE) {
+    selectedTypes.value = [];
+    selectedBlocks.value = [];
+  } else {
+    selectedStates.value = [];
+    selectedTypes.value = [];
+  }
+};
+
 onMounted(async () => {
   await getElements();
   await getTypes();
@@ -127,7 +160,7 @@ onMounted(async () => {
     />
     <div class="flex gap-6 justify-center">
       <div>
-        <SwitchDisplay v-model="elementDisplay" />
+        <SwitchDisplay v-model="elementDisplay" @click="resetSelected" />
       </div>
       <div class="flex justify-center gap-0.5">
         <AtomeqTypeLegend
@@ -144,6 +177,13 @@ onMounted(async () => {
           @click="selectAndDeselectStates"
           :selectedStates="selectedStates"
         />
+        <AtomeqBlockLegend
+          v-if="elementDisplay === Display.BLOCK"
+          @hover="(block) => (hoveredBlock = block)"
+          @hoverLeave="hoveredBlock = undefined"
+          @click="selectAndDeselectBlocks"
+          :selectedBlocks="selectedBlocks"
+        />
       </div>
     </div>
     <div :key="idx" v-for="(row, idx) in elementTable" class="grid grid-cols-18 gap-1">
@@ -153,7 +193,7 @@ onMounted(async () => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="shouldFade(element) || shouldFadeOnState(element)"
+          :faded="shouldFade(element) || shouldFadeOnState(element) || shouldFadeOnBlock(element)"
           @click="selectedElement = element"
         />
       </div>
@@ -165,7 +205,7 @@ onMounted(async () => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
-            :faded="shouldFade(element) || shouldFadeOnState(element)"
+            :faded="shouldFade(element) || shouldFadeOnState(element) || shouldFadeOnBlock(element)"
             @click="selectedElement = element"
           />
         </div>
