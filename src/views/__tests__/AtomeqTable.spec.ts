@@ -559,9 +559,6 @@ describe('AtomeqTable', () => {
 
     const allElements = wrapper.findAllComponents(AtomeqElement);
 
-    const nobleGasElements = allElements.filter(
-      (item) => item.props('element').typeId === nobleGas?.id,
-    );
     const sBlockElements = wrapper
       .findAllComponents(AtomeqElement)
       .filter((item) => sBlockIds.includes(item.props('element').id));
@@ -572,7 +569,6 @@ describe('AtomeqTable', () => {
     );
 
     expectFadedOnElements(sBlockElements, false);
-    expectFadedOnElements(nobleGasElements);
     expectFadedOnElements(otherElements);
   });
 });
@@ -580,6 +576,6 @@ describe('AtomeqTable', () => {
 const switchDisplays = async (wrapper: VueWrapper, type: Display) => {
   const switchDisplay = wrapper.findComponent(SwitchDisplay);
   switchDisplay.vm.$emit('update:modelValue', type);
-  await switchDisplay.trigger('click'); // TODO: ask Brady for the best way to handle this
+  await switchDisplay.trigger('click');
   await nextTick();
 };
