@@ -1,4 +1,6 @@
 import AtomeqElement from '@/components/AtomeqElement.vue';
+import type { Element } from '@/types/element.ts';
+import type AtomeqTable from '@/views/AtomeqTable.vue';
 import { VueWrapper } from '@vue/test-utils';
 import { type Mocked, vi, expect } from 'vitest';
 import api from '@/router/api';
@@ -26,6 +28,17 @@ export const generateAxiosResponse = <T>(
     ...overrides,
     data,
   };
+};
+
+// TODO: work in progress - update typing
+export const retrieveElementsByIds = (
+  wrapper: VueWrapper<InstanceType<typeof AtomeqTable>>,
+  ids: number[],
+  key: string,
+) => {
+  return wrapper
+    .findAllComponents(AtomeqElement)
+    .filter((item) => ids.includes(item.props('element')[key as keyof typeof Element]));
 };
 
 export const expectFadedOnElements = (

@@ -10,7 +10,12 @@ import mockTypes from '@/testUtils/mocks/mockTypes.ts';
 import { Display } from '@/types/atomeq-table.ts';
 import { Element as AtomeqElementClass, ElementBlock } from '@/types/element.ts';
 import AtomeqTable from '@/views/AtomeqTable.vue';
-import { apiService, expectFadedOnElements, generateAxiosResponse } from '@/vitest.setup';
+import {
+  apiService,
+  expectFadedOnElements,
+  generateAxiosResponse,
+  retrieveElementsByIds,
+} from '@/vitest.setup';
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils';
 import type { AxiosResponse } from 'axios';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -492,15 +497,9 @@ describe('AtomeqTable', () => {
     blockLegend.vm.$emit('hover', pBlock);
     await nextTick();
 
-    const sBlockElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => sBlockIds.includes(item.props('element').id));
-    const pBlockElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => pBlockIds.includes(item.props('element').id));
-    const otherElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => otherElementIds.includes(item.props('element').id));
+    const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds);
+    const pBlockElements = retrieveElementsByIds(wrapper, pBlockIds);
+    const otherElements = retrieveElementsByIds(wrapper, otherElementIds);
 
     expectFadedOnElements(sBlockElements, false);
     expectFadedOnElements(pBlockElements, false);
@@ -559,9 +558,8 @@ describe('AtomeqTable', () => {
 
     const allElements = wrapper.findAllComponents(AtomeqElement);
 
-    const sBlockElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => sBlockIds.includes(item.props('element').id));
+    const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds);
+    // TODO: refactor - potentially circle back to this
     const otherElements = allElements.filter(
       (item) =>
         item.props('element').typeId !== nobleGas?.id &&
