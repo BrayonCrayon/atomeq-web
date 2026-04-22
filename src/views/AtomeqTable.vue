@@ -159,10 +159,10 @@ onMounted(async () => {
       @close="selectedElement = undefined"
     />
     <div class="flex gap-6 justify-center">
-      <div>
-        <SwitchDisplay v-model="elementDisplay" @click="resetSelected" />
+      <div class="w-1/3 flex justify-end">
+        <SwitchDisplay class="w-min h-min" v-model="elementDisplay" @click="resetSelected" />
       </div>
-      <div class="flex justify-center gap-0.5">
+      <div class="flex self-center gap-0.5 w-2/3">
         <AtomeqTypeLegend
           v-if="elementDisplay === Display.TYPE"
           @hover="hoverOnType"
