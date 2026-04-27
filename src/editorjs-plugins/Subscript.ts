@@ -2,7 +2,7 @@
  * Build styles
  */
 // require('./index.css').toString();
-import subscript from './subscript.svg';
+// import subscript from './subscript.svg';
 
 interface IApi {
   styles: {
@@ -75,8 +75,8 @@ export class Subscript {
   render() {
     this.button = document.createElement('button');
     this.button.type = 'button';
-    this.button.classList.add(this.iconClasses.base);
-    this.button.innerHTML = this.toolboxIcon;
+    // this.button.classList.add(this.iconClasses.base);
+    this.button.innerHTML = 'subscript';
 
     return this.button;
   }
@@ -169,16 +169,16 @@ export class Subscript {
     this.button?.classList.toggle(this.iconClasses.active, !!termTag);
   }
 
-  /**
-   * Get Tool icon's SVG
-   */
-  get toolboxIcon() {
-    return subscript;
-  }
+  // /**
+  //  * Get Tool icon's SVG
+  //  */
+  // get toolboxIcon() {
+  //   return '';
+  // }
 
-  /**
-   * Sanitizer rule
-   */
+  // /**
+  //  * Sanitizer rule
+  //  */
   static get sanitize() {
     return {
       sub: {
@@ -186,6 +186,13 @@ export class Subscript {
       },
     };
   }
+
+  static get toolbox() {
+    return {
+      title: 'Image',
+      icon: 'Subby',
+    };
+  }
 }
 
-module.exports = Subscript;
+export default Subscript;
