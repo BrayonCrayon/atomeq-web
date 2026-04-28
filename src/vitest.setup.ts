@@ -30,15 +30,18 @@ export const generateAxiosResponse = <T>(
   };
 };
 
-// TODO: work in progress - update typing
-export const retrieveElementsByIds = (
+export type ElementKey = keyof Element;
+
+export const retrieveElementsByIds = <T>(
   wrapper: VueWrapper<InstanceType<typeof AtomeqTable>>,
-  ids: number[],
-  key: string,
+  ids: T[],
+  key: ElementKey,
 ) => {
-  return wrapper
-    .findAllComponents(AtomeqElement)
-    .filter((item) => ids.includes(item.props('element')[key as keyof typeof Element]));
+  return wrapper.findAllComponents(AtomeqElement).filter((item) => {
+    const element = item.props('element');
+    const elementId: T = element[key] as T;
+    return ids.includes(elementId);
+  });
 };
 
 export const expectFadedOnElements = (

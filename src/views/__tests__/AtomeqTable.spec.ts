@@ -497,9 +497,9 @@ describe('AtomeqTable', () => {
     blockLegend.vm.$emit('hover', pBlock);
     await nextTick();
 
-    const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds);
-    const pBlockElements = retrieveElementsByIds(wrapper, pBlockIds);
-    const otherElements = retrieveElementsByIds(wrapper, otherElementIds);
+    const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds, 'id');
+    const pBlockElements = retrieveElementsByIds(wrapper, pBlockIds, 'id');
+    const otherElements = retrieveElementsByIds(wrapper, otherElementIds, 'id');
 
     expectFadedOnElements(sBlockElements, false);
     expectFadedOnElements(pBlockElements, false);
@@ -558,7 +558,7 @@ describe('AtomeqTable', () => {
 
     const allElements = wrapper.findAllComponents(AtomeqElement);
 
-    const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds);
+    const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds, 'id');
     // TODO: refactor - potentially circle back to this
     const otherElements = allElements.filter(
       (item) =>
@@ -577,3 +577,5 @@ const switchDisplays = async (wrapper: VueWrapper, type: Display) => {
   await switchDisplay.trigger('click');
   await nextTick();
 };
+
+const fetchElements = async () => {};
