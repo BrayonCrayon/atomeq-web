@@ -55,9 +55,8 @@ describe('AtomeqTable', () => {
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
-    const elementComponent = wrapper.findComponent(AtomeqElement);
 
-    expect(elementComponent.classes()).toContain(target.typeColour);
+    expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.typeColour);
   });
 
   it('will display elements colour by state when the corresponding radio button is clicked', async () => {
@@ -72,9 +71,7 @@ describe('AtomeqTable', () => {
     const input = wrapper.find('label[aria-label="state-display"]');
     await input.trigger('click');
 
-    const elementComponent = wrapper.findComponent(AtomeqElement);
-
-    expect(elementComponent.classes()).toContain(target.stateColour);
+    expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.stateColour);
   });
 
   it('will display elements colour by type when the corresponding radio button is clicked', async () => {
@@ -88,9 +85,7 @@ describe('AtomeqTable', () => {
 
     await wrapper.find("label[aria-label='type-display']").trigger('click');
 
-    const elementComponent = wrapper.findComponent(AtomeqElement);
-
-    expect(elementComponent.classes()).toContain(target.typeColour);
+    expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.typeColour);
   });
 
   it('will display elements colour by block when the corresponding radio button is clicked', async () => {
@@ -104,9 +99,7 @@ describe('AtomeqTable', () => {
 
     await wrapper.find("label[aria-label='block-display']").trigger('click');
 
-    const elementComponent = wrapper.findComponent(AtomeqElement);
-
-    expect(elementComponent.classes()).toContain(target.blockColour);
+    expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.blockColour);
   });
 
   it('will display an element details modal when an element is clicked', async () => {
@@ -117,11 +110,12 @@ describe('AtomeqTable', () => {
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
-    const elementComponent = wrapper.findComponent(AtomeqElement);
     const elementModalComponent = wrapper.findComponent(AtomeqElementModal);
 
     expect(elementModalComponent.props().show).toBe(false);
-    await elementComponent.trigger('click');
+
+    await wrapper.findComponent(AtomeqElement).trigger('click');
+
     expect(elementModalComponent.props().show).toBe(true);
   });
 
@@ -156,12 +150,8 @@ describe('AtomeqTable', () => {
     typeLegend.vm.$emit('hover', nobleGas);
     await nextTick();
 
-    const highlightedElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => nobleGasIds.includes(item.props('element').id));
-    const fadedElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => nonNobleGasIds.includes(item.props('element').id));
+    const highlightedElements = retrieveElementsByIds(wrapper, nobleGasIds);
+    const fadedElements = retrieveElementsByIds(wrapper, nonNobleGasIds);
 
     expectFadedOnElements(highlightedElements, false);
     expectFadedOnElements(fadedElements);
@@ -187,12 +177,8 @@ describe('AtomeqTable', () => {
     stateLegend.vm.$emit('hover', gas);
     await nextTick();
 
-    const highlightedElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => gasIds.includes(item.props('element').id));
-    const fadedElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => nonGasIds.includes(item.props('element').id));
+    const highlightedElements = retrieveElementsByIds(wrapper, gasIds);
+    const fadedElements = retrieveElementsByIds(wrapper, nonGasIds);
 
     expectFadedOnElements(highlightedElements, false);
     expectFadedOnElements(fadedElements);
@@ -200,7 +186,6 @@ describe('AtomeqTable', () => {
 
   it('will highlight the correct elements by block when the block is hovered in block legend', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
-    const sBlock = ElementBlock.S;
 
     const sBlockIds = mockElements.data
       .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
@@ -217,15 +202,11 @@ describe('AtomeqTable', () => {
     await switchDisplays(wrapper, Display.BLOCK);
 
     const blockLegend = wrapper.findComponent(AtomeqBlockLegend);
-    blockLegend.vm.$emit('hover', sBlock);
+    blockLegend.vm.$emit('hover', ElementBlock.S);
     await nextTick();
 
-    const highlightedElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => sBlockIds.includes(item.props('element').id));
-    const fadedElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => nonSBlockIds.includes(item.props('element').id));
+    const highlightedElements = retrieveElementsByIds(wrapper, sBlockIds);
+    const fadedElements = retrieveElementsByIds(wrapper, nonSBlockIds);
 
     expectFadedOnElements(highlightedElements, false);
     expectFadedOnElements(fadedElements);
@@ -245,9 +226,7 @@ describe('AtomeqTable', () => {
     typeLegend.vm.$emit('hoverLeave', nobleGas);
     await nextTick();
 
-    const allElements = wrapper.findAllComponents(AtomeqElement);
-
-    expectFadedOnElements(allElements, false);
+    expectFadedOnElements(wrapper.findAllComponents(AtomeqElement), false);
   });
 
   it('will reset hovered state when hoverLeave is emitted from state legend', async () => {
@@ -266,14 +245,11 @@ describe('AtomeqTable', () => {
     stateLegend.vm.$emit('hoverLeave', gas);
     await nextTick();
 
-    const allElements = wrapper.findAllComponents(AtomeqElement);
-
-    expectFadedOnElements(allElements, false);
+    expectFadedOnElements(wrapper.findAllComponents(AtomeqElement), false);
   });
 
   it('will reset hovered block when hoverLeave is emitted from block legend', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
-    const sBlock = ElementBlock.S;
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
@@ -281,15 +257,13 @@ describe('AtomeqTable', () => {
     await switchDisplays(wrapper, Display.BLOCK);
 
     const blockLegend = wrapper.findComponent(AtomeqBlockLegend);
-    blockLegend.vm.$emit('hover', sBlock);
+    blockLegend.vm.$emit('hover', ElementBlock.S);
     await nextTick();
 
-    blockLegend.vm.$emit('hoverLeave', sBlock);
+    blockLegend.vm.$emit('hoverLeave', ElementBlock.S);
     await nextTick();
 
-    const allElements = wrapper.findAllComponents(AtomeqElement);
-
-    expectFadedOnElements(allElements, false);
+    expectFadedOnElements(wrapper.findAllComponents(AtomeqElement), false);
   });
 
   it('will persist the highlighted state when the legend type is clicked and deselect previous selected elements on subsequent click', async () => {
@@ -303,14 +277,10 @@ describe('AtomeqTable', () => {
     typeLegend.vm.$emit('click', nobleGas);
     await nextTick();
 
-    const allElements = wrapper.findAllComponents(AtomeqElement);
-
-    const nobleGasElements = allElements.filter(
-      (item) => item.props('element').typeId === nobleGas?.id,
-    );
-    const otherElements = allElements.filter(
-      (item) => item.props('element').typeId !== nobleGas?.id,
-    );
+    const nobleGasElements = retrieveElementsByIds(wrapper, [nobleGas?.id], 'typeId');
+    const otherElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => item.props('element').typeId !== nobleGas?.id);
 
     expectFadedOnElements(nobleGasElements, false);
     expectFadedOnElements(otherElements);
@@ -335,14 +305,11 @@ describe('AtomeqTable', () => {
     stateLegend.vm.$emit('click', gas);
     await nextTick();
 
-    const allElements = wrapper.findAllComponents(AtomeqElement);
+    const gasElements = retrieveElementsByIds(wrapper, [gas?.id], 'elementStateId');
 
-    const gasElements = allElements.filter(
-      (item) => item.props('element').elementStateId === gas?.id,
-    );
-    const otherElements = allElements.filter(
-      (item) => item.props('element').elementStateId !== gas?.id,
-    );
+    const otherElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter((item) => item.props('element').elementStateId !== gas?.id);
 
     expectFadedOnElements(gasElements, false);
     expectFadedOnElements(otherElements);
@@ -356,7 +323,6 @@ describe('AtomeqTable', () => {
 
   it('will persist the highlighted block when the legend block is clicked and deselect previous selected elements on subsequent click', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
-    const sBlock = ElementBlock.S;
 
     const sBlockIds = mockElements.data
       .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
@@ -373,7 +339,7 @@ describe('AtomeqTable', () => {
     await switchDisplays(wrapper, Display.BLOCK);
 
     const blockLegend = wrapper.findComponent(AtomeqBlockLegend);
-    blockLegend.vm.$emit('click', sBlock);
+    blockLegend.vm.$emit('click', ElementBlock.S);
     await nextTick();
 
     const highlightedElements = retrieveElementsByIds(wrapper, sBlockIds);
@@ -382,7 +348,7 @@ describe('AtomeqTable', () => {
     expectFadedOnElements(highlightedElements, false);
     expectFadedOnElements(otherElements);
 
-    blockLegend.vm.$emit('click', sBlock);
+    blockLegend.vm.$emit('click', ElementBlock.S);
     await nextTick();
 
     expectFadedOnElements(highlightedElements, false);
@@ -454,8 +420,6 @@ describe('AtomeqTable', () => {
 
   it('will persist highlighting when an element block is selected and another block is hovered', async () => {
     apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
-    const sBlock = ElementBlock.S;
-    const pBlock = ElementBlock.P;
 
     const sBlockIds = mockElements.data
       .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
@@ -478,10 +442,10 @@ describe('AtomeqTable', () => {
     await switchDisplays(wrapper, Display.BLOCK);
 
     const blockLegend = wrapper.findComponent(AtomeqBlockLegend);
-    blockLegend.vm.$emit('click', sBlock);
+    blockLegend.vm.$emit('click', ElementBlock.S);
     await nextTick();
 
-    blockLegend.vm.$emit('hover', pBlock);
+    blockLegend.vm.$emit('hover', ElementBlock.P);
     await nextTick();
 
     const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds);
