@@ -376,12 +376,8 @@ describe('AtomeqTable', () => {
     blockLegend.vm.$emit('click', sBlock);
     await nextTick();
 
-    const highlightedElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => sBlockIds.includes(item.props('element').id));
-    const otherElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter((item) => nonSBlockIds.includes(item.props('element').id));
+    const highlightedElements = retrieveElementsByIds(wrapper, sBlockIds);
+    const otherElements = retrieveElementsByIds(wrapper, nonSBlockIds);
 
     expectFadedOnElements(highlightedElements, false);
     expectFadedOnElements(otherElements);
@@ -408,21 +404,16 @@ describe('AtomeqTable', () => {
     typeLegend.vm.$emit('hover', transitionMetal);
     await nextTick();
 
-    const allElements = wrapper.findAllComponents(AtomeqElement);
+    const nobleGasElements = retrieveElementsByIds(wrapper, [nobleGas?.id], 'typeId');
+    const transitionMetalElements = retrieveElementsByIds(wrapper, [transitionMetal?.id], 'typeId');
 
-    const nobleGasElements = allElements.filter(
-      (item) => item.props('element').typeId === nobleGas?.id,
-    );
-
-    const transitionMetalElements = allElements.filter(
-      (item) => item.props('element').typeId === transitionMetal?.id,
-    );
-
-    const otherElements = allElements.filter(
-      (item) =>
-        item.props('element').typeId !== nobleGas?.id &&
-        item.props('element').typeId !== transitionMetal?.id,
-    );
+    const otherElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter(
+        (item) =>
+          item.props('element').typeId !== nobleGas?.id &&
+          item.props('element').typeId !== transitionMetal?.id,
+      );
 
     expectFadedOnElements(nobleGasElements, false);
     expectFadedOnElements(transitionMetalElements, false);
@@ -446,19 +437,15 @@ describe('AtomeqTable', () => {
     stateLegend.vm.$emit('hover', liquid);
     await nextTick();
 
-    const allElements = wrapper.findAllComponents(AtomeqElement);
-
-    const gasElements = allElements.filter(
-      (item) => item.props('element').elementStateId === gas?.id,
-    );
-    const liquidElements = allElements.filter(
-      (item) => item.props('element').elementStateId === liquid?.id,
-    );
-    const otherElements = allElements.filter(
-      (item) =>
-        item.props('element').elementStateId !== gas?.id &&
-        item.props('element').elementStateId !== liquid?.id,
-    );
+    const gasElements = retrieveElementsByIds(wrapper, [gas?.id], 'elementStateId');
+    const liquidElements = retrieveElementsByIds(wrapper, [liquid?.id], 'elementStateId');
+    const otherElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter(
+        (item) =>
+          item.props('element').elementStateId !== gas?.id &&
+          item.props('element').elementStateId !== liquid?.id,
+      );
 
     expectFadedOnElements(gasElements, false);
     expectFadedOnElements(liquidElements, false);
@@ -497,9 +484,9 @@ describe('AtomeqTable', () => {
     blockLegend.vm.$emit('hover', pBlock);
     await nextTick();
 
-    const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds, 'id');
-    const pBlockElements = retrieveElementsByIds(wrapper, pBlockIds, 'id');
-    const otherElements = retrieveElementsByIds(wrapper, otherElementIds, 'id');
+    const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds);
+    const pBlockElements = retrieveElementsByIds(wrapper, pBlockIds);
+    const otherElements = retrieveElementsByIds(wrapper, otherElementIds);
 
     expectFadedOnElements(sBlockElements, false);
     expectFadedOnElements(pBlockElements, false);
@@ -519,15 +506,17 @@ describe('AtomeqTable', () => {
     typeLegend.vm.$emit('hover', nonMetal);
     await nextTick();
 
-    const allElements = wrapper.findAllComponents(AtomeqElement);
-
-    const nonMetalElements = allElements.filter((item) =>
-      [nonMetal.id, nobleGas.id, halogen.id].includes(item.props('element').typeId),
+    const nonMetalElements = retrieveElementsByIds(
+      wrapper,
+      [nonMetal.id, nobleGas.id, halogen.id],
+      'typeId',
     );
 
-    const otherElements = allElements.filter(
-      (item) => ![nonMetal.id, nobleGas.id, halogen.id].includes(item.props('element').typeId),
-    );
+    const otherElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter(
+        (item) => ![nonMetal.id, nobleGas.id, halogen.id].includes(item.props('element').typeId),
+      );
 
     expectFadedOnElements(nonMetalElements, false);
     expectFadedOnElements(otherElements);
@@ -555,16 +544,16 @@ describe('AtomeqTable', () => {
     const sBlockIds = mockElements.data
       .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
       .map((item) => item.id);
+    const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds);
 
-    const allElements = wrapper.findAllComponents(AtomeqElement);
-
-    const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds, 'id');
     // TODO: refactor - potentially circle back to this
-    const otherElements = allElements.filter(
-      (item) =>
-        item.props('element').typeId !== nobleGas?.id &&
-        !sBlockIds.includes(item.props('element').id),
-    );
+    const otherElements = wrapper
+      .findAllComponents(AtomeqElement)
+      .filter(
+        (item) =>
+          item.props('element').typeId !== nobleGas?.id &&
+          !sBlockIds.includes(item.props('element').id),
+      );
 
     expectFadedOnElements(sBlockElements, false);
     expectFadedOnElements(otherElements);

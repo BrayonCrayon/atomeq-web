@@ -35,7 +35,7 @@ export type ElementKey = keyof Element;
 export const retrieveElementsByIds = <T>(
   wrapper: VueWrapper<InstanceType<typeof AtomeqTable>>,
   ids: T[],
-  key: ElementKey,
+  key: ElementKey = 'id',
 ) => {
   return wrapper.findAllComponents(AtomeqElement).filter((item) => {
     const element = item.props('element');
