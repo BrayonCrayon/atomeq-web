@@ -44,6 +44,18 @@ export const retrieveElementsByIds = <T>(
   });
 };
 
+export const retrieveElementsNotInIds = <T>(
+  wrapper: VueWrapper<InstanceType<typeof AtomeqTable>>,
+  ids: T[],
+  key: ElementKey = 'id',
+) => {
+  return wrapper.findAllComponents(AtomeqElement).filter((item) => {
+    const element = item.props('element');
+    const elementId: T = element[key] as T;
+    return !ids.includes(elementId);
+  });
+};
+
 export const expectFadedOnElements = (
   elements: VueWrapper<InstanceType<typeof AtomeqElement>>[],
   faded = true,

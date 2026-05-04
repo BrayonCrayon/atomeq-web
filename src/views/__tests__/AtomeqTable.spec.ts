@@ -15,6 +15,7 @@ import {
   expectFadedOnElements,
   generateAxiosResponse,
   retrieveElementsByIds,
+  retrieveElementsNotInIds,
 } from '@/vitest.setup';
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils';
 import type { AxiosResponse } from 'axios';
@@ -373,13 +374,11 @@ describe('AtomeqTable', () => {
     const nobleGasElements = retrieveElementsByIds(wrapper, [nobleGas?.id], 'typeId');
     const transitionMetalElements = retrieveElementsByIds(wrapper, [transitionMetal?.id], 'typeId');
 
-    const otherElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter(
-        (item) =>
-          item.props('element').typeId !== nobleGas?.id &&
-          item.props('element').typeId !== transitionMetal?.id,
-      );
+    const otherElements = retrieveElementsNotInIds(
+      wrapper,
+      [nobleGas?.id, transitionMetal?.id],
+      'typeId',
+    );
 
     expectFadedOnElements(nobleGasElements, false);
     expectFadedOnElements(transitionMetalElements, false);
@@ -405,13 +404,11 @@ describe('AtomeqTable', () => {
 
     const gasElements = retrieveElementsByIds(wrapper, [gas?.id], 'elementStateId');
     const liquidElements = retrieveElementsByIds(wrapper, [liquid?.id], 'elementStateId');
-    const otherElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter(
-        (item) =>
-          item.props('element').elementStateId !== gas?.id &&
-          item.props('element').elementStateId !== liquid?.id,
-      );
+    const otherElements = retrieveElementsNotInIds(
+      wrapper,
+      [gas?.id, liquid?.id],
+      'elementStateId',
+    );
 
     expectFadedOnElements(gasElements, false);
     expectFadedOnElements(liquidElements, false);
@@ -476,11 +473,11 @@ describe('AtomeqTable', () => {
       'typeId',
     );
 
-    const otherElements = wrapper
-      .findAllComponents(AtomeqElement)
-      .filter(
-        (item) => ![nonMetal.id, nobleGas.id, halogen.id].includes(item.props('element').typeId),
-      );
+    const otherElements = retrieveElementsNotInIds(
+      wrapper,
+      [nonMetal.id, nobleGas.id, halogen.id],
+      'typeId',
+    );
 
     expectFadedOnElements(nonMetalElements, false);
     expectFadedOnElements(otherElements);
