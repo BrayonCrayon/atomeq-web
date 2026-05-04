@@ -1,5 +1,5 @@
 // TODO: maybe create helper functions to retrieve the data from below. For Block ( S, P, D, F ), State ( Gas, Liquid ), and Type
-export default {
+export const elements = {
   data: [
     {
       id: 1,
@@ -4369,3 +4369,7 @@ export default {
     },
   ],
 };
+
+export const sBlock = elements.data.filter(
+  (element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber),
+);

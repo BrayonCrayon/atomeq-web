@@ -4,7 +4,7 @@ import AtomeqStateLegend from '@/components/AtomeqStateLegend.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 import SwitchDisplay from '@/components/SwitchDisplay.vue';
-import mockElements from '@/testUtils/mocks/mockElements.ts';
+import { elements as mockElements, sBlock } from '@/testUtils/mocks/mockElements.ts';
 import mockStates from '@/testUtils/mocks/mockStates.ts';
 import mockTypes from '@/testUtils/mocks/mockTypes.ts';
 import { Display } from '@/types/atomeq-table.ts';
@@ -475,12 +475,9 @@ describe('AtomeqTable', () => {
     blockLegend.vm.$emit('click', ElementBlock.S);
     await nextTick();
 
-    const sBlockIds = mockElements.data
-      .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
-      .map((item) => item.id);
+    const sBlockIds = sBlock.map((item) => item.id);
     const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds);
 
-    // TODO: refactor - potentially circle back to this
     const otherElements = wrapper
       .findAllComponents(AtomeqElement)
       .filter(
