@@ -8,7 +8,7 @@ import mockElements from '@/testUtils/mocks/mockElements.ts';
 import mockStates from '@/testUtils/mocks/mockStates.ts';
 import mockTypes from '@/testUtils/mocks/mockTypes.ts';
 import { Display } from '@/types/atomeq-table.ts';
-import { Element as AtomeqElementClass, ElementBlock } from '@/types/element.ts';
+import { Element as AtomeqElementClass, ElementBlock, type IElement } from '@/types/element.ts';
 import AtomeqTable from '@/views/AtomeqTable.vue';
 import {
   apiService,
@@ -25,11 +25,12 @@ import { nextTick } from 'vue';
 describe('AtomeqTable', () => {
   beforeEach(() => {
     apiService.fetchTypes.mockResolvedValue(generateAxiosResponse(mockTypes.data));
+    mockFetchElements(mockElements.data);
   });
 
   it('will call endpoint to retrieve elements and load them in', async () => {
-    const response = { data: [] };
-    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+    mockFetchElements();
+
     mount(AtomeqTable);
     await flushPromises();
 
@@ -38,7 +39,6 @@ describe('AtomeqTable', () => {
 
   it('will render all the elements on the screen', async () => {
     const elements = mockElements.data;
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
@@ -51,8 +51,7 @@ describe('AtomeqTable', () => {
   it('will display elements colour by type as default', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElementClass(element);
-    const response = { data: [element] };
-    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+    mockFetchElements([element]);
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
@@ -63,8 +62,7 @@ describe('AtomeqTable', () => {
   it('will display elements colour by state when the corresponding radio button is clicked', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElementClass(element);
-    const response = { data: [element] };
-    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+    mockFetchElements([element]);
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
@@ -78,8 +76,7 @@ describe('AtomeqTable', () => {
   it('will display elements colour by type when the corresponding radio button is clicked', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElementClass(element);
-    const response = { data: [element] };
-    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+    mockFetchElements([element]);
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
@@ -92,8 +89,7 @@ describe('AtomeqTable', () => {
   it('will display elements colour by block when the corresponding radio button is clicked', async () => {
     const element = mockElements.data[0];
     const target = new AtomeqElementClass(element);
-    const response = { data: [element] };
-    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+    mockFetchElements([element]);
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
@@ -104,9 +100,7 @@ describe('AtomeqTable', () => {
   });
 
   it('will display an element details modal when an element is clicked', async () => {
-    const element = mockElements.data[0];
-    const response = { data: [element] };
-    apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+    mockFetchElements([mockElements.data[0]]);
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
@@ -121,8 +115,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will not display type legend when its on state display', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
-
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
@@ -134,7 +126,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will highlight the correct elements by type when the type is hovered in type legend', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
 
     const nobleGasIds = mockElements.data
@@ -159,7 +150,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will highlight the correct elements by state when the state is hovered in state legend', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const gas = mockStates.data.find((item) => item.name === 'gas');
 
     const gasIds = mockElements.data
@@ -186,8 +176,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will highlight the correct elements by block when the block is hovered in block legend', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
-
     const sBlockIds = mockElements.data
       .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
       .map((item) => item.id);
@@ -214,7 +202,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will reset hovered type when hoverLeave is emitted from type legend', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
 
     const wrapper = mount(AtomeqTable);
@@ -231,7 +218,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will reset hovered state when hoverLeave is emitted from state legend', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const gas = mockStates.data.find((item) => item.name === 'gas');
 
     const wrapper = mount(AtomeqTable);
@@ -250,8 +236,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will reset hovered block when hoverLeave is emitted from block legend', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
-
     const wrapper = mount(AtomeqTable);
     await flushPromises();
 
@@ -268,7 +252,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will persist the highlighted state when the legend type is clicked and deselect previous selected elements on subsequent click', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
 
     const wrapper = mount(AtomeqTable);
@@ -294,7 +277,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will persist the highlighted state when the legend state is clicked and deselect previous selected elements on subsequent click', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const gas = mockStates.data.find((item) => item.name === 'gas');
 
     const wrapper = mount(AtomeqTable);
@@ -323,8 +305,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will persist the highlighted block when the legend block is clicked and deselect previous selected elements on subsequent click', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
-
     const sBlockIds = mockElements.data
       .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
       .map((item) => item.id);
@@ -357,7 +337,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will persist highlighting when an element type is selected and another type is hovered', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
     const transitionMetal = mockTypes.data.find((item) => item.name === 'transition-metal');
 
@@ -386,7 +365,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will persist highlighting when an element state is selected and another state is hovered', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const gas = mockStates.data.find((item) => item.name === 'gas');
     const liquid = mockStates.data.find((item) => item.name === 'liquid');
 
@@ -416,8 +394,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will persist highlighting when an element block is selected and another block is hovered', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
-
     const sBlockIds = mockElements.data
       .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
       .map((item) => item.id);
@@ -455,7 +431,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will highlight the children types if the parent type is hovered', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
     const [nonMetal, nobleGas, halogen] = mockTypes.data.filter((item) =>
       ['nonmetal', 'noble-gas', 'halogen'].includes(item.name),
     );
@@ -484,8 +459,6 @@ describe('AtomeqTable', () => {
   });
 
   it('will reset the previously selected elements when switching between legends', async () => {
-    apiService.fetchElements.mockResolvedValue(mockElements as AxiosResponse);
-
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
 
     const wrapper = mount(AtomeqTable);
@@ -528,4 +501,7 @@ const switchDisplays = async (wrapper: VueWrapper, type: Display) => {
   await nextTick();
 };
 
-const fetchElements = async () => {};
+const mockFetchElements = (data: IElement[] = []) => {
+  const response = { data };
+  apiService.fetchElements.mockResolvedValue(response as AxiosResponse);
+};
