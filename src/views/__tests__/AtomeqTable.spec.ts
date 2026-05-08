@@ -4,7 +4,7 @@ import AtomeqStateLegend from '@/components/AtomeqStateLegend.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 import SwitchDisplay from '@/components/SwitchDisplay.vue';
-import { elements as mockElements, sBlock } from '@/testUtils/mocks/mockElements.ts';
+import { elements as mockElements, getElementsByBlocks } from '@/testUtils/mocks/mockElements.ts';
 import mockStates from '@/testUtils/mocks/mockStates.ts';
 import mockTypes from '@/testUtils/mocks/mockTypes.ts';
 import { Display } from '@/types/atomeq-table.ts';
@@ -176,14 +176,10 @@ describe('AtomeqTable', () => {
   });
 
   it('will highlight the correct elements by block when the block is hovered in block legend', async () => {
-    const sBlockIds = mockElements.data
-      .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
-      .map((item) => item.id);
-    const nonSBlockIds = mockElements.data
-      .filter(
-        (element) => ![1, 2].includes(element.group) && ![1, 2].includes(element.atomicNumber),
-      )
-      .map((item) => item.id);
+    const sBlockIds = getElementsByBlocks([ElementBlock.S]).map((item) => item.id);
+    const nonSBlockIds = getElementsByBlocks([ElementBlock.P, ElementBlock.F, ElementBlock.D]).map(
+      (item) => item.id,
+    );
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
@@ -305,14 +301,10 @@ describe('AtomeqTable', () => {
   });
 
   it('will persist the highlighted block when the legend block is clicked and deselect previous selected elements on subsequent click', async () => {
-    const sBlockIds = mockElements.data
-      .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
-      .map((item) => item.id);
-    const nonSBlockIds = mockElements.data
-      .filter(
-        (element) => ![1, 2].includes(element.group) && ![1, 2].includes(element.atomicNumber),
-      )
-      .map((item) => item.id);
+    const sBlockIds = getElementsByBlocks([ElementBlock.S]).map((item) => item.id);
+    const nonSBlockIds = getElementsByBlocks([ElementBlock.P, ElementBlock.F, ElementBlock.D]).map(
+      (item) => item.id,
+    );
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
@@ -394,20 +386,11 @@ describe('AtomeqTable', () => {
   });
 
   it('will persist highlighting when an element block is selected and another block is hovered', async () => {
-    const sBlockIds = mockElements.data
-      .filter((element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber))
-      .map((item) => item.id);
-    const pBlockIds = mockElements.data
-      .filter((element) => [13, 14, 15, 16, 17, 18].includes(element.group))
-      .map((item) => item.id);
-    const otherElementIds = mockElements.data
-      .filter(
-        (element) =>
-          ![1, 2].includes(element.group) &&
-          ![1, 2].includes(element.atomicNumber) &&
-          ![13, 14, 15, 16, 17, 18].includes(element.group),
-      )
-      .map((item) => item.id);
+    const sBlockIds = getElementsByBlocks([ElementBlock.S]).map((item) => item.id);
+    const pBlockIds = getElementsByBlocks([ElementBlock.P]).map((item) => item.id);
+    const otherElementIds = getElementsByBlocks([ElementBlock.F, ElementBlock.D]).map(
+      (item) => item.id,
+    );
 
     const wrapper = mount(AtomeqTable);
     await flushPromises();
@@ -475,7 +458,7 @@ describe('AtomeqTable', () => {
     blockLegend.vm.$emit('click', ElementBlock.S);
     await nextTick();
 
-    const sBlockIds = sBlock.map((item) => item.id);
+    const sBlockIds = getElementsByBlocks([ElementBlock.S]).map((item) => item.id);
     const sBlockElements = retrieveElementsByIds(wrapper, sBlockIds);
 
     const otherElements = wrapper

@@ -1,4 +1,6 @@
 // TODO: maybe create helper functions to retrieve the data from below. For Block ( S, P, D, F ), State ( Gas, Liquid ), and Type
+import { ElementBlock, Element } from '@/types/element.ts';
+
 export const elements = {
   data: [
     {
@@ -4370,6 +4372,11 @@ export const elements = {
   ],
 };
 
-export const sBlock = elements.data.filter(
-  (element) => [1, 2].includes(element.group) || [1, 2].includes(element.atomicNumber),
-);
+export const getElementsByBlocks = (
+  blocks: string[] = [ElementBlock.S, ElementBlock.P, ElementBlock.F, ElementBlock.D],
+) => {
+  return elements.data.filter((element) => {
+    const elementInstance = new Element(element);
+    return blocks.includes(elementInstance.block);
+  });
+};
