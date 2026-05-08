@@ -5,7 +5,7 @@ import { elementFactory } from '@/testUtils/elementFactory.ts';
 import { Element, ElementBlock, ElementBlockColour } from '@/types/element.ts';
 import { ElementState, ElementStateColour } from '@/types/elementState.ts';
 import { AtomeqElementType, ElementTypeColour } from '@/types/elementType.ts';
-import mockElements from '@/testUtils/mocks/mockElements.ts';
+import { elements as mockElements } from '@/testUtils/mocks/mockElements.ts';
 
 describe('element', () => {
   it('will setup element states and types properly', () => {

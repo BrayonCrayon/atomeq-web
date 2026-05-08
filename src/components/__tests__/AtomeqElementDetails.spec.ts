@@ -3,7 +3,7 @@ import { elementFactory } from '@/testUtils/elementFactory.ts';
 import { mount } from '@vue/test-utils';
 import AtomeqElementDetails from '@/components/AtomeqElementDetails.vue';
 import { Element, type IElementKey } from '@/types/element.ts';
-import mockElements from '@/testUtils/mocks/mockElements.ts';
+import { elements } from '@/testUtils/mocks/mockElements.ts';
 import AtomeqBadge from '@/components/common/AtomeqBadge.vue';
 import { Variant } from '@/types/common.ts';
 
@@ -31,7 +31,7 @@ describe('AtomeqElementDetails', () => {
     ['Natural', 'natural'],
     ['Radioactive', 'radioactive'],
   ])('will display element information for booleans %s', async (text, parameter) => {
-    const element = new Element(mockElements.data[0]);
+    const element = new Element(elements.data[0]);
     const wrapper = mount(AtomeqElementDetails, {
       props: { element: element },
     });
