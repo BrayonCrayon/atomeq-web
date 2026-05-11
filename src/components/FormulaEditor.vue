@@ -2,13 +2,13 @@
 import { ref } from 'vue';
 import EditorJS from '@editorjs/editorjs';
 import { Subscript } from '@/editorjs-plugins/Subscript.ts';
-import { SimpleImage } from '@/editorjs-plugins/SimpleImage.ts';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const editor = ref(
   new EditorJS({
     holder: 'editor',
     tools: {
-      subscript: { class: Subscript, inlineToolbar: true },
+      subscript: Subscript,
     },
   }),
 );

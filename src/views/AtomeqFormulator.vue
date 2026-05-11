@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Editor from '@/components/Editor.vue';
+import FormulaEditor from '@/components/FormulaEditor.vue';
 </script>
 
 <template>
@@ -10,7 +10,7 @@ import Editor from '@/components/Editor.vue';
           <h2 class="text-xl py-2">Enter your equation</h2>
           <div contenteditable="true"></div>
           <div class="shadow-inner bg-gray-200 rounded-lg p-2">
-            <Editor />
+            <FormulaEditor />
           </div>
         </div>
         <div class="flex flex-col py-2 px-4 lg:w-1/2">

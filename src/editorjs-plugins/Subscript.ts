@@ -1,8 +1,6 @@
 /**
  * Build styles
  */
-// require('./index.css').toString();
-// import subscript from './subscript.svg';
 
 interface IApi {
   styles: {
@@ -75,7 +73,6 @@ export class Subscript {
   render() {
     this.button = document.createElement('button');
     this.button.type = 'button';
-    // this.button.classList.add(this.iconClasses.base);
     this.button.innerHTML = 'subscript';
 
     return this.button;
@@ -169,16 +166,6 @@ export class Subscript {
     this.button?.classList.toggle(this.iconClasses.active, !!termTag);
   }
 
-  // /**
-  //  * Get Tool icon's SVG
-  //  */
-  // get toolboxIcon() {
-  //   return '';
-  // }
-
-  // /**
-  //  * Sanitizer rule
-  //  */
   static get sanitize() {
     return {
       sub: {
