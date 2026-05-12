@@ -4,15 +4,16 @@ import AtomeqStateLegend from '@/components/AtomeqStateLegend.vue';
 import AtomeqTypeLegend from '@/components/AtomeqTypeLegend.vue';
 import AtomeqElementModal from '@/components/modals/AtomeqElementModal.vue';
 import SwitchDisplay from '@/components/SwitchDisplay.vue';
-import { elements as mockElements, getElementsByBlocks } from '@/testUtils/mocks/mockElements.ts';
+import {
+  elements as mockElements,
+  getElementsByBlocks,
+  getElementsByState,
+  getElementsNotInState,
+} from '@/testUtils/mocks/mockElements.ts';
 import mockStates from '@/testUtils/mocks/mockStates.ts';
 import mockTypes from '@/testUtils/mocks/mockTypes.ts';
 import { Display } from '@/types/atomeq-table.ts';
-import {
-  Element as AtomeqElementClass,
-  ElementBlock,
-  type IElement,
-} from '@/types/element.ts';
+import { Element as AtomeqElementClass, ElementBlock, type IElement } from '@/types/element.ts';
 import AtomeqTable from '@/views/AtomeqTable.vue';
 import {
   apiService,
@@ -127,14 +128,10 @@ describe('AtomeqTable', () => {
   });
 
   it('will highlight the correct elements by state when the state is hovered in state legend', async () => {
-    const gas = mockStates.data.find((item) => item.name === 'gas');
+    const gas = mockStates.data[0];
 
-    const gasIds = mockElements.data
-      .filter((element) => element.elementState.id === gas!.id)
-      .map((item) => item.id);
-    const nonGasIds = mockElements.data
-      .filter((element) => element.elementState.id !== gas!.id)
-      .map((item) => item.id);
+    const gasIds = getElementsByState([gas!.id]).map((item) => item.id);
+    const nonGasIds = getElementsNotInState([gas!.id]).map((item) => item.id);
 
     const wrapper = await mountComponent();
 
@@ -188,7 +185,7 @@ describe('AtomeqTable', () => {
   });
 
   it('will reset hovered state when hoverLeave is emitted from state legend', async () => {
-    const gas = mockStates.data.find((item) => item.name === 'gas');
+    const gas = mockStates.data[0];
 
     const wrapper = await mountComponent();
 
@@ -244,7 +241,7 @@ describe('AtomeqTable', () => {
   });
 
   it('will persist the highlighted state when the legend state is clicked and deselect previous selected elements on subsequent click', async () => {
-    const gas = mockStates.data.find((item) => item.name === 'gas');
+    const gas = mockStates.data[0];
 
     const wrapper = await mountComponent();
 
