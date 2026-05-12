@@ -22,88 +22,73 @@ import type { AxiosResponse } from 'axios';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { nextTick } from 'vue';
 
+const mountComponent = async () => {
+  const wrapper = mount(AtomeqTable);
+  await flushPromises();
+  return wrapper;
+};
+
 describe('AtomeqTable', () => {
   beforeEach(() => {
     apiService.fetchTypes.mockResolvedValue(generateAxiosResponse(mockTypes.data));
     mockFetchElements(mockElements.data);
   });
 
-  it('will call endpoint to retrieve elements and load them in', async () => {
-    mockFetchElements();
-
-    mount(AtomeqTable);
-    await flushPromises();
+  it('will call endpoint and render all the elements on the screen', async () => {
+    const elements = mockElements.data;
+    const wrapper = await mountComponent();
 
     expect(apiService.fetchElements).toHaveBeenCalled();
-  });
-
-  it('will render all the elements on the screen', async () => {
-    const elements = mockElements.data;
-
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
-
     elements.forEach((element) => {
       expect(wrapper.text()).toContain(element.symbol);
     });
   });
 
-  it('will display elements colour by type as default', async () => {
-    const element = mockElements.data[0];
-    const target = new AtomeqElementClass(element);
-    mockFetchElements([element]);
+  describe('AtomeqTable is displaying the correct colour based on display type', () => {
+    beforeEach(() => {
+      const element = mockElements.data[0];
+      mockFetchElements([element]);
+    });
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    it('will display elements colour by type as default', async () => {
+      const target = new AtomeqElementClass(mockElements.data[0]);
+      const wrapper = await mountComponent();
 
-    expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.typeColour);
-  });
+      expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.typeColour);
+    });
 
-  it('will display elements colour by state when the corresponding radio button is clicked', async () => {
-    const element = mockElements.data[0];
-    const target = new AtomeqElementClass(element);
-    mockFetchElements([element]);
+    it('will display elements colour by state when the corresponding radio button is clicked', async () => {
+      const target = new AtomeqElementClass(mockElements.data[0]);
+      const wrapper = await mountComponent();
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+      const input = wrapper.find('label[aria-label="state-display"]');
+      await input.trigger('click');
 
-    const input = wrapper.find('label[aria-label="state-display"]');
-    await input.trigger('click');
+      expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.stateColour);
+    });
 
-    expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.stateColour);
-  });
+    it('will display elements colour by type when the corresponding radio button is clicked', async () => {
+      const target = new AtomeqElementClass(mockElements.data[0]);
+      const wrapper = await mountComponent();
 
-  it('will display elements colour by type when the corresponding radio button is clicked', async () => {
-    const element = mockElements.data[0];
-    const target = new AtomeqElementClass(element);
-    mockFetchElements([element]);
+      await wrapper.find("label[aria-label='type-display']").trigger('click');
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+      expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.typeColour);
+    });
 
-    await wrapper.find("label[aria-label='type-display']").trigger('click');
+    it('will display elements colour by block when the corresponding radio button is clicked', async () => {
+      const target = new AtomeqElementClass(mockElements.data[0]);
+      const wrapper = await mountComponent();
 
-    expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.typeColour);
-  });
+      await wrapper.find("label[aria-label='block-display']").trigger('click');
 
-  it('will display elements colour by block when the corresponding radio button is clicked', async () => {
-    const element = mockElements.data[0];
-    const target = new AtomeqElementClass(element);
-    mockFetchElements([element]);
-
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
-
-    await wrapper.find("label[aria-label='block-display']").trigger('click');
-
-    expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.blockColour);
+      expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.blockColour);
+    });
   });
 
   it('will display an element details modal when an element is clicked', async () => {
     mockFetchElements([mockElements.data[0]]);
-
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     const elementModalComponent = wrapper.findComponent(AtomeqElementModal);
 
@@ -115,8 +100,7 @@ describe('AtomeqTable', () => {
   });
 
   it('will not display type legend when its on state display', async () => {
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     const [, stateButton] = wrapper.findAllComponents({ name: 'AtomeqRadioInput' });
 
@@ -135,8 +119,7 @@ describe('AtomeqTable', () => {
       .filter((element) => element.type.id !== nobleGas!.id)
       .map((item) => item.id);
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
     typeLegend.vm.$emit('hover', nobleGas);
@@ -159,8 +142,7 @@ describe('AtomeqTable', () => {
       .filter((element) => element.elementState.id !== gas!.id)
       .map((item) => item.id);
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     await switchDisplays(wrapper, Display.STATE);
 
@@ -181,8 +163,7 @@ describe('AtomeqTable', () => {
       (item) => item.id,
     );
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     await switchDisplays(wrapper, Display.BLOCK);
 
@@ -200,8 +181,7 @@ describe('AtomeqTable', () => {
   it('will reset hovered type when hoverLeave is emitted from type legend', async () => {
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
     typeLegend.vm.$emit('hover', nobleGas);
@@ -216,8 +196,7 @@ describe('AtomeqTable', () => {
   it('will reset hovered state when hoverLeave is emitted from state legend', async () => {
     const gas = mockStates.data.find((item) => item.name === 'gas');
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     await switchDisplays(wrapper, Display.STATE);
 
@@ -232,8 +211,7 @@ describe('AtomeqTable', () => {
   });
 
   it('will reset hovered block when hoverLeave is emitted from block legend', async () => {
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     await switchDisplays(wrapper, Display.BLOCK);
 
@@ -250,8 +228,7 @@ describe('AtomeqTable', () => {
   it('will persist the highlighted state when the legend type is clicked and deselect previous selected elements on subsequent click', async () => {
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
     typeLegend.vm.$emit('click', nobleGas);
@@ -275,8 +252,7 @@ describe('AtomeqTable', () => {
   it('will persist the highlighted state when the legend state is clicked and deselect previous selected elements on subsequent click', async () => {
     const gas = mockStates.data.find((item) => item.name === 'gas');
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     await switchDisplays(wrapper, Display.STATE);
 
@@ -306,8 +282,7 @@ describe('AtomeqTable', () => {
       (item) => item.id,
     );
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     await switchDisplays(wrapper, Display.BLOCK);
 
@@ -332,8 +307,7 @@ describe('AtomeqTable', () => {
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
     const transitionMetal = mockTypes.data.find((item) => item.name === 'transition-metal');
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
     typeLegend.vm.$emit('click', nobleGas);
@@ -360,8 +334,7 @@ describe('AtomeqTable', () => {
     const gas = mockStates.data.find((item) => item.name === 'gas');
     const liquid = mockStates.data.find((item) => item.name === 'liquid');
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     await switchDisplays(wrapper, Display.STATE);
 
@@ -392,8 +365,7 @@ describe('AtomeqTable', () => {
       (item) => item.id,
     );
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     await switchDisplays(wrapper, Display.BLOCK);
 
@@ -418,8 +390,7 @@ describe('AtomeqTable', () => {
       ['nonmetal', 'noble-gas', 'halogen'].includes(item.name),
     );
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
     typeLegend.vm.$emit('hover', nonMetal);
@@ -444,8 +415,7 @@ describe('AtomeqTable', () => {
   it('will reset the previously selected elements when switching between legends', async () => {
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
 
-    const wrapper = mount(AtomeqTable);
-    await flushPromises();
+    const wrapper = await mountComponent();
 
     const typeLegend = wrapper.findComponent(AtomeqTypeLegend);
     typeLegend.vm.$emit('click', nobleGas);
