@@ -8,7 +8,11 @@ import { elements as mockElements, getElementsByBlocks } from '@/testUtils/mocks
 import mockStates from '@/testUtils/mocks/mockStates.ts';
 import mockTypes from '@/testUtils/mocks/mockTypes.ts';
 import { Display } from '@/types/atomeq-table.ts';
-import { Element as AtomeqElementClass, ElementBlock, type IElement } from '@/types/element.ts';
+import {
+  Element as AtomeqElementClass,
+  ElementBlock,
+  type IElement,
+} from '@/types/element.ts';
 import AtomeqTable from '@/views/AtomeqTable.vue';
 import {
   apiService,
@@ -57,33 +61,23 @@ describe('AtomeqTable', () => {
       expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.typeColour);
     });
 
-    it('will display elements colour by state when the corresponding radio button is clicked', async () => {
-      const target = new AtomeqElementClass(mockElements.data[0]);
-      const wrapper = await mountComponent();
+    it.each([
+      ['state-display', 'stateColour'],
+      ['type-display', 'typeColour'],
+      ['block-display', 'blockColour'],
+    ])(
+      'will display elements colour by %s when the corresponding radio button is clicked',
+      async (display, key) => {
+        const target = new AtomeqElementClass(mockElements.data[0]);
+        const wrapper = await mountComponent();
 
-      const input = wrapper.find('label[aria-label="state-display"]');
-      await input.trigger('click');
+        await wrapper.find(`label[aria-label="${display}"]`).trigger('click');
 
-      expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.stateColour);
-    });
-
-    it('will display elements colour by type when the corresponding radio button is clicked', async () => {
-      const target = new AtomeqElementClass(mockElements.data[0]);
-      const wrapper = await mountComponent();
-
-      await wrapper.find("label[aria-label='type-display']").trigger('click');
-
-      expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.typeColour);
-    });
-
-    it('will display elements colour by block when the corresponding radio button is clicked', async () => {
-      const target = new AtomeqElementClass(mockElements.data[0]);
-      const wrapper = await mountComponent();
-
-      await wrapper.find("label[aria-label='block-display']").trigger('click');
-
-      expect(wrapper.findComponent(AtomeqElement).classes()).toContain(target.blockColour);
-    });
+        expect(wrapper.findComponent(AtomeqElement).classes()).toContain(
+          target[key as keyof IElement],
+        );
+      },
+    );
   });
 
   it('will display an element details modal when an element is clicked', async () => {
