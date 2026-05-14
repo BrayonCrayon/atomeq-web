@@ -8,8 +8,7 @@ import FormulaEditor from '@/components/FormulaEditor.vue';
       <div class="w-full h-3/4 flex flex-col shadow-2xl rounded border-2 lg:flex-row">
         <div class="py-2 px-4 lg:w-1/2">
           <h2 class="text-xl py-2">Enter your equation</h2>
-          <div contenteditable="true"></div>
-          <div class="shadow-inner bg-gray-200 rounded-lg p-2">
+          <div class="shadow-inner bg-gray-200 rounded-lg p-2 h-[55px]">
             <FormulaEditor />
           </div>
         </div>
