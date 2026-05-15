@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import FormulaEditor from '@/components/FormulaEditor.vue';
+import { postEquation } from '@/router/api.ts';
+
+const sendEquationForProcessing = (equation: string) => {
+  postEquation(equation);
+};
 </script>
 
 <template>
@@ -9,7 +14,7 @@ import FormulaEditor from '@/components/FormulaEditor.vue';
         <div class="py-2 px-4 lg:w-1/2">
           <h2 class="text-xl py-2">Enter your equation</h2>
           <div class="shadow-inner bg-gray-200 rounded-lg p-2 h-[55px]">
-            <FormulaEditor />
+            <FormulaEditor @calculateEquation="sendEquationForProcessing" />
           </div>
         </div>
         <div class="flex flex-col py-2 px-4 lg:w-1/2">

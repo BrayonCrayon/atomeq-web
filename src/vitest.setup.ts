@@ -11,6 +11,8 @@ apiService.fetchElements.mockResolvedValue({ data: [] } as AxiosResponse);
 apiService.fetchTypes.mockResolvedValue({ data: [] } as AxiosResponse);
 apiService.fetchStates.mockResolvedValue({ data: [] } as AxiosResponse);
 
+vi.mock('@editorjs/editorjs');
+
 export const generateAxiosResponse = <T>(
   data: T,
   overrides: Partial<AxiosResponse> = {},

@@ -19,8 +19,13 @@ export const fetchStates = () => {
   return axiosClient.get<IElementState[]>(`/api/states`);
 };
 
+export const postEquation = (equation: string) => {
+  return axiosClient.post(`/api/compute-chemical-equation`, { equation });
+};
+
 export default {
   fetchElements,
   fetchTypes,
   fetchStates,
+  postEquation,
 };

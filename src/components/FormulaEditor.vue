@@ -26,10 +26,15 @@ const editor = ref(
 );
 const latestEntry = ref('');
 
+const emits = defineEmits<{
+  calculateEquation: [string];
+}>();
+
 const calculate = async () => {
   const result = await editor.value.save();
 
   latestEntry.value = result.blocks[0].data.text;
+  emits('calculateEquation', latestEntry.value);
 };
 
 const preventBlocks = (event: KeyboardEvent) => {
@@ -53,12 +58,10 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-/* Hide the plus button to prevent adding new blocks */
 :deep(.ce-toolbar__plus) {
   display: none;
 }
 
-/* Hide the settings (tunes) button as we only have one block */
 :deep(.ce-toolbar__settings-btn) {
   display: none;
 }
