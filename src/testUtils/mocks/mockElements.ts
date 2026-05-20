@@ -1,5 +1,5 @@
-// TODO: maybe create helper functions to retrieve the data from below. For Block ( S, P, D, F ), State ( Gas, Liquid ), and Type
 import mockStates from '@/testUtils/mocks/mockStates.ts';
+import mockTypes from '@/testUtils/mocks/mockTypes.ts';
 import { ElementBlock, Element, type IElement } from '@/types/element.ts';
 
 export const elements = {
@@ -4395,4 +4395,12 @@ export const getElementsNotInState = (states: number[] = []): IElement[] => {
   return elements.data.filter((element) => {
     return !states.includes(element.elementStateId);
   });
+};
+
+export const getElementsByType = (types: number[] = mockTypes.data.map((type) => type.id)) => {
+  return elements.data.filter((element) => types.includes(element.typeId));
+};
+
+export const getElementsNotInType = (types: number[] = []) => {
+  return elements.data.filter((element) => !types.includes(element.typeId));
 };

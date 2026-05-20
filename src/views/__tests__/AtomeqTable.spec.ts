@@ -8,7 +8,9 @@ import {
   elements as mockElements,
   getElementsByBlocks,
   getElementsByState,
+  getElementsByType,
   getElementsNotInState,
+  getElementsNotInType,
 } from '@/testUtils/mocks/mockElements.ts';
 import mockStates from '@/testUtils/mocks/mockStates.ts';
 import mockTypes from '@/testUtils/mocks/mockTypes.ts';
@@ -107,12 +109,8 @@ describe('AtomeqTable', () => {
   it('will highlight the correct elements by type when the type is hovered in type legend', async () => {
     const nobleGas = mockTypes.data.find((item) => item.name === 'noble-gas');
 
-    const nobleGasIds = mockElements.data
-      .filter((element) => element.type.id === nobleGas!.id)
-      .map((item) => item.id);
-    const nonNobleGasIds = mockElements.data
-      .filter((element) => element.type.id !== nobleGas!.id)
-      .map((item) => item.id);
+    const nobleGasIds = getElementsByType([nobleGas!.id]).map((item) => item.id);
+    const nonNobleGasIds = getElementsNotInType([nobleGas!.id]).map((item) => item.id);
 
     const wrapper = await mountComponent();
 
@@ -252,7 +250,6 @@ describe('AtomeqTable', () => {
     await nextTick();
 
     const gasElements = retrieveElementsByIds(wrapper, [gas?.id], 'elementStateId');
-
     const otherElements = wrapper
       .findAllComponents(AtomeqElement)
       .filter((item) => item.props('element').elementStateId !== gas?.id);
