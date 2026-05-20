@@ -145,6 +145,17 @@ const resetSelected = () => {
   }
 };
 
+const elementFade = (element: Element) => {
+  switch (elementDisplay.value) {
+    case Display.STATE:
+      return shouldFadeOnState(element);
+    case Display.BLOCK:
+      return shouldFadeOnBlock(element);
+    default:
+      return shouldFade(element);
+  }
+};
+
 onMounted(async () => {
   await getElements();
   await getTypes();
@@ -193,7 +204,7 @@ onMounted(async () => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="shouldFade(element) || shouldFadeOnState(element) || shouldFadeOnBlock(element)"
+          :faded="elementFade(element)"
           @click="selectedElement = element"
         />
       </div>
@@ -205,7 +216,7 @@ onMounted(async () => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
-            :faded="shouldFade(element) || shouldFadeOnState(element) || shouldFadeOnBlock(element)"
+            :faded="elementFade(element)"
             @click="selectedElement = element"
           />
         </div>
