@@ -20,7 +20,7 @@ export const fetchStates = () => {
 };
 
 export const postEquation = (equation: string) => {
-  return axiosClient.post(`/api/compute-chemical-equation`, { equation });
+  return axiosClient.post<string>(`/api/compute-chemical-equation`, { equation });
 };
 
 export default {

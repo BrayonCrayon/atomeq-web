@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import FormulaEditor from '@/components/FormulaEditor.vue';
 import { postEquation } from '@/router/api.ts';
+import { ref } from 'vue';
 
-const sendEquationForProcessing = (equation: string) => {
-  postEquation(equation);
+const answer = ref<string>('');
+
+const sendEquationForProcessing = async (equation: string) => {
+  const { data } = await postEquation(equation);
+  answer.value = data;
 };
 </script>
 
@@ -26,6 +30,10 @@ const sendEquationForProcessing = (equation: string) => {
             class="border border-gray-400 focus:border-blue-400 rounded w-full text-center text-2xl lg:w-5/6"
           />
         </div>
+      </div>
+      <div>
+        <h2 class="text-xl py-2">Answer</h2>
+        <p>{{ answer }}</p>
       </div>
     </div>
   </div>
