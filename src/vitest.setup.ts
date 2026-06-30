@@ -1,4 +1,6 @@
 import AtomeqElement from '@/components/AtomeqElement.vue';
+import type { Element } from '@/types/element.ts';
+import type AtomeqTable from '@/views/AtomeqTable.vue';
 import { VueWrapper } from '@vue/test-utils';
 import { type Mocked, vi, expect } from 'vitest';
 import api from '@/router/api';
@@ -26,6 +28,32 @@ export const generateAxiosResponse = <T>(
     ...overrides,
     data,
   };
+};
+
+export type ElementKey = keyof Element;
+
+export const retrieveElementsByIds = <T>(
+  wrapper: VueWrapper<InstanceType<typeof AtomeqTable>>,
+  ids: T[],
+  key: ElementKey = 'id',
+) => {
+  return wrapper.findAllComponents(AtomeqElement).filter((item) => {
+    const element = item.props('element');
+    const elementId: T = element[key] as T;
+    return ids.includes(elementId);
+  });
+};
+
+export const retrieveElementsNotInIds = <T>(
+  wrapper: VueWrapper<InstanceType<typeof AtomeqTable>>,
+  ids: T[],
+  key: ElementKey = 'id',
+) => {
+  return wrapper.findAllComponents(AtomeqElement).filter((item) => {
+    const element = item.props('element');
+    const elementId: T = element[key] as T;
+    return !ids.includes(elementId);
+  });
 };
 
 export const expectFadedOnElements = (

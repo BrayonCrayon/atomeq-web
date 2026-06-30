@@ -145,6 +145,17 @@ const resetSelected = () => {
   }
 };
 
+const elementFade = (element: Element) => {
+  switch (elementDisplay.value) {
+    case Display.STATE:
+      return shouldFadeOnState(element);
+    case Display.BLOCK:
+      return shouldFadeOnBlock(element);
+    default:
+      return shouldFade(element);
+  }
+};
+
 onMounted(async () => {
   await getElements();
   await getTypes();
@@ -159,10 +170,10 @@ onMounted(async () => {
       @close="selectedElement = undefined"
     />
     <div class="flex gap-6 justify-center">
-      <div>
-        <SwitchDisplay v-model="elementDisplay" @click="resetSelected" />
+      <div class="w-1/3 flex justify-end">
+        <SwitchDisplay class="w-min h-min" v-model="elementDisplay" @click="resetSelected" />
       </div>
-      <div class="flex justify-center gap-0.5">
+      <div class="flex self-center gap-0.5 w-2/3">
         <AtomeqTypeLegend
           v-if="elementDisplay === Display.TYPE"
           @hover="hoverOnType"
@@ -171,14 +182,14 @@ onMounted(async () => {
           :selectedTypes="selectedTypes"
         />
         <AtomeqStateLegend
-          v-if="elementDisplay === Display.STATE"
+          v-else-if="elementDisplay === Display.STATE"
           @hover="(state) => (hoveredState = state.id)"
           @hoverLeave="hoveredState = undefined"
           @click="selectAndDeselectStates"
           :selectedStates="selectedStates"
         />
         <AtomeqBlockLegend
-          v-if="elementDisplay === Display.BLOCK"
+          v-else
           @hover="(block) => (hoveredBlock = block)"
           @hoverLeave="hoveredBlock = undefined"
           @click="selectAndDeselectBlocks"
@@ -193,7 +204,7 @@ onMounted(async () => {
           class="border-2 rounded h-20 shadow-md p-1 cursor-pointer"
           :class="displayColour(element)"
           :element="element"
-          :faded="shouldFade(element) || shouldFadeOnState(element) || shouldFadeOnBlock(element)"
+          :faded="elementFade(element)"
           @click="selectedElement = element"
         />
       </div>
@@ -205,7 +216,7 @@ onMounted(async () => {
             class="border-2 rounded h-20 shadow-md mb-1 p-1 cursor-pointer"
             :class="displayColour(element)"
             :element="element"
-            :faded="shouldFade(element) || shouldFadeOnState(element) || shouldFadeOnBlock(element)"
+            :faded="elementFade(element)"
             @click="selectedElement = element"
           />
         </div>

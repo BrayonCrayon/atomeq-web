@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { getElementTable } from '@/helpers/tableUtils.ts';
 import { elementFactory } from '@/testUtils/elementFactory.ts';
 import { Element } from '@/types/element.ts';
-import mockElements from '@/testUtils/mocks/mockElements.ts';
+import { elements as mockElements } from '@/testUtils/mocks/mockElements.ts';
 
 const constructExpectedArray = (): (Element | undefined)[][] => {
   return Array.from({ length: 7 }).map(() => Array.from({ length: 18 }).map(() => undefined));

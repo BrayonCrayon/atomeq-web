@@ -1,4 +1,8 @@
-export default {
+import mockStates from '@/testUtils/mocks/mockStates.ts';
+import mockTypes from '@/testUtils/mocks/mockTypes.ts';
+import { ElementBlock, Element, type IElement } from '@/types/element.ts';
+
+export const elements = {
   data: [
     {
       id: 1,
@@ -4367,4 +4371,36 @@ export default {
       valence: 8,
     },
   ],
+};
+
+export const getElementsByBlocks = (
+  blocks: string[] = [ElementBlock.S, ElementBlock.P, ElementBlock.F, ElementBlock.D],
+) => {
+  return elements.data.filter((element) => {
+    const elementInstance = new Element(element);
+    return blocks.includes(elementInstance.block);
+  });
+};
+
+export const getElementsByState = (
+  states: number[] = mockStates.data.map((state) => state.id),
+): IElement[] => {
+  return elements.data.filter((element) => {
+    const elementInstance = new Element(element);
+    return states.includes(elementInstance.elementStateId);
+  });
+};
+
+export const getElementsNotInState = (states: number[] = []): IElement[] => {
+  return elements.data.filter((element) => {
+    return !states.includes(element.elementStateId);
+  });
+};
+
+export const getElementsByType = (types: number[] = mockTypes.data.map((type) => type.id)) => {
+  return elements.data.filter((element) => types.includes(element.typeId));
+};
+
+export const getElementsNotInType = (types: number[] = []) => {
+  return elements.data.filter((element) => !types.includes(element.typeId));
 };
